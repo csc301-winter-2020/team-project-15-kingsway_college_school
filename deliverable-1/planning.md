@@ -1,5 +1,4 @@
-# YOUR PRODUCT/TEAM NAME
-> _Note:_ This document is meant to evolve throughout the planning phase of your project.  
+# Visible Learning Team
 > **This document will serve as a master plan between your team, your partner and your TA.**
 
 # Product Details
