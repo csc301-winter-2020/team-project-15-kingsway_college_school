@@ -48,10 +48,26 @@
 
 ## Q5: What are the user stories that make up the MVP?
 
- * At least 5 user stories concerning the main features of the application - note that this can broken down further
- * You must follow proper user story format (as taught in lecture) ```As a <user of the app>, I want to <do something in the app> in order to <accomplish some goal>```
- * If you have a partner, these must be reviewed and accepted by them
- * The user stories should be written in Github and each one must have clear acceptance criteria.
+* As a student finishing a project, I want to post pictures of my notes with related commentary in order to share how 
+I came to a solution to a hard problem.
+ 
+* As a student interested in biology, I want to be able to see what students in other grades are learning 
+about biology in order to build networking connections and gain friends with similar interests.
+ 
+* As a student interested in a classmate’s latest study project, I want to be able to save their posts so that I can 
+refer to them later.
+ 
+* As a teacher, I want to be able to instruct my students to share posts about their learning in order to facilitate 
+visible learning.
+ 
+* As a teacher, after a field trip I want to see what my students learned and what they interacted with so that I can
+understand how their learning is progressing.
+ 
+* As a teacher I want to make sure that the learning in the platform is kept on track. If I see a non-productive posts 
+on the app, I want to delete it to keep the discussion relevant.
+ 
+* As a teacher I want to be able to see the posts that students are making to ensure that the content is appropriate 
+for a school setting and meets our expectations.
 
 
 # Process Details
