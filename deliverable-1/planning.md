@@ -1,8 +1,6 @@
 # YOUR PRODUCT/TEAM NAME
 > _Note:_ This document is meant to evolve throughout the planning phase of your project.  
-
-That is, it makes sense for you commit regularly to this file while working on the project (especially edits/additions/deletions to the _Highlights_ section). Most importantly, it is a reflection of all the planning you work you've done in the first iteration. 
- > **This document will serve as a master plan between your team, your partner and your TA.**
+> **This document will serve as a master plan between your team, your partner and your TA.**
 
 # Product Details
  
@@ -68,7 +66,6 @@ After the completion of the project, we will deploy the mobile app to both the A
 6) As a teacher I want to make sure that the learning in the platform is kept on track. If I see a non-productive posts on the app, I want to delete it to keep the discussion relevant.
  
 7) As a teacher I want to be able to see the posts that students are making to ensure that the content is appropriate for a school setting and meets our expectations.
-
 
 # Process Details
 
