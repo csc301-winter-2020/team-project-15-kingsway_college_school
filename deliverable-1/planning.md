@@ -1,57 +1,73 @@
 # YOUR PRODUCT/TEAM NAME
-> _Note:_ This document is meant to evolve throughout the planning phase of your project.   That is, it makes sense for you commit regularly to this file while working on the project (especially edits/additions/deletions to the _Highlights_ section). Most importantly, it is a reflection of all the planning you work you've done in the first iteration. 
+> _Note:_ This document is meant to evolve throughout the planning phase of your project.  
+
+That is, it makes sense for you commit regularly to this file while working on the project (especially edits/additions/deletions to the _Highlights_ section). Most importantly, it is a reflection of all the planning you work you've done in the first iteration. 
  > **This document will serve as a master plan between your team, your partner and your TA.**
 
 # Product Details
  
 ## Q1: What are you planning to build?
 
- > Short (1 - 2 min' read)
- * Start with a single sentence, high-level description of the product.
- * Be clear - Describe the problem you are solving in simple terms.
- * Be concrete. For example:
-    * What are you planning to build? Is it a website, mobile app,
-   browser extension, command-line app, etc.?      
-    * When describing the problem/need, give concrete examples of common use cases.
-    * Assume your the reader knows nothing about the problem domain and provide the necessary context. 
- * Focus on *what* your product does, and avoid discussing *how* you're going to implement it.      
-   For example: This is not the time or the place to talk about which programming language and/or framework you are planning to use.
- * **Feel free (and very much encouraged) to include useful diagrams, mock-ups and/or links**.
+```An application that facilitates the sharing of experiential learning at Kingsway College School.```  
 
+In education, the final result of a student’s work is visible, but the process to get there is usually invisible. Want to make this process visible so that students can benefit from understanding how other students learn and reach solutions. Backed by research from Harvard and part of the principles that Kingsway practices in its approach to education.
+After a discussion with the head of the Kingsway College School, we came up with this common use case: Grade 9 students are given this formative assignment: they’re introduced to a task (go and find 5 places in Toronto and write down what learning value you obtain with engaging the place). Students don’t have a way to demonstrate their experiential learning with any tools currently present in the market.
+We will build both a mobile application and a web application to facilitate the sharing of experiential learning
+Below, you will be able to see some designs of workflows from the different stakeholders of our solution:
+
+![student storyboard](student.png)
+
+![moderator storyboard](moderation.png)
 
 ## Q2: Who are your target users?
 
-  > Short (1 - 2 min' read max)
- * Be specific (e.g. a 'a third-year university student studying Computer Science' and not 'a student')
- * **Feel free (but not obligated) to use personas.         
-   You can create your personas as part of this Markdown file, or add a link to an external site (for example, [Xtensio](https://xtensio.com/user-persona/)).**
+Our target users are Kingsway College high school students, and their teachers. Some personas we envision are:
+- “Timmy the Troublemaker”: a student who wants to post inappropriate content on the platform
+- “Theresa the Teacher”: a teacher who wants to facilitate the learning of her students through the platform
+- “Fatima the Facilitator”: a teacher or administrator who wants to moderate the content on the platform to ensure a productive environment
+- “Andrew the Angel”: a student who wants to use the platform to learn with his fellow students.
+
 
 ## Q3: Why would your users choose your product? What are they using today to solve their problem/need?
 
-> Short (1 - 2 min' read max)
- * We want you to "connect the dots" for us - Why does your product (as described in your answer to Q1) fits the needs of your users (as described in your answer to Q2)?
- * Explain the benefits of your product explicitly & clearly. For example:
-    * Save users time (how much?)
-    * Allow users to discover new information (which information? And, why couldn't they discover it before?)
-    * Provide users with more accurate and/or informative data (what kind of data? Why is it useful to them?)
-    * Does this application exist in another form? If so, how does your differ and provide value to the users?
-    * How does this align with your partner's organization's values/mission/mandate?
+
+Our product, as described in the answer to question 1, facilitates the unique culture being promoted at Kingsway College School. It makes it easier for students to share everything relevant to their studies in a safe, school-run space that is quickly and easily accessible by teachers and other students. Compared to, for example, taking notes on a field trip, this app can provide a more accurate representation of what a student experience and reduce the time involved in capturing that experience (making students more likely to consider recording these experiences. Further, they can share that experience in real-time, making their learning visible to their peers. This incentivizes sharing their learning as in the past students wouldn’t go out of their way to do so.
+
+Importantly, all students will benefit not just from sharing their own experiences, but being able to view and save the posts that their classmates make. This connects students with similar interests or even those who can just help each other out. With the help of post tags and fast visibility, communication about one’s learning that might not have otherwise happened could instead be a regular event at Kingsway. In the past, the function of this app could only have been served by face-to-face interactions. While this is still the preferred method to share learning, this app will make it simpler by providing an organized, centralized hub that all students can interact with, and consistently produce the catalyst that these kind of face-to-face interactions are born from.
+
+KCS values experiential learning, and making learning visible is a big part of that. We want to encourage experiential learning by giving students a tool to approach and log their experiences (like field trips, independent studies off-campus, long-term projects, and more), while the shared but anonymous nature of the app maintains a productive social atmosphere. Ultimately the design of the app stems directly from the school’s values, making it a useful supplement to their core academic vision.
+
 
 ## Q4: How will you build it?
 
-> Short (1-2 min' read max)
- * What is the technology stack? Specify any and all languages, frameworks, libraries, PaaS products or tools. 
- * How will you deploy the application?
- * Describe the architecture - what are the high level components or patterns you will use? Diagrams are useful here. 
- * Will you be using third party applications or APIs? If so, what are they?
- * What is your testing strategy?
+We plan on building this application by using React Native for the mobile application, React.js for the website front-end, and Firebase as our back-end service. 
+
+This will allow us to keep code base for our website and mobile application consistent, as both use a variation of the React framework, as well as utilizing a simple to use back-end service that can accomodate our technical needs.
+
+![techstack](techstack.jpg)
+
+In addition to the various frameworks mentioned, we will also be making use of Google’s API to handle authentication, as all of our users (Kingsway’s students and staff) have pre-existing google accounts.
+
+Throughout development, we have established the following testing process: When developing a new feature, a developer should be consistently writing unit tests. After the completion of a feature, before it can be classified as “Done”, it has to go through a testing phase, where a different team member will test the feature from the perspective of the user, testing all possible edge cases, as well as reading the code to make sure there are no possible bugs that could come up, security vulnerabilities, as well as general software design and readability of the code.
+
+After the completion of the project, we will deploy the mobile app to both the Apple and Android app stores, as well as serve our website with our Firebase server.
+
 
 ## Q5: What are the user stories that make up the MVP?
 
- * At least 5 user stories concerning the main features of the application - note that this can broken down further
- * You must follow proper user story format (as taught in lecture) ```As a <user of the app>, I want to <do something in the app> in order to <accomplish some goal>```
- * If you have a partner, these must be reviewed and accepted by them
- * The user stories should be written in Github and each one must have clear acceptance criteria.
+1) As a student finishing a project who wants to help out his classmates, I want to post pictures of my notes with related commentary in order to share how I came to a solution to a hard problem.
+ 
+2) As a student interested in biology, I want to be able to see what students in other grades are learning in the biology field in order to build networking connections and gain friends with similar interests.
+ 
+3) As a student interested in a classmate’s latest study project, I want to be able to save their posts so that I can refer to them later.
+ 
+4) As a teacher, I want to be able to instruct my students to share posts about their learning in order to facilitate visible learning.
+ 
+5) As a teacher, after a field trip I want to see what my students learned and what they interacted with.
+ 
+6) As a teacher I want to make sure that the learning in the platform is kept on track. If I see a non-productive posts on the app, I want to delete it to keep the discussion relevant.
+ 
+7) As a teacher I want to be able to see the posts that students are making to ensure that the content is appropriate for a school setting and meets our expectations.
 
 
 # Process Details
@@ -187,13 +203,26 @@ In the case that team issues involve conflict, we have the following contingenci
 
 # Highlights
 
-Specify 3 - 5 key decisions and/or insights that came up during your meetings
+> Specify 3 - 5 key decisions and/or insights that came up during your meetings
 and/or collaborative process.
 
- * Short (5 min' read max)
- * Decisions can be related to the product and/or the team process.
-    * Mention which alternatives you were considering.
-    * Present the arguments for each alternative.
-    * Explain why the option you decided on makes the most sense for your team/product/users.
- * Essentially, we want to understand how (and why) you ended up with your current product and process plan.
- * This section is useful for important information regarding your decision making process that may not necessarily fit in other sections. 
+### How did we create a fair process of deciding roles in our group?
+Members of the team who were interested in the position of Team Lead and Project Manager put forth an argument as to why they wanted the position. The contestant for Project Manager ran unopposed however we had 2 members of the group who were interested in the position of team lead. We resolved this predicament by having an in-depth discussion of each member’s strength and one of the members decided to step down from the running to use this course as an opportunity to build more of their technical capabilities. The process was democratic and resulted in greater group cohesion.
+
+### How do we remember to communicate on a regular basis?
+Communication is the cornerstone of long-term problem solving. To ensure we  continue to communicate effectively as a group, we made a decision to do the following:
+* Meet on Sundays to delegate work.
+* Have a stand-up meeting on Wednesdays after class.
+* Post a brief progress update to Slack on Fridays. 
+
+This means that all 7 of us, as a group, are communicating at least 3 times a week. We were originally leaning towards the idea of doing written progress updates on our slack channel on Monday, Wednesday and Friday along with our in-person meeting on Sunday. Since not all of us would read everyone’s updates regularly, we decided that to complement the written updates with an in-person stand-up meeting on Wednesday. The physical stand-up meeting on Wednesday makes sure we’re all on the same page at least twice a week. This means everyone will be updated with the progress of each group member’s work and the written progress updates will allow the Project Manager and the Tech Lead an in-depth understanding on what is happening regularly.
+
+### How do we make use of the time that we have together?
+Our meetings are going to be led by our Team Lead (see Question 6). Each Sunday meeting follows a fixed agenda that defined by the Team Lead before our meeting takes place. By going through the agenda, we limit unproductive deviations and spend our time effectively and efficiently. We considered an alternative where different individuals set the meeting agenda each week. However, we ultimately decided that the rotating responsibility would add a layer of unnecessary confusion and that the agenda should be the purview of the Team Lead. 
+
+### What software development methodology are we going to employ?
+A large majority of the group have already worked with Agile development and we are impressed by the methodology. In order to make the most of the few months we have together, we decided to create a Kanban board on github that allows us to monitor and view the progress of each of our tickets. The tickets that are part of the current backlog are discussed by the group during our weekly meetings. Each ticket possesses a relative estimate for how long it will take for the ticket to be completed. These estimates will be decided through SCRUM poker. The backbone provided by a combination of Agile and Kanban, along with continuous communication, will allow us to produce the best product we can within our limited time frame. 
+
+### How did we come to our decision to choose our tech stack?
+It was late afternoon on a dark, gloomy Sunday. Our group had been talking for
+hours and we were not reaching a conclusion about our tech stack. You see, the predicament was between a web application or a mobile application. Considering the few months we have to work on this project, it was going to be clear that we could only do one. That was until one of our group members brought up Firebase, meaning we wouldn’t need an extensive backend for any of the paths we chose. That meant that we could potentially tackle both the website and the mobile application where the website would use REACT.js and the mobile application would be based on REACT native. The decision involved a lot of discussion and research not only in-between our group members but also with our TA. 
