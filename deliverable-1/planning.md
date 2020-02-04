@@ -8,9 +8,9 @@
 ```An application that facilitates the sharing of experiential learning at Kingsway College School.```  
 
 In education, the final result of a student’s work is visible, but the process to get there is usually invisible. Want to make this process visible so that students can benefit from understanding how other students learn and reach solutions. Backed by research from Harvard and part of the principles that Kingsway practices in its approach to education.
-After a discussion with the head of the Kingsway College School, we came up with this common use case: Grade 9 students are given this formative assignment: they’re introduced to a task (go and find 5 places in Toronto and write down what learning value you obtain with engaging the place). Students don’t have a way to demonstrate their experiential learning with any tools currently present in the market.
-We will build both a mobile application and a web application to facilitate the sharing of experiential learning
-Below, you will be able to see some designs of workflows from the different stakeholders of our solution:
+After a discussion with the Head of Senior School at Kingsway College School (KCS), we came up with this common use case: Grade 9 students are given this formative assignment: they’re introduced to a task (go and find 5 places in Toronto and write down what learning value you obtain with engaging the place). Students don’t have an easy way to capture and share their experiential learning with their schoolmates. Although mainstream social media tools exist, they are unsuited for the unique needs of KCS and come with major drawbacks that include distraction away from learning as well as unhealthy issues that arise from misuse of social media. The proposed app is clean, simple, and focused solely on making learning visible. 
+
+We will build both a mobile application and a web application to facilitate the sharing of experiential learning. Below, you will be able to see some designs of workflows from the different stakeholders of our solution:
 
 ![student storyboard](student.png)
 
@@ -65,6 +65,8 @@ After the completion of the project, we will deploy the mobile app to both the A
 6) As a teacher I want to make sure that the learning in the platform is kept on track. If I see a non-productive posts on the app, I want to delete it to keep the discussion relevant.
  
 7) As a teacher I want to be able to see the posts that students are making to ensure that the content is appropriate for a school setting and meets our expectations.
+
+8) As a teacher, I want to use some of my student’s posts as springboards for class discussions. 
 
 # Process Details
 
