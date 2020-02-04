@@ -153,6 +153,19 @@ On January 29th, we met with our project partners Andrea Fanjoy and Aisling O’
 2) Emailing a follow up with some questions that wanted to ask, but then ran out of time
 3) Consulting our TA on when it would be best for Andrea to physically attend a tutorial and meet with us in person. 
 
+After this meeting, we sent our project planning document to Andrea for review and incorperated her suggestions into the final version. A meeting on Wednesday, February 5th will be held for a final review of project details and to discuss any clarifying questions. At the suggestion of our TA, we also asked some follow-up questions, which have been provided below: 
+
+* What is the best way to reach you outside of meeting times (i.e. we have a question for you, how soon can you respond, which email address should we be using, who is the point of contact for technical questions, etc.)
+     * This email is best. I should respond within 24 hours, usually less. In a pinch, you can call me at _________ (it’s rare that I can pick up but you can leave a message). The technical contact will depend – we have an IT Manager and System Administrator, Adam Stoyles, whose email is _________. 
+
+* How frequently would you like updates, are the deliverables sufficient? 
+     * How about updates a day or two before each call on Wednesday?
+
+* What are your expectations? What do you hope to achieve through this partnership (besides the specific product requested)?
+     * I hope to learn about experiential learning at the post-sec level. This experience is something I aim to help make happen at the secondary level (with less complicated projects, of course).
+
+
+
   
 ## Q8: What artifacts will you use to self-organize?
 
