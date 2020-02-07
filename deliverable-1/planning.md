@@ -7,8 +7,16 @@
 
 ```An application that facilitates the sharing of experiential learning at Kingsway College School.```  
 
-In education, the final result of a student’s work is visible, but the process to get there is usually invisible. Want to make this process visible so that students can benefit from understanding how other students learn and reach solutions. Backed by research from Harvard and part of the principles that Kingsway practices in its approach to education.
-After a discussion with the Head of Senior School at Kingsway College School (KCS), we came up with this common use case: Grade 9 students are given this formative assignment: they’re introduced to a task (go and find 5 places in Toronto and write down what learning value you obtain with engaging the place). Students don’t have an easy way to capture and share their experiential learning with their schoolmates. Although mainstream social media tools exist, they are unsuited for the unique needs of KCS and come with major drawbacks that include distraction away from learning as well as unhealthy issues that arise from misuse of social media. The proposed app is clean, simple, and focused solely on making learning visible. 
+In education, the final result of a student’s work is visible, but the process to get there is usually invisible. We want to make this process visible so that students can benefit from understanding how other students learn and reach solutions. This is backed by research from Harvard and part of the principles that Kingsway practices in its approach to education.
+The users of this platform will be primarily students and teachers can play an administrative and a content-inspiring role. After a discussion with the Head of Senior School at Kingsway College School (KCS), we came up with several common use cases: 
+
+Imagine that grade 9 students are given this formative assignment: Find 5 places in Toronto and write down what learning value can be obtained by engaging with the particular location. 
+
+For the example above, students don’t have an easy way to capture and share their experiential learning with their schoolmates. Although mainstream social media tools exist, they are unsuited for the unique needs of KCS and come with major drawbacks that include distraction away from learning as well as unhealthy issues that arise from misuse of social media. The proposed app is clean, simple, and focused solely on making learning visible. 
+
+We will build both a mobile application and a web application to facilitate this sharing of experiential learning. 
+The workflow below describes how an experiential learning platform at field trips, which are common at Kingsway College School.
+
 
 We will build both a mobile application and a web application to facilitate the sharing of experiential learning. Below, you will be able to see some designs of workflows from the different stakeholders of our solution:
 
@@ -17,27 +25,33 @@ We will build both a mobile application and a web application to facilitate the 
 ## Q2: Who are your target users?
 
 Our target users are Kingsway College high school students, and their teachers. Some personas we envision are:
-- “Timmy the Troublemaker”: a student who wants to post inappropriate content on the platform
-- “Theresa the Teacher”: a teacher who wants to facilitate the learning of her students through the platform
-- “Fatima the Facilitator”: a teacher or administrator who wants to moderate the content on the platform to ensure a productive environment
-- “Andrew the Angel”: a student who wants to use the platform to learn with his fellow students.
+- “Timmy the Troublemaker”: Timmy is a student who doesn’t care much about his grades, but cares a lot about his social status with his friends at school. He wants to make more friends and be as popular as he can. He is looking to abuse learning opportunities at every possible opening in exchange for increasing his popularity with his fellow students.
+
+- “Theresa the Teacher”: Theresa is a teacher who would like to provide her students as many learning opportunities as she can both inside and outside the classroom. She recently heard about the concept of experiential learning and how it is used in the classes to encourage creative thinking and would like to try it out. She would like a way for her students to share their experiences with her and with each other. Since she has a very busy schedule, she would like a way to facilitate this process in a quick and efficient manner that doesn’t involve disrupting the learning process of her students.
+
+- “Fatima the Facilitator”: Fatima is the principal of her school, and wants to provide her students with as many learning opportunities as she can. She is interested in experiential learning and how it could be used in classes to encourage learning in an efficient way. However, Fatima is concerned about students, if given an avenue to share their learning experiences, will misuse this learning tool for inappropriate ways. She wants to be able to have executive oversight to prevent inappropriate contributions to her students learning experiences. 
+
+- “Andrew the Angel”: Andrew is a student who is very keen on learning and getting the highest grades he can. He is interested in how his fellow students are learning and wants to see first hand their perspectives and experiences. Since it is not socially acceptable to ask all of his peers what they learned each day, he wants a platform where students can share their learning experiences without that social barrier.
 
 
 ## Q3: Why would your users choose your product? What are they using today to solve their problem/need?
 
 
-Our product, as described in the answer to question 1, facilitates the unique culture being promoted at Kingsway College School. It makes it easier for students to share everything relevant to their studies in a safe, school-run space that is quickly and easily accessible by teachers and other students. Compared to, for example, taking notes on a field trip, this app can provide a more accurate representation of what a student experience and reduce the time involved in capturing that experience (making students more likely to consider recording these experiences. Further, they can share that experience in real-time, making their learning visible to their peers. This incentivizes sharing their learning as in the past students wouldn’t go out of their way to do so.
+Our product, as described in the answer to question 1, facilitates the unique culture being promoted at Kingsway College School. It makes it easier for students to share everything relevant to their studies in a safe, school-run space that is quickly and easily accessible by teachers and other students. Compared to, for example, taking notes on a field trip, this app can provide a more accurate representation of what a student experience and reduce the time involved in capturing that experience (making students more likely to consider recording these experiences). Further, they can share that experience in real-time, making their learning visible to their peers. This incentivizes sharing their learning as in the past students wouldn’t go out of their way to do so.
 
-Importantly, all students will benefit not just from sharing their own experiences, but being able to view and save the posts that their classmates make. This connects students with similar interests or even those who can just help each other out. With the help of post tags and fast visibility, communication about one’s learning that might not have otherwise happened could instead be a regular event at Kingsway. In the past, the function of this app could only have been served by face-to-face interactions. While this is still the preferred method to share learning, this app will make it simpler by providing an organized, centralized hub that all students can interact with, and consistently produce the catalyst that these kind of face-to-face interactions are born from.
+Importantly, all students will benefit not just from sharing their own experiences, but being able to view and save the posts that their classmates make. This connects students with similar interests or even those who can just help each other out. With the help of post tags and fast visibility, communication about one’s learning that might not have otherwise happened could instead be a regular event at Kingsway. In the past, the function of this app could only have been served by face-to-face interactions. While this is still the preferred method to share learning, this app will make it simpler by providing an organized, centralized hub that all students can interact with, and consistently produce the catalyst that this kind of face-to-face interaction is born from.
 
-KCS values experiential learning, and making learning visible is a big part of that. We want to encourage experiential learning by giving students a tool to approach and log their experiences (like field trips, independent studies off-campus, long-term projects, and more), while the shared but anonymous nature of the app maintains a productive social atmosphere. Ultimately the design of the app stems directly from the school’s values, making it a useful supplement to their core academic vision.
+KCS values experiential learning, and making learning visible is a big part of that. We want to encourage experiential learning by giving students a tool to approach and log their experiences (like field trips, independent studies off-campus, long-term projects, and more), while the shared but anonymous nature of the app creates a productive social atmosphere. Where it differs from existing social media apps like Facebook is in its exclusivity to this school, its user anonymity, its smaller user base (one that is guaranteed to engage with each other to grow real connections, in-person and day-to-day), its focus on learning, and its academically-motivated moderation by educators. Some universities have attempted to implement school-exclusive social networks in the recent past, but we are not aware of any secondary schools employing something like this on a similarly small scale and with the same level of classroom integration. Ultimately the design of the app stems directly from the school’s values, making it a useful supplement to their core academic vision, and one that may not be immediately effective in schools lacking the experiential learning framework of KCS.
 
 
 ## Q4: How will you build it?
 
-We plan on building this application by using React Native for the mobile application, React.js for the website front-end, and Firebase as our back-end service. 
+We plan on building this application by using React Native for the mobile application, React.js for the website front-end, and Firebase as our back-end service.
 
-This will allow us to keep code base for our website and mobile application consistent, as both use a variation of the React framework, as well as utilizing a simple to use back-end service that can accomodate our technical needs.
+We decided to use React Native to develop our mobile application as it allows us to have one single codebase that then compiles into native code for both iOS and Android. We chose React Native specifically, as opposed to similar frameworks such as Flutter, because it is by far the most popular cross-platform development framework, which means that there is plenty of technical support and documentation out there if we need it. Additionally, we decided to use React.js to develop our website front-end as it will use the same language and have similar syntax and concepts as React Native, which would allow us as developers move between developing both sides of the project without having to learn two completely different frameworks and languages.
+
+We decided to use Firebase as our back-end service as it a simple, tried and tested solution that is more than able to fit our technical needs.
+
 
 ![techstack](techstack.jpg)
 
@@ -45,26 +59,68 @@ In addition to the various frameworks mentioned, we will also be making use of G
 
 Throughout development, we have established the following testing process: When developing a new feature, a developer should be consistently writing unit tests. After the completion of a feature, before it can be classified as “Done”, it has to go through a testing phase, where a different team member will test the feature from the perspective of the user, testing all possible edge cases, as well as reading the code to make sure there are no possible bugs that could come up, security vulnerabilities, as well as general software design and readability of the code.
 
-After the completion of the project, we will deploy the mobile app to both the Apple and Android app stores, as well as serve our website with our Firebase server.
+After the completion of the project, where every feature that was required has been successfully implemented and tested, we will deploy both the app and the website. After making sure that our app fits all the requirements for both the the Apple App store and to Google Play (obtaining the user’s permission to use the camera and geolocation, no improper use of personal data, being accessibility-friendly) we compile the final version of the apps for both platforms, and send them to both app stores for review. After passing their respective reviews, which usually takes about a week, the app will be successfully launched. 
+
+For the back-end, there is no need to buy a premium Firebase subscription, as the free base tier will be more than enough for our needs. After obtaining a domain name for the website, we will begin hosting it through Firebase.
 
 
 ## Q5: What are the user stories that make up the MVP?
 
 1) As a student finishing a project who wants to help out his classmates, I want to post pictures of my notes with related commentary in order to share how I came to a solution to a hard problem.
+
+   >_Acceptance Criteria_
+   >* Students can post pictures accompanied by text
+   >* Students can view posts made by other students in their classes
+
  
 2) As a student interested in biology, I want to be able to see what students in other grades are learning in the biology field in order to build networking connections and gain friends with similar interests.
+
+   >_Acceptance Criteria_
+   >* Students can view posts by students not in their class
+   >* Students can sort posts by topic
  
 3) As a student interested in a classmate’s latest study project, I want to be able to save their posts so that I can refer to them later.
+
+   >_Acceptance Criteria_
+   >* Students can favourite posts made by other students
+   >* Students can view favorited posts separate from other posts
  
 4) As a teacher, I want to be able to instruct my students to share posts about their learning in order to facilitate visible learning.
+
+   >_Acceptance Criteria_
+   >* Teachers can send students prompts encouraging them to post
  
 5) As a teacher, after a field trip I want to see what my students learned and what they interacted with.
+
+   >_Acceptance Criteria_
+   >* Teachers can sort student posts by recency
+   >* Teachers can filter out posts not made by students in their classes
  
 6) As a teacher I want to make sure that the learning in the platform is kept on track. If I see a non-productive posts on the app, I want to delete it to keep the discussion relevant.
+
+   >_Acceptance Criteria_
+   >* Teachers can delete posts made by students
+   >* Teachers can delete posts made by other teachers
+   >* Deleted posts that have been saved by students are unsaved
  
 7) As a teacher I want to be able to see the posts that students are making to ensure that the content is appropriate for a school setting and meets our expectations.
 
+   >_Acceptance Criteria_
+   >* Teachers can view posts made by any student at the school
+
 8) As a teacher, I want to use some of my student’s posts as springboards for class discussions. 
+
+   >_Acceptance Criteria_
+   >* Teachers can share posts made by students
+   >* Shared posts appear different than regular student posts
+
+9) As a student at Kingsway College I want to be able to filter posts so that I can view the posts that are the most relevant to me.
+ 
+   >_Acceptance Criteria_
+   >* Students can filter out posts not related to their classes
+   >* Students can sort posts by various criteria
+   >* Students can filter out posts that do not match criteria
+
 
 # Process Details
 
@@ -74,7 +130,7 @@ After the completion of the project, we will deploy the mobile app to both the A
 
  * **Project Manager**: Point of contact between team and partner. Take the discussion that was had with the partner and translating it into technical requirements. Responsible for gathering the questions and discussions that were had in the weekly meeting and discussing these topics with the partner.
    * Organize meetings with the partner (Kingsway) 
-   * Create agenda for partner meetings
+   * Create agenda for **partner** meetings
    * In product meetings represent the customer perspective
    * Leading research and usability tests
    * Ensure both the customer and team lead are up to date with expectations and plan
@@ -102,33 +158,33 @@ After the completion of the project, we will deploy the mobile app to both the A
 
 >List each team member with roles, strengths, and weaknesses:
 * **Alex Cann**
-   * Roles:
+   * Role: **Feature Lead**
    * Strengths: python, algorithms and machine learning, java, c, functional programming experience
    * Weaknesses: Lack of specific development experience with web technology, web frameworks and apps.
 * **Marco Angeli**
-   * Roles:
+   * Role: **Feature Lead**
    * Strengths: Mobile Development Frameworks (Flutter), React and JS, Software design, Dart, Java, Python, C
-   * Weaknesses: Development methodologies, UX design
+   * Weaknesses:  UX design and user experience testing
 * **Ryan Marten**
-   * Roles: **Project Manager**
+   * Role: **Project Manager**
    * Strengths: Python, Computer Vision / ML, PHP, Java, Docker
-   * Weaknesses: Front end web frameworks, databases, mobile development
+   * Weaknesses: React Native, React JS, Database Schema Design, Mobile Development Methodologies and Frameworks
 * **Shardul Bansal**
-   * Roles:
+   * Role: **Feature Lead**
    * Strengths: Python: pandas, requests, selenium, Front-end (HTML, CSS),  
    * Weaknesses: Verilog, back-end development, everything not listed above
 * **Nick Perrin**
-   * Roles: **Team Lead**
+   * Role: **Team Lead**
    * Strengths: C/C++, Python, audio design
-   * Weaknesses: Web/mobile apps  
+   * Weaknesses: Web development (JS), mobile development (iOS) 
 * **Devin Castaban**
-   * Roles:
+   * Role: **Mobile Lead**
    * Strengths: AWS, REST APIs, i.e. Backend, C, Python, Javascript, HTML, CSS, React, Angular, Selenium, SQL
-   * Weaknesses: Mobile apps
+   * Weaknesses: Frameworks such as Kotlin and Swift, NoSQL databases
 * **Joshua Bragg**
-   * Roles:
+   * Role: **Web Lead**
    * Strengths: Frontend Web, Python, Javascript, CSS, HTML, Java, SQL, C#, Android SDK
-   * Weaknesses: Unfamiliar with web frameworks like React and Angular
+   * Weaknesses: Javascript frameworks such as React, Angular, Node.JS
 
 
 ## Q7: What operational events will you have as a team?
