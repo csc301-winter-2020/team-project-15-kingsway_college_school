@@ -120,7 +120,7 @@ For the back-end, there is no need to buy a premium Firebase subscription, as th
    >* Students can sort posts by various criteria
    >* Students can filter out posts that do not match criteria
 
-
+Lack of experience with firebase, javascript, SQL, html, css, react, react native
 # Process Details
 
 ## Q6: What are the roles & responsibilities on the team?
@@ -157,7 +157,7 @@ For the back-end, there is no need to buy a premium Firebase subscription, as th
 * **Alex Cann**
    * Role: **Feature Lead**
    * Strengths: python, algorithms and machine learning, java, c, functional programming experience
-   * Weaknesses: Lack of specific development experience with web technology, web frameworks and apps.
+   * Weaknesses: Lack of experience with firebase, javascript, SQL, html, css, react, react native
 * **Marco Angeli**
    * Role: **Feature Lead**
    * Strengths: Mobile Development Frameworks (Flutter), React and JS, Software design, Dart, Java, Python, C
