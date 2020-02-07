@@ -1,5 +1,4 @@
-# YOUR PRODUCT/TEAM NAME
-> _Note:_ This document is meant to evolve throughout the planning phase of your project.  
+# Visible Learning Team
 > **This document will serve as a master plan between your team, your partner and your TA.**
 
 # Product Details
@@ -9,9 +8,9 @@
 ```An application that facilitates the sharing of experiential learning at Kingsway College School.```  
 
 In education, the final result of a student’s work is visible, but the process to get there is usually invisible. Want to make this process visible so that students can benefit from understanding how other students learn and reach solutions. Backed by research from Harvard and part of the principles that Kingsway practices in its approach to education.
-After a discussion with the head of the Kingsway College School, we came up with this common use case: Grade 9 students are given this formative assignment: they’re introduced to a task (go and find 5 places in Toronto and write down what learning value you obtain with engaging the place). Students don’t have a way to demonstrate their experiential learning with any tools currently present in the market.
-We will build both a mobile application and a web application to facilitate the sharing of experiential learning
-Below, you will be able to see some designs of workflows from the different stakeholders of our solution:
+After a discussion with the Head of Senior School at Kingsway College School (KCS), we came up with this common use case: Grade 9 students are given this formative assignment: they’re introduced to a task (go and find 5 places in Toronto and write down what learning value you obtain with engaging the place). Students don’t have an easy way to capture and share their experiential learning with their schoolmates. Although mainstream social media tools exist, they are unsuited for the unique needs of KCS and come with major drawbacks that include distraction away from learning as well as unhealthy issues that arise from misuse of social media. The proposed app is clean, simple, and focused solely on making learning visible. 
+
+We will build both a mobile application and a web application to facilitate the sharing of experiential learning. Below, you will be able to see some designs of workflows from the different stakeholders of our solution:
 
 ![student storyboard](workflow.jpg)
 
@@ -64,6 +63,8 @@ After the completion of the project, we will deploy the mobile app to both the A
 6) As a teacher I want to make sure that the learning in the platform is kept on track. If I see a non-productive posts on the app, I want to delete it to keep the discussion relevant.
  
 7) As a teacher I want to be able to see the posts that students are making to ensure that the content is appropriate for a school setting and meets our expectations.
+
+8) As a teacher, I want to use some of my student’s posts as springboards for class discussions. 
 
 # Process Details
 
@@ -149,6 +150,19 @@ On January 29th, we met with our project partners Andrea Fanjoy and Aisling O’
 1) Completing the project planning document and emailing it to Andrea for her to review before submission to ensure we understood her vision and proposed problem space, 
 2) Emailing a follow up with some questions that wanted to ask, but then ran out of time
 3) Consulting our TA on when it would be best for Andrea to physically attend a tutorial and meet with us in person. 
+
+After this meeting, we sent our project planning document to Andrea for review and incorperated her suggestions into the final version. A meeting on Wednesday, February 5th will be held for a final review of project details and to discuss any clarifying questions. At the suggestion of our TA, we also asked some follow-up questions, which have been provided below: 
+
+* What is the best way to reach you outside of meeting times (i.e. we have a question for you, how soon can you respond, which email address should we be using, who is the point of contact for technical questions, etc.)
+     * This email is best. I should respond within 24 hours, usually less. In a pinch, you can call me at _________ (it’s rare that I can pick up but you can leave a message). The technical contact will depend – we have an IT Manager and System Administrator, Adam Stoyles, whose email is _________. 
+
+* How frequently would you like updates, are the deliverables sufficient? 
+     * How about updates a day or two before each call on Wednesday?
+
+* What are your expectations? What do you hope to achieve through this partnership (besides the specific product requested)?
+     * I hope to learn about experiential learning at the post-sec level. This experience is something I aim to help make happen at the secondary level (with less complicated projects, of course).
+
+
 
   
 ## Q8: What artifacts will you use to self-organize?
