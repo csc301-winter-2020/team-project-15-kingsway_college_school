@@ -13,9 +13,7 @@ After a discussion with the head of the Kingsway College School, we came up with
 We will build both a mobile application and a web application to facilitate the sharing of experiential learning
 Below, you will be able to see some designs of workflows from the different stakeholders of our solution:
 
-![student storyboard](student.png)
-
-![moderator storyboard](moderation.png)
+![student storyboard](workflow.jpg)
 
 ## Q2: Who are your target users?
 
