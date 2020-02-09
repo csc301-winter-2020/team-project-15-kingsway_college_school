@@ -32,7 +32,7 @@ Our target users are Kingsway College high school students, and their teachers. 
 
 ## Q3: Why would your users choose your product? What are they using today to solve their problem/need?
 
-Our product, as described in the answer to question 1, facilitates the unique culture being promoted at Kingsway College School. It makes it easier for students to share everything relevant to their studies in a safe, school-run space that is quickly and easily accessible by teachers and other students. Compared to, for example, taking notes on a field trip, this app can provide a more accurate representation of what a student experience and reduce the time involved in capturing that experience (making students more likely to consider recording these experiences). Further, they can share that experience in real-time, making their learning visible to their peers. This incentivizes sharing their learning as in the past students wouldn’t go out of their way to do so.
+Our product, as described in the answer to question 1, facilitates the unique culture being promoted at Kingsway College School. It makes it easier for students to share everything relevant to their studies in a safe, school-run space that is quickly and easily accessible by teachers and other students. Compared to, for example, taking notes on a field trip, this app can provide a more accurate representation of what a student experiences and reduce the time involved in capturing that experience (making students more likely to consider recording these experiences). Further, they can share that experience in real-time, making their learning visible to their peers. This incentivizes sharing their learning as in the past students wouldn’t go out of their way to do so.
 
 Importantly, all students will benefit not just from sharing their own experiences, but being able to view and save the posts that their classmates make. This connects students with similar interests or even those who can just help each other out. With the help of post tags and fast visibility, communication about one’s learning that might not have otherwise happened could instead be a regular event at Kingsway. In the past, the function of this app could only have been served by face-to-face interactions. While this is still the preferred method to share learning, this app will make it simpler by providing an organized, centralized hub that all students can interact with, and consistently produce the catalyst that this kind of face-to-face interaction is born from.
 
@@ -41,11 +41,11 @@ KCS values experiential learning, and making learning visible is a big part of t
 
 ## Q4: How will you build it?
 
-We plan on building this application by using React Native for the mobile application, React.js for the website front-end, and Firebase as our back-end service.
+We plan on building this application by using React Native for the mobile application, React.js for the website front-end, and AWS as our back-end service.
 
 We decided to use React Native to develop our mobile application as it allows us to have one single codebase that then compiles into native code for both iOS and Android. We chose React Native specifically, as opposed to similar frameworks such as Flutter, because it is by far the most popular cross-platform development framework, which means that there is plenty of technical support and documentation out there if we need it. Additionally, we decided to use React.js to develop our website front-end as it will use the same language and have similar syntax and concepts as React Native, which would allow us as developers move between developing both sides of the project without having to learn two completely different frameworks and languages.
 
-We decided to use Firebase as our back-end service as it a simple, tried and tested solution that is more than able to fit our technical needs.
+We decided to use AWS as our back-end service as it is a very capable cloud platform, and one of our team members did an internship last summer using AWS for four months.
 
 
 ![techstack](techstack.jpg)
@@ -56,7 +56,7 @@ Throughout development, we have established the following testing process: When 
 
 After the completion of the project, where every feature that was required has been successfully implemented and tested, we will deploy both the app and the website. After making sure that our app fits all the requirements for both the the Apple App store and to Google Play (obtaining the user’s permission to use the camera and geolocation, no improper use of personal data, being accessibility-friendly) we compile the final version of the apps for both platforms, and send them to both app stores for review. After passing their respective reviews, which usually takes about a week, the app will be successfully launched. 
 
-For the back-end, there is no need to buy a premium Firebase subscription, as the free base tier will be more than enough for our needs. After obtaining a domain name for the website, we will begin hosting it through Firebase.
+For the back-end, there isn’t any large costs, as the free base tier will be more than enough for our needs. We will host the website through AWS S3, and once we acquire a domain name we will add AWS Cloudfront to direct the traffic to the S3 hosted website.
 
 
 ## Q5: What are the user stories that make up the MVP?
@@ -156,7 +156,7 @@ Lack of experience with firebase, javascript, SQL, html, css, react, react nativ
    * Strengths: python, algorithms and machine learning, java, c, functional programming experience
    * Weaknesses: Lack of experience with firebase, javascript, SQL, html, css, react, react native
 * **Marco Angeli**
-   * Role: **Feature Lead**
+   * Role: **Mobile Lead**
    * Strengths: Mobile Development Frameworks (Flutter), React and JS, Software design, Dart, Java, Python, C
    * Weaknesses:  UX design and user experience testing
 * **Ryan Marten**
@@ -172,7 +172,7 @@ Lack of experience with firebase, javascript, SQL, html, css, react, react nativ
    * Strengths: C/C++, Python, Usability research & UX testing, audio design
    * Weaknesses: Web development (JS), mobile development (iOS) 
 * **Devin Castaban**
-   * Role: **Mobile Lead**
+   * Role: **Backend Lead**
    * Strengths: AWS, REST APIs, i.e. Backend, C, Python, Javascript, HTML, CSS, React, Angular, Selenium, SQL
    * Weaknesses: Frameworks such as Kotlin and Swift, NoSQL databases
 * **Joshua Bragg**
@@ -252,17 +252,17 @@ Team issues (not related to project task details) will be reported to the Team L
  
 In the case that team issues involve conflict, we have the following contingencies prepared for various issues:
 
-* **Disagreements**: A disagreement might involve a lack of consensus on project tasks or technical concerns or even scheduling of team events. We commit to no shouting matches, only respectful dialogue. In the case that a conflict between two parties (1 or more persons per party) cannot be resolved by unmoderated discussion between those parties, each side of the disagreement will make a concise argument for their side of the issue (in text), send it to the Team Lead, and have the whole team vote. In the case of ties, the Team Lead will decide on the issue or delegate the decision to someone whose expertise is trusted on the issue. The emphasis is not on taking sides but keeping the project moving forward!
+* **Disagreements**: If there is a lack of consensus on project tasks, technical concerns or scheduling of team events we will consider this a **disagreement.** In this scenario, we commit to no shouting matches, respectful dialogue and prioritizing moving the project forward over taking sides. In the case that a conflict between the two parties (1 or more persons per party) cannot be resolved by unmoderated discussion between those parties we will consider this a serious disagreement. The remedial action for severe disagreements will be for each side of the disagreement to make a concise argument for their side of the issue (in text), send it to the Team Lead, and have the whole team vote. In the case of ties, the Team Lead will decide on the issue or delegate the decision to someone whose expertise is trusted on the issue. 
 
-* **Non-responsive team member**:  In the case that a team member does not respond within 1 day to messages on the agreed platforms, the Team Lead will contact the person by phone (text or call). If we still cannot reach that team member by the second day, the Team Lead goes to the team’s TA to report the issue.
+* **Non-responsive team member**:  In the case that a team member does not respond to messages on the agreed platform within 1 day we will consider them a **Non-responsive team member.** In this scenario, the Team Lead will attempt to contact the person by phone (text or call). If we still cannot reach that team member by the second day we will consider this a serious issue. The remedial action for serious cases will be for  the Team Lead to report the issue to the team’s TA. Further remedial action will be dependent on the cause of the issue.
 
-* **Good faith failure-to-deliver**: Sometimes even the best laid plans don’t work out. A feature that we believed could be completed in a week might need an extra week, or something that seemed simple could be complicated. The team members working on this task will have tried in good faith to complete the task but were unable. In this case it is their responsibility to let the Team Lead or Project Manager know what isn’t working so that plans can be reformulated.
+* **Good faith failure-to-deliver**: Sometimes even the best laid plans don’t work out. A feature that we believed could be completed in a week may require an extra week, or something that seemed simple could be complicated. If the team members working on a task have tried in good faith to complete it but were unable to do so we will consider this a **good faith failure-to-deliver.** In this scenario, their responsibility is to inform the Team Lead or Project Manager of the difficulties encountered so that plans can be reformulated. If it is not possible to do so easily, further remedial action will consist of a team meeting, at the earliest possible time, to discuss how to accommodate the delay.
 
-* **Bad faith failure-to-deliver**: If a team member is simply not putting in the effort (leading to a lack of completion of assigned tasks) and not communicating issues with the work to the team, the Team Lead will talk with this member about the issue and ask for a remedial plan to tackle the work or compensate otherwise. In the worst case, where this becomes a repeated issue, the Team Lead will report the member’s lack of contribution to the team’s TA to seek other solutions.
+* **Bad faith failure-to-deliver**: If a team member is simply not putting in the effort (leading to a lack of completion of assigned tasks) and not communicating issues to the team we will consider this a **bad faith failure-to-deliver.** The remedial action will consist of the Team Lead discussing the issue with the team member and creating a remedial plan to prevent the issue from recurring. If this becomes a repeated issue, the Team Lead will report the member’s lack of contribution to the team’s TA to discuss further remedial action. 
 
-* **Personal emergency**: Any team member experiencing a personal emergency is not expected to prioritize this class over their own wellbeing or that of those close to them, but they should do their best to let the team know what is going on as soon as they are able. This member’s workload will be redistributed among the team and project timeline as appropriate, and the Team Lead may speak to the TA to petition for extra time on deliverables should the member’s absence make the planned timeline too difficult to maintain.
+* **Personal emergency**: If a team member experiences an event impacting their ability to perform work we will consider this a **personal emergency.** In this scenario, the team member is expected to inform the Team Lead of what is happening, as soon as possible. The team member will not be expected to contribute until such time as the emergency is resolved. The remedial action will consist of redistributing the member’s workload among the team and a meeting to reconsider the project timeline. In severe cases, the Team Lead will speak to the TA about accomodations for the team to compensate for any difficulties caused by the emergency.
 
-* **Other issues**: We cannot foresee every kind of issue that might arise; however, the team is committed to coming up with a plan to overcome roadblocks of any kind through shared communication on how to handle the issue. 
+* **Other issues**: We cannot foresee every kind of issue that might arise; however, the team is committed to coming up with a plan to overcome roadblocks of any kind through shared communication on how to handle the issue.  
 
 
 # Highlights
