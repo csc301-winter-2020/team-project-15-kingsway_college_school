@@ -5,7 +5,7 @@
  
 ## Q1: What are you planning to build?
 
-```An application that facilitates the sharing of experiential learning at Kingsway College School.```  
+```We are building an application that facilitates the sharing of experiential learning at Kingsway College School. ```
 
 In education, the final result of a student’s work is visible, but the process to get there is usually invisible. We want to make this process visible so that students can benefit from understanding how other students learn and reach solutions. This is backed by research from Harvard and part of the principles that Kingsway practices in its approach to education.
 The users of this platform will be primarily students and teachers can play an administrative and a content-inspiring role. After a discussion with the Head of Senior School at Kingsway College School (KCS), we came up with several common use cases: 
@@ -16,10 +16,6 @@ For the example above, students don’t have an easy way to capture and share th
 
 We will build both a mobile application and a web application to facilitate this sharing of experiential learning. 
 The workflow below describes how an experiential learning platform at field trips, which are common at Kingsway College School.
-
-
-We will build both a mobile application and a web application to facilitate the sharing of experiential learning. Below, you will be able to see some designs of workflows from the different stakeholders of our solution:
-
 ![student storyboard](workflow.jpg)
 
 ## Q2: Who are your target users?
@@ -68,7 +64,7 @@ For the back-end, there is no need to buy a premium Firebase subscription, as th
 1) As a student finishing a project who wants to help out his classmates, I want to post pictures of my notes with related commentary in order to share how I came to a solution to a hard problem.
 
    >_Acceptance Criteria_
-   >* Students can post pictures accompanied by text
+   >* Students can make posts consisting of pictures and text
    >* Students can view posts made by other students in their classes
 
  
@@ -168,11 +164,11 @@ Lack of experience with firebase, javascript, SQL, html, css, react, react nativ
    * Weaknesses: React Native, React JS, Database Schema Design, Mobile Development Methodologies and Frameworks
 * **Shardul Bansal**
    * Role: **Feature Lead**
-   * Strengths: Python: pandas, requests, selenium, Front-end (HTML, CSS),  
+   * Strengths: Python: pandas, requests, selenium, Front-end (HTML, CSS), Database creation, Design Thinking
    * Weaknesses: Firebase, Ajax, back-end technologies, mobile development
 * **Nick Perrin**
    * Role: **Team Lead**
-   * Strengths: C/C++, Python, audio design
+   * Strengths: C/C++, Python, Usability research & UX testing, audio design
    * Weaknesses: Web development (JS), mobile development (iOS) 
 * **Devin Castaban**
    * Role: **Mobile Lead**
@@ -180,7 +176,7 @@ Lack of experience with firebase, javascript, SQL, html, css, react, react nativ
    * Weaknesses: Frameworks such as Kotlin and Swift, NoSQL databases
 * **Joshua Bragg**
    * Role: **Web Lead**
-   * Strengths: Frontend Web, Python, Javascript, CSS, HTML, Java, SQL, C#, Android SDK
+   * Strengths: Frontend Web, Python, Javascript, CSS, HTML, Java, SQL, C#, Android SDK, Django
    * Weaknesses: React, Angular, Node.JS
 
 
