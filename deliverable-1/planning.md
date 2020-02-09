@@ -79,6 +79,7 @@ For the back-end, there is no need to buy a premium Firebase subscription, as th
    >_Acceptance Criteria_
    >* Students can favourite posts made by other students
    >* Students can view favorited posts separate from other posts
+   >* Students favourited posts are not visible to other students
  
 4) As a teacher, I want to be able to instruct my students to share posts about their learning in order to facilitate visible learning.
 
