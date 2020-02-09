@@ -164,11 +164,11 @@ Lack of experience with firebase, javascript, SQL, html, css, react, react nativ
    * Weaknesses: React Native, React JS, Database Schema Design, Mobile Development Methodologies and Frameworks
 * **Shardul Bansal**
    * Role: **Feature Lead**
-   * Strengths: Python: pandas, requests, selenium, Front-end (HTML, CSS),  
+   * Strengths: Python: pandas, requests, selenium, Front-end (HTML, CSS), Database creation, Design Thinking
    * Weaknesses: Firebase, Ajax, back-end technologies, mobile development
 * **Nick Perrin**
    * Role: **Team Lead**
-   * Strengths: C/C++, Python, audio design
+   * Strengths: C/C++, Python, Usability research & UX testing, audio design
    * Weaknesses: Web development (JS), mobile development (iOS) 
 * **Devin Castaban**
    * Role: **Mobile Lead**
@@ -176,7 +176,7 @@ Lack of experience with firebase, javascript, SQL, html, css, react, react nativ
    * Weaknesses: Frameworks such as Kotlin and Swift, NoSQL databases
 * **Joshua Bragg**
    * Role: **Web Lead**
-   * Strengths: Frontend Web, Python, Javascript, CSS, HTML, Java, SQL, C#, Android SDK
+   * Strengths: Frontend Web, Python, Javascript, CSS, HTML, Java, SQL, C#, Android SDK, Django
    * Weaknesses: React, Angular, Node.JS
 
 
