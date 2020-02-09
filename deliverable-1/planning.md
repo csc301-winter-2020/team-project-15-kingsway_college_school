@@ -68,7 +68,7 @@ For the back-end, there is no need to buy a premium Firebase subscription, as th
 1) As a student finishing a project who wants to help out his classmates, I want to post pictures of my notes with related commentary in order to share how I came to a solution to a hard problem.
 
    >_Acceptance Criteria_
-   >* Students can post pictures accompanied by text
+   >* Students can make posts consisting of pictures and text
    >* Students can view posts made by other students in their classes
 
  
