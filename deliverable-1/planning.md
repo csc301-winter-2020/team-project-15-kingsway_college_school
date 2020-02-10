@@ -139,7 +139,7 @@ Lack of experience with firebase, javascript, SQL, html, css, react, react nativ
    * Ensure that there is delegation of who will be recording meeting minutes, this role with rotate with each meeting
    * Update TA on technical milestones and progress
 
-* **Technology / Section lead** [2 or 3 people]: Ideally one per section of the project (Backend, mobile development framework, API integration, etc)
+* **Technology / Section lead [2 or 3 people]**: Ideally one per section of the project (Backend, mobile development framework, API integration, etc)
    * Leads the discussion on the high-level design for a technical component
    * The “go to person” when questions arise about how their section is implemented or how to interface with their section
    * Responsible for managing expectations and scoping out the difficulty and time needed for tasks in their section
