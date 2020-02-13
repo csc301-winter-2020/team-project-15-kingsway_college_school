@@ -117,7 +117,6 @@ For the back-end, there isn’t any large costs, as the free base tier will be m
    >* Students can sort posts by various criteria
    >* Students can filter out posts that do not match criteria
 
-Lack of experience with firebase, javascript, SQL, html, css, react, react native
 # Process Details
 
 ## Q6: What are the roles & responsibilities on the team?
