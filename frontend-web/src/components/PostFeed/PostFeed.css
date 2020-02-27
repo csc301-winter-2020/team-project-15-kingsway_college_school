@@ -1,0 +1,11 @@
+.PostFeed {
+	display: inline-block;
+	overflow-y: scroll;
+	width: 60%;
+	height: 100vh;
+	color: #FCFCFF;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}

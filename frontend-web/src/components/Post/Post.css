@@ -1,0 +1,21 @@
+.Post {
+	margin: 2vw;
+	padding: 2vw;
+	border-radius: 30px;
+}
+
+.Post:last-child {
+	border: 0;
+}
+
+.PostLocation {
+	font-weight: 500;
+}
+
+.PostContent {
+	padding: 2vw;
+}
+
+.PostUploadTime {
+	font-style: italic;
+}
