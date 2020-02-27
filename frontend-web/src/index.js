@@ -10,3 +10,15 @@ ReactDOM.render(<App />, document.getElementById('root'));
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+
+function mouseWheelEventHandler(e)
+{
+	var event = window.event || e; //equalize event object
+	var delta = event.detail ? event.detail*(-120) : event.wheelDelta; //check for detail first so Opera uses that instead of wheelDelta
+	
+	document.querySelectorAll('.scrollable').forEach((item) => {
+		item.scrollTop -= delta;       
+	});
+}
+
+document.addEventListener('onscroll', mouseWheelEventHandler, false);

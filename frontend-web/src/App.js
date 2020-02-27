@@ -7,6 +7,8 @@ import './App.css';
 import HomePage from './components/HomePage/HomePage'
 
 class App extends React.Component {
+	state = {}
+
 	render() {
 		return (
 			<div>
