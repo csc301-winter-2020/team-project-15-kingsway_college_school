@@ -30,6 +30,17 @@ class HomePage extends React.Component {
 		}
 	}
 
+	componentDidMount() {
+		window.addEventListener('wheel', this.mouseWheelEventHandler);
+	}
+
+	mouseWheelEventHandler = (e) =>
+	{
+		document.querySelectorAll('.scrollable').forEach((item) => {
+			item.scrollTo({ top: item.scrollTop + e.deltaY });       
+		});
+	}
+
 	render() {
 		return (
 		<div className="HomePage">

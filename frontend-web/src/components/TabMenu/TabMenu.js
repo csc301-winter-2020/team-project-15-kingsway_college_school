@@ -13,6 +13,24 @@ class TabMenu extends React.Component {
 		]
 	}
 
+	componentDidMount() {
+		console.log(this.mouseWheelEventHandler);
+		document.addEventListener('scroll', this.mouseWheelEventHandler);
+		window.addEventListener('scroll', this.mouseWheelEventHandler);
+	}
+
+	mouseWheelEventHandler = (e) =>
+	{
+		console.log('test');
+		e.preventDefault();
+		var event = window.event || e; //equalize event object
+		var delta = event.detail ? event.detail*(-120) : event.wheelDelta; //check for detail first so Opera uses that instead of wheelDelta
+		
+		document.querySelectorAll('.scrollable').forEach((item) => {
+			item.scrollTop -= delta;       
+		});
+	}
+
 	tabClicked = (tab) => {
 		const currState = this.state;
 
