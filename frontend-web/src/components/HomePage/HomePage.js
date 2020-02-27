@@ -1,5 +1,6 @@
 import React from 'react';
 import './HomePage.css';
+import 'font-awesome/css/font-awesome.min.css';
 
 import PostFeed from '../PostFeed/PostFeed'
 import Favourites from '../Favourites/Favourites'
