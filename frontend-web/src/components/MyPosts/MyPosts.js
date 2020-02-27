@@ -7,7 +7,7 @@ class MyPosts extends React.Component {
 
 	render() {
 		return (
-		<div className="MyPosts dark-grey light-grey-text">
+		<div className={ 'MyPosts dark-grey light-grey-text ' + (this.props.wide ? 'thin' : '') }>
 			My Posts
 		</div>
 	)}

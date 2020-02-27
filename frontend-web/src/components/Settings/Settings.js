@@ -7,7 +7,7 @@ class Settings extends React.Component {
 
 	render() {
 		return (
-		<div className="Settings dark-grey light-grey-text">
+		<div className={ 'Settings dark-grey light-grey-text ' + (this.props.wide ? 'thin' : '') }>
 			Settings
 		</div>
 	)}
