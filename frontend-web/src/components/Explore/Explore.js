@@ -1,4 +1,5 @@
 import React from 'react';
+import { uid } from "react-uid";
 import './Explore.css';
 
 class Explore extends React.Component {
@@ -19,7 +20,7 @@ class Explore extends React.Component {
 
 			{
 				this.state.hashtags.map((hashtag) => (
-						<div className="Hashtag">
+						<div key={ uid(hashtag) } className="Hashtag">
 							{ hashtag }
 						</div>
 				))

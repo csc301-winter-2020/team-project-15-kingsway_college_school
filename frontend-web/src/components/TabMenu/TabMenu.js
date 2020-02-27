@@ -1,4 +1,5 @@
 import React from 'react';
+import { uid } from "react-uid";
 import './TabMenu.css';
 
 class TabMenu extends React.Component {
@@ -18,6 +19,12 @@ class TabMenu extends React.Component {
 		currState.selected = tab;
 
 		this.setState(currState);
+
+		const parentState = this.props.parent.state;
+
+		parentState.currentView = tab;
+
+		this.props.parent.setState(parentState);
 	}
 
 	render() {
@@ -28,7 +35,7 @@ class TabMenu extends React.Component {
 			</h1>
 			{
 				this.state.tabs.map((tab) => (
-						<div onClick={ () => { this.tabClicked(tab) } } className={'Tab ' + (this.state.selected === tab ? 'dark-grey' : 'mid-grey')}>
+						<div key={ uid(tab) } onClick={ () => { this.tabClicked(tab) } } className={'Tab ' + (this.state.selected === tab ? 'dark-grey' : 'mid-grey')}>
 							{ tab }
 						</div>
 				))

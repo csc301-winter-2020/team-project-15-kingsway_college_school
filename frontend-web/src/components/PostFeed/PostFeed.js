@@ -1,4 +1,5 @@
 import React from 'react';
+import { uid } from "react-uid";
 import './PostFeed.css';
 
 import Post from '../Post/Post'
@@ -35,10 +36,10 @@ class PostFeed extends React.Component {
 
 	render() {
 		return (
-		<div className="PostFeed scroll-nice dark-grey light-grey-text">
+		<div className="PostFeed dark-grey light-grey-text">
 			{
 				this.state.posts.map((post) => (
-						<Post post={post} />
+						<Post key={ uid(post.id) } post={post} />
 				))
 			}
 		</div>
