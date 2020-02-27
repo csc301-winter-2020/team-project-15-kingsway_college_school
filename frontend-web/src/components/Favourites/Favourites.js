@@ -7,7 +7,7 @@ class Favourites extends React.Component {
 
 	render() {
 		return (
-		<div className="Favourites dark-grey light-grey-text">
+		<div className={ 'Favourites dark-grey light-grey-text ' + (this.props.wide ? 'thin' : '') }>
 			Favourites
 		</div>
 	)}

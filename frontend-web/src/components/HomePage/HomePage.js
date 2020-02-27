@@ -10,21 +10,22 @@ import TabMenu from '../TabMenu/TabMenu'
 
 class HomePage extends React.Component {
 	state = {
-		currentView: 'Home'
+		currentView: 'Home',
+		searchBarActive: false
 	}
 
-	currentViewSwitch = () => {
-		switch(this.state.currentView) {
+	currentViewSwitch = (currentView, searchBarActive) => {
+		switch(currentView) {
 			case 'Home':
-				return <PostFeed />;
+				return <PostFeed wide={ searchBarActive } />;
 			case 'Favourites':
-				return <Favourites />;
+				return <Favourites wide={ searchBarActive } />;
 			case 'My Posts':
-				return <MyPosts />;
+				return <MyPosts wide={ searchBarActive } />;
 			case 'Settings':
-				return <Settings />;
+				return <Settings wide={ searchBarActive } />;
 			default:
-				return <PostFeed />;
+				return <PostFeed wide={ searchBarActive } />;
 		}
 	}
 
@@ -32,8 +33,8 @@ class HomePage extends React.Component {
 		return (
 		<div className="HomePage">
 			<TabMenu parent={ this } />
-			{ this.currentViewSwitch(this.state.currentView) }
-			<Explore />
+			{ this.currentViewSwitch(this.state.currentView, this.state.searchBarActive) }
+			<Explore parent={ this } />
 		</div>
 	)}
 };

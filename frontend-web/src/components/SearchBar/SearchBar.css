@@ -1,0 +1,18 @@
+.SearchBar {
+	width: 80%;
+	height: 40px;
+	margin-left: 10%;
+	margin-top: 20px;
+	background: #FCFCFF;
+	border-radius: 24px;
+}
+
+.SearchBar > input {
+	outline: 0;
+	border-radius: 24px;
+	background: #FCFCFF;
+	border: 0;
+	width: calc(100% - 40px);
+	height: 100%;
+	padding: 0 20px 0 20px;
+}
