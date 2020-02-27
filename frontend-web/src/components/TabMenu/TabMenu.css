@@ -1,0 +1,25 @@
+.TabMenu {
+	display: inline-block;
+	width: 25vw;
+	height: 100vh;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.Tab {
+	cursor: pointer;
+	padding: 8%;
+	padding-left: 12%;
+	font-weight: 900;
+	font-size: 1.5rem;
+}
+
+.TabMenu > h1 {
+	width: 100%;
+	height: auto;
+	font-weight: 900;
+	font-size: 2rem;
+	margin-left: 10%;
+	margin-top: 10%;
+	margin-bottom: 5%;
+}
