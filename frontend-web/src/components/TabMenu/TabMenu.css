@@ -1,4 +1,5 @@
 .TabMenu {
+	position: fixed;
 	display: inline-block;
 	width: 25vw;
 	height: 100vh;

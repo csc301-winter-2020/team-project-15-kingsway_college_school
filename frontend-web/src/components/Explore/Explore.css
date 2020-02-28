@@ -1,4 +1,6 @@
 .Explore {
+	position: fixed;
+	top: 0;
 	display: inline-block;
 	transition: width ease-in-out 200ms;
 	width: 15vw;
