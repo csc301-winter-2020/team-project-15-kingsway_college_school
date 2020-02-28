@@ -9,7 +9,7 @@ class CreatePost extends React.Component {
 		return (
 		<div className={ 'CreatePost light-grey-text ' + (this.props.wide ? 'thin' : '') }>
 			<div className="TextAreaContainer shadow">
-				<textarea id="new-post-textarea" rows="4" onChange={ this.TextAreaChange } placeholder="Share an experience"/>
+				<textarea id="new-post-textarea" onChange={ this.TextAreaChange } placeholder="Share an experience"/>
 			</div>
 			<div className="CreatePostButtons">
 				<div className="AttachPicture fa fa-paperclip"></div>
