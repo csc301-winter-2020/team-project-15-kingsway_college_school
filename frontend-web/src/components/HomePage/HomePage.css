@@ -1,5 +1,5 @@
 .HomePage {
-	position: fixed;
+
 }
 
 .dark-grey {
@@ -9,6 +9,19 @@
 .mid-grey {
 	background: #313131;
 }
+
+.light-grey {
+	background: #FCFCFF;
+}
+
+.dark-grey-text {
+	color: #212121;
+}
+
+.mid-grey-text {
+	color: #313131;
+}
+
 
 .light-grey-text {
 	color: #FCFCFF;

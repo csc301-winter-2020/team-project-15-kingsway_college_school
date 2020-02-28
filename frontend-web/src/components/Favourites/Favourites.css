@@ -1,5 +1,4 @@
 .Favourites {
-	display: inline-block;
 	overflow-y: scroll;
 	transition: width ease-in-out 200ms;
 	width: 60vw;
