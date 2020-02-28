@@ -28,7 +28,7 @@ class Post extends React.Component {
 		return (
 		<div className="Post shadow mid-grey light-grey-text">
 			<div className="PostLocation">
-				<a className="fa fa-map-marker"></a>
+				<a className="accent fa fa-map-marker"></a>
 				&nbsp;&nbsp;
 				{ post.location }
 			</div>

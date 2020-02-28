@@ -3,11 +3,11 @@
 }
 
 .dark-grey {
-	background: #212121;
+	background: #101D30;
 }
 
 .mid-grey {
-	background: #313131;
+	background: #132138;
 }
 
 .light-grey {
@@ -25,6 +25,10 @@
 
 .light-grey-text {
 	color: #FCFCFF;
+}
+
+.accent {
+	color: #f39038;
 }
 
 .shadow {
