@@ -33,7 +33,7 @@ class Explore extends React.Component {
 
 			{
 				this.state.hashtags.map((hashtag) => (
-						<div key={ uid(hashtag) } className="Hashtag">
+						<div key={ uid(hashtag) } className="Hashtag accent">
 							{ hashtag }
 						</div>
 				))
