@@ -26,3 +26,9 @@
 .light-grey-text {
 	color: #FCFCFF;
 }
+
+.shadow {
+	-webkit-box-shadow: 2px 2px 10px 0px rgba(17,17,17,1);
+	-moz-box-shadow: 2px 2px 10px 0px rgba(17,17,17,1);
+	box-shadow: 2px 2px 10px 0px rgba(17,17,17,1);
+}
