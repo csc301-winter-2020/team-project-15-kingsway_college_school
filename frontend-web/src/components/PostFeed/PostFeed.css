@@ -7,3 +7,7 @@
 ::-webkit-scrollbar {
 	display: none;
 }
+
+.LoaderContainer {
+	width: 100%;
+}

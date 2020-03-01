@@ -4,9 +4,11 @@ import './PostFeed.css';
 import Amplify from 'aws-amplify';
 
 import Post from '../Post/Post'
+import Loader from '../Loader/Loader'
 
 class PostFeed extends React.Component {
 	state = {
+		hasPosts: false,
 		posts: []
 	}
 
@@ -40,13 +42,15 @@ class PostFeed extends React.Component {
 				});
 			});
 
-			this.setState({ posts: posts });
+			this.setState({ posts: posts, hasPosts: true });
 		}).catch((error) => {
 			console.log(error);
 		});
 	}
 
 	componentWillMount() {
+		this.setState({ hasPosts: false });
+
 		const feedType = this.props.feedType;
 
 		this.getPosts(feedType);
@@ -55,6 +59,7 @@ class PostFeed extends React.Component {
 	render() {
 		return (
 		<div className="PostFeed light-grey-text">
+			{ this.state.hasPosts ? '' : <Loader /> }
 			{
 				this.state.posts.map((post) => (
 						<Post key={ uid(post.id) } post={post} />
