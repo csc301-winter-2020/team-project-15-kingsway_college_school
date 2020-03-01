@@ -13,13 +13,13 @@ class MiddleView extends React.Component {
 	currentViewSwitch = (currentView) => {
 		switch(currentView) {
 			case 'Favourites':
-				return <Favourites className="scrollable" />;
+				return <PostFeed feedType="Favourites" />;
 			case 'My Posts':
-				return <MyPosts className="scrollable" />;
+				return <PostFeed feedType="MyPosts" />;
 			case 'Settings':
-				return <Settings className="scrollable" />;
+				return <Settings />;
 			default:
-				return <div className="scrollable"><CreatePost /><PostFeed /></div>;
+				return <div><CreatePost /><PostFeed feedType="Home" /></div>;
 		}
 	}
 
