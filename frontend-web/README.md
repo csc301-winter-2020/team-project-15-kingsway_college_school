@@ -5,6 +5,11 @@
 - Once dependencies have finished installing run the `npm start` command to begin hosting the website on your localhost
 - Once running any time a js/css file is modified and saved it will automatically push those changes to your locally hosted site
 
+## Deploy to AWS site(you need the AWS CLI installed and the AWS access keys, which are in the slack under credentials)
+Run the following commands:
+npm run-script build
+aws s3 sync ./build/ s3://kcsharewebsite 
+
 ## Maintainability and continued use
 - Once initial setup is complete the `npm start` command should suffice as the only 'go to' command that is needed
 - Respect existing naming conventions for components, filenames, variable names and method names
