@@ -15,11 +15,7 @@ class Explore extends React.Component {
 	}
 
 	cWidthChange = (searchBarActive) => {
-		const pState = this.props.parent.state;
-
-		pState.searchBarActive = searchBarActive;
-
-		this.props.parent.setState(pState);
+		this.props.parent.setState({ searchBarActive: searchBarActive });
 	}
 
 	render() {

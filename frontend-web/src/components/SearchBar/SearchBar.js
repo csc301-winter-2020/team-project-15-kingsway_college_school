@@ -11,18 +11,14 @@ class SearchBar extends React.Component {
 		const pState = this.props.parent.state;
 
 		if (e.target.value.length === 0) {
-			state.isEmpty = true;
-			this.setState(state);
+			this.setState({ isEmpty: true });
 
-			pState.wide = false;
-			this.props.parent.setState(pState);
+			this.props.parent.setState({ wide: false });
 			this.props.parent.cWidthChange(false);
 		} else {
-			state.isEmpty = false;
-			this.setState(state);
+			this.setState({ isEmpty: false });
 
-			pState.wide = true;
-			this.props.parent.setState(pState);
+			this.props.parent.setState({ wide: true });
 			this.props.parent.cWidthChange(true);
 		}
 	}
