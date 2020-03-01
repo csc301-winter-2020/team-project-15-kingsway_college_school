@@ -42,3 +42,7 @@
 .rounded {
 	border-radius: 30px;
 }
+
+.Tab:hover:not(.selected) {
+	background: #36325E;
+}
