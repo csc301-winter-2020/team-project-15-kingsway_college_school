@@ -25,7 +25,7 @@ class MiddleView extends React.Component {
 
 	render() {
 		return (
-		<div className={ 'MiddleView dark-grey light-grey-text ' + ( this.props.searchBarActive ? 'thin' : '' ) }>
+		<div className="MiddleView dark-grey light-grey-text">
 			{ this.currentViewSwitch(this.props.currentView) }
 		</div>
 	)}
