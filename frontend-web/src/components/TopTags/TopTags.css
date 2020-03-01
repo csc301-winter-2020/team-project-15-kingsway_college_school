@@ -1,4 +1,4 @@
-.Explore {
+.TopTags {
 	position: fixed;
 	top: 0;
 	display: inline-block;
@@ -22,7 +22,7 @@
 	padding-top: 0;
 }
 
-.Explore > h1 {
+.TopTags > h1 {
 	width: 100%;
 	height: auto;
 	font-weight: 900;

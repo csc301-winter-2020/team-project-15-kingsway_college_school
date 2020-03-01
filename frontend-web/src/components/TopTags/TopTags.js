@@ -1,10 +1,10 @@
 import React from 'react';
 import { uid } from "react-uid";
-import './Explore.css';
+import './TopTags.css';
 
 import SearchBar from '../SearchBar/SearchBar'
 
-class Explore extends React.Component {
+class TopTags extends React.Component {
 	state = {
 		hashtags: [
 			'#torontozoo',
@@ -15,11 +15,11 @@ class Explore extends React.Component {
 
 	render() {
 		return (
-		<div className="Explore dark-grey light-grey-text">
+		<div className="TopTags dark-grey light-grey-text">
 			<SearchBar parent={ this } />
 
 			<h1>
-				Explore
+				TopTags
 			</h1>
 
 			{
@@ -33,4 +33,4 @@ class Explore extends React.Component {
 	)}
 };
 
-export default Explore;
+export default TopTags;

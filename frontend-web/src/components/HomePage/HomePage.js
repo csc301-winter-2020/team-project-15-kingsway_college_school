@@ -3,7 +3,7 @@ import './HomePage.css';
 import 'font-awesome/css/font-awesome.min.css';
 
 import MiddleView from '../MiddleView/MiddleView'
-import Explore from '../Explore/Explore'
+import TopTags from '../TopTags/TopTags'
 import TabMenu from '../TabMenu/TabMenu'
 
 class HomePage extends React.Component {
@@ -16,7 +16,7 @@ class HomePage extends React.Component {
 		<div className="HomePage dark-grey">
 			<TabMenu parent={ this } />
 			<MiddleView currentView={ this.state.currentView } />
-			<Explore parent={ this } />
+			<TopTags parent={ this } />
 		</div>
 	)}
 };
