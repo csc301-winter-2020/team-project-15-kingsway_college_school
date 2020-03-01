@@ -21,13 +21,13 @@ class TabMenu extends React.Component {
 
 	render() {
 		return (
-		<div className="TabMenu mid-grey light-grey-text">
+		<div className="TabMenu dark-grey light-grey-text">
 			<h1>
 				KCShare
 			</h1>
 			{
 				this.state.tabs.map((tab) => (
-						<div key={ uid(tab) } onClick={ () => { this.tabClicked(tab) } } className={'Tab accent ' + (this.state.selected === tab ? 'dark-grey' : 'mid-grey')}>
+						<div key={ uid(tab) } onClick={ () => { this.tabClicked(tab) } } className={'Tab rounded ' + (this.state.selected === tab ? 'mid-grey selected' : 'dark-grey')}>
 							{ tab }
 						</div>
 				))

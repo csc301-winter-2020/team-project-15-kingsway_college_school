@@ -6,8 +6,11 @@ import Post from '../Post/Post'
 
 class PostFeed extends React.Component {
 	state = {
-		posts: [
-			{
+		posts: []
+	}
+
+	getPosts = () => {
+		const posts = [{
 				id: 1,
 				location: 'Toronto, ON',
 				content: 'Aenean imperdiet. Quisque rutrum. In hac habitasse platea dictumst. Quisque ut nisi. Etiam imperdiet imperdiet orci. Maecenas ullamcorper, dui et placerat feugiat, eros pede varius nisi, condimentum viverra felis nunc et lorem. Phasellus volutpat, metus eget egestas mollis, lacus lacus blandit dui, id egestas quam mauris ut lacus. Curabitur a felis in nunc fringilla tristique. Maecenas malesuada. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
@@ -42,13 +45,20 @@ class PostFeed extends React.Component {
 				location: 'Montreal, QC',
 				content: 'Maecenas malesuada. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Vestibulum purus quam, scelerisque ut, mollis sed, nonummy id, metus. Vestibulum facilisis, purus nec pulvinar iaculis, ligula mi congue nunc, vitae euismod ligula urna in dolor. Phasellus viverra nulla ut metus varius laoreet.',
 				uploadTime: 1582653096
-			},
-		]
+			}];
+
+		this.setState({ posts: posts });
+	}
+
+	componentWillMount() {
+		const feedType = this.props.feedType;
+
+		this.getPosts();
 	}
 
 	render() {
 		return (
-		<div className={ 'PostFeed light-grey-text ' + (this.props.wide ? 'thin' : '') }>
+		<div className="PostFeed light-grey-text">
 			{
 				this.state.posts.map((post) => (
 						<Post key={ uid(post.id) } post={post} />
