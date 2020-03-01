@@ -38,7 +38,7 @@ class Post extends React.Component {
 			</div>
 
 			<div className="PostUploadTime">
-				{ '' + month[time.getMonth()] + ' ' + time.getDay() + ', ' + time.getFullYear() }
+				{ '' + month[time.getMonth()] + ' ' + (time.getDay() + 1) + ', ' + time.getFullYear() }
 			</div>
 		</div>
 	)}
