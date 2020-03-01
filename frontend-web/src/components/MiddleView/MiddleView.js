@@ -10,23 +10,23 @@ import CreatePost from '../CreatePost/CreatePost'
 class MiddleView extends React.Component {
 	state = {}
 
-	currentViewSwitch = (currentView, searchBarActive) => {
+	currentViewSwitch = (currentView) => {
 		switch(currentView) {
 			case 'Favourites':
-				return <Favourites className="scrollable" wide={ searchBarActive } />;
+				return <Favourites className="scrollable" />;
 			case 'My Posts':
-				return <MyPosts className="scrollable" wide={ searchBarActive } />;
+				return <MyPosts className="scrollable" />;
 			case 'Settings':
-				return <Settings className="scrollable" wide={ searchBarActive } />;
+				return <Settings className="scrollable" />;
 			default:
-				return <div className="scrollable"><CreatePost wide={ searchBarActive } /><PostFeed wide={ searchBarActive } /></div>;
+				return <div className="scrollable"><CreatePost /><PostFeed /></div>;
 		}
 	}
 
 	render() {
 		return (
-		<div className="MiddleView dark-grey light-grey-text">
-			{ this.currentViewSwitch(this.props.currentView, this.props.wide) }
+		<div className={ 'MiddleView dark-grey light-grey-text ' + ( this.props.searchBarActive ? 'thin' : '' ) }>
+			{ this.currentViewSwitch(this.props.currentView) }
 		</div>
 	)}
 };

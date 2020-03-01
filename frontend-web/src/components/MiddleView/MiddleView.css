@@ -1,9 +1,14 @@
 .MiddleView {
 	display: inline-block;
-	margin-left: 25vw;
-	width: auto;
+	margin-left: 20vw;
+	transition: width ease-in-out 100ms;
+	width: 60vw;
 	height: auto;
 	-webkit-box-shadow: inset 0px 0px 10px 0px rgba(17,17,17,1);
 	-moz-box-shadow: inset 0px 0px 10px 0px rgba(17,17,17,1);
 	box-shadow: inset 0px 0px 10px 0px rgba(17,17,17,1);
+}
+
+.MiddleView.thin {
+	width: 55vw;
 }

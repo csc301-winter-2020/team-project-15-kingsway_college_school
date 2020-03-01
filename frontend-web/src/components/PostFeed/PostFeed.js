@@ -48,7 +48,7 @@ class PostFeed extends React.Component {
 
 	render() {
 		return (
-		<div className={ 'PostFeed light-grey-text ' + (this.props.wide ? 'thin' : '') }>
+		<div className="PostFeed light-grey-text">
 			{
 				this.state.posts.map((post) => (
 						<Post key={ uid(post.id) } post={post} />
