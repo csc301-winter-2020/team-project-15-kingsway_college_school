@@ -2,8 +2,6 @@ import React from 'react';
 import './MiddleView.css';
 
 import PostFeed from '../PostFeed/PostFeed'
-import Favourites from '../Favourites/Favourites'
-import MyPosts from '../MyPosts/MyPosts'
 import Settings from '../Settings/Settings'
 import CreatePost from '../CreatePost/CreatePost'
 
