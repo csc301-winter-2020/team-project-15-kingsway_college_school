@@ -14,17 +14,9 @@ class TabMenu extends React.Component {
 	}
 
 	tabClicked = (tab) => {
-		const currState = this.state;
+		this.setState({ selected: tab });
 
-		currState.selected = tab;
-
-		this.setState(currState);
-
-		const parentState = this.props.parent.state;
-
-		parentState.currentView = tab;
-
-		this.props.parent.setState(parentState);
+		this.props.parent.setState({ currentView: tab });
 	}
 
 	render() {
