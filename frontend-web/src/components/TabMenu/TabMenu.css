@@ -1,7 +1,7 @@
 .TabMenu {
 	position: fixed;
 	display: inline-block;
-	margin-left: 1vw;
+	padding-left: 1vw;
 	width: 19vw;
 	height: 100vh;
 	overflow-y: auto;
