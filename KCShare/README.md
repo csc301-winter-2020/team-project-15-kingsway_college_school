@@ -2,7 +2,7 @@
 1. Make sure you have Node.js & `npm` package manager installed
 2. Clone the repo and `cd` into the KCShare folder and run `npm install`
 3. Download the "Expo" app from Apple or Android app store
-4. `npm install --global expo-cli`
+4. `sudo npm install --global expo-cli`
 ## Run the app
 Make sure that both your phone and your computer are on the same WiFi network
 1. While in the KCShare folder, run `npm start`
