@@ -8,15 +8,14 @@ import TabMenu from '../TabMenu/TabMenu'
 
 class HomePage extends React.Component {
 	state = {
-		currentView: 'Home',
-		searchBarActive: false
+		currentView: 'Home'
 	}
 
 	render() {
 		return (
 		<div className="HomePage dark-grey">
 			<TabMenu parent={ this } />
-			<MiddleView currentView={ this.state.currentView } searchBarActive={ this.state.searchBarActive } />
+			<MiddleView currentView={ this.state.currentView } />
 			<Explore parent={ this } />
 		</div>
 	)}
