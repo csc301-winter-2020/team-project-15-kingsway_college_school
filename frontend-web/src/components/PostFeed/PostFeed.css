@@ -1,12 +1,7 @@
 .PostFeed {
 	overflow-y: scroll;
-	transition: width ease-in-out 200ms;
-	width: 60vw;
+	width: 100%;
 	height: auto;
-}
-
-.PostFeed.thin {
-	width: 50vw;
 }
 
 ::-webkit-scrollbar {

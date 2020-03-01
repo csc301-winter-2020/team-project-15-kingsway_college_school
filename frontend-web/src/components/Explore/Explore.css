@@ -2,15 +2,11 @@
 	position: fixed;
 	top: 0;
 	display: inline-block;
-	transition: width ease-in-out 200ms;
-	width: 15vw;
+	transition: width ease-in-out 100ms;
+	width: 25vw;
 	height: 100vh;
 	overflow-y: auto;
 	overflow-x: hidden;
-}
-
-.Explore.wide {
-	width: 25vw;
 }
 
 .Hashtag {
@@ -19,7 +15,7 @@
 	padding: 3%;
 	font-size: 1.2rem;
 	font-weight: 700;
-	margin-left: 17%;
+	margin-left: 12%;
 }
 
 .Hashtag:first-child {
@@ -31,7 +27,7 @@
 	height: auto;
 	font-weight: 900;
 	font-size: 1.5rem;
-	margin-left: 15%;
+	margin-left: 10%;
 	margin-top: 10%;
-	margin-bottom: 5%;
+	margin-bottom: 2%;
 }

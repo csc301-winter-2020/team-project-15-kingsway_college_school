@@ -1,7 +1,8 @@
 .TabMenu {
 	position: fixed;
 	display: inline-block;
-	width: 25vw;
+	margin-left: 1vw;
+	width: 19vw;
 	height: 100vh;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -36,4 +37,12 @@
 	margin-left: 10%;
 	margin-top: 10%;
 	margin-bottom: 5%;
+}
+
+.rounded {
+	border-radius: 30px;
+}
+
+.Tab:hover:not(.selected) {
+	background: #36325E;
 }
