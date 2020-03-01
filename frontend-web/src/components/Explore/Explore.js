@@ -20,7 +20,7 @@ class Explore extends React.Component {
 
 	render() {
 		return (
-		<div className={ 'Explore mid-grey light-grey-text ' + (this.state.wide ? 'wide' : '') }>
+		<div className="Explore mid-grey light-grey-text">
 			<SearchBar parent={ this } />
 
 			<h1>

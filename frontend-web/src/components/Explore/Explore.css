@@ -2,8 +2,8 @@
 	position: fixed;
 	top: 0;
 	display: inline-block;
-	transition: width ease-in-out 200ms;
-	width: 15vw;
+	transition: width ease-in-out 100ms;
+	width: 20vw;
 	height: 100vh;
 	overflow-y: auto;
 	overflow-x: hidden;

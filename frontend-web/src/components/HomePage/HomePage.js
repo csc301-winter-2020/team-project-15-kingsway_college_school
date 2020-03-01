@@ -16,7 +16,7 @@ class HomePage extends React.Component {
 		return (
 		<div className="HomePage dark-grey">
 			<TabMenu parent={ this } />
-			<MiddleView currentView={ this.state.currentView } wide={ this.state.searchBarActive } />
+			<MiddleView currentView={ this.state.currentView } searchBarActive={ this.state.searchBarActive } />
 			<Explore parent={ this } />
 		</div>
 	)}
