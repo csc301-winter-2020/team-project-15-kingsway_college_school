@@ -30,54 +30,53 @@ function MyTabs(props) {
 	    barStyle={styles.bar}
 	>
 	    <Tab.Screen
-		name="Feed"
-		component={FeedScreen}
+	    name="Feed"
+	    component={FeedScreen}
+	    options={{
+		tabBarLabel: 'Home',
+		tabBarIcon: ({focused, color, size }) => (
+		    <MaterialCommunityIcons name="home" color={color} size={iconSize} />
+		),
+            }}
+	    />
+	    <Tab.Screen
+		name="New Post"
+		component={NewPostScreen}
 		options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({focused, color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={iconSize} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="New Post"
-        component={NewPostScreen}
-        options={{
-          tabBarLabel: 'New Post',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="tooltip-plus-outline" color={color} size={iconSize} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarLabel: 'Profile',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={iconSize} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
+		    tabBarLabel: 'New Post',
+		    tabBarIcon: ({ color, size }) => (
+			<MaterialCommunityIcons name="tooltip-plus-outline" color={color} size={iconSize} />
+		    ),
+		}}
+	    />
+	    <Tab.Screen
+		name="Profile"
+		component={ProfileScreen}
+		options={{
+		    tabBarLabel: 'Profile',
+		    tabBarIcon: ({ color, size }) => (
+			<MaterialCommunityIcons name="account" color={color} size={iconSize} />
+		    ),
+		}}
+	    />
+	</Tab.Navigator>
+    );
 }
 
 export default function App() {
-  return (
-      <View style={styles.view}>
-      <NavigationContainer>
-      
-      <MyTabs />
-    </NavigationContainer>
-    </View>
-  );
+    return (
+	<View style={styles.view}>
+	    <NavigationContainer>
+		<MyTabs />
+	    </NavigationContainer>
+	</View>
+    );
 }
 const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-  },
-  bar: {
-      backgroundColor: '#23275f',
-  },
+    view: {
+	flex: 1,
+    },
+    bar: {
+	backgroundColor: '#23275f',
+    },
 });
