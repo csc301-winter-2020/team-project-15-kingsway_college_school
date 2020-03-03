@@ -3,7 +3,6 @@ import { Text, View, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
-import { Header } from 'react-native-elements'
 import FeedScreen from './components/FeedScreen.js'
 import NewPostScreen from './components/NewPostScreen.js'
 import ProfileScreen from './components/ProfileScreen.js'
@@ -66,34 +65,19 @@ function MyTabs(props) {
 
 export default function App() {
   return (
+      <View style={styles.view}>
       <NavigationContainer>
-      <Header
-	    leftComponent={{ icon: 'menu', color: '#fff' }}
-	    centerComponent={{ text: 'KCShare', style: { color: '#fff' } }}
-	    rightComponent={{ icon: 'home', color: '#fff' }}
-	    containerStyle={styles.header}
-	/>
+      
       <MyTabs />
     </NavigationContainer>
+    </View>
   );
 }
 const styles = StyleSheet.create({
-  container: {
+  view: {
     flex: 1,
-  },
-  post: {
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
   },
   bar: {
       backgroundColor: '#23275f',
   },
-  header: {
-      backgroundColor: '#23275f',
-      justifyContent: 'space-around',
-  },
-  navContainer: {
-      backgroundColor: '#110d41',
-  }
 });
