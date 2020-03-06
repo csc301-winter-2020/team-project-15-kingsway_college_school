@@ -10,7 +10,19 @@ class NewPostHeader extends Component {
 			<View style={styles.header}>
 				<Text style={styles.headerText}>New Post</Text>
 			</View>
-	)
+		)
+	}
+}
+
+class AddAttachments extends Component {
+	render() {
+		return (
+			<View>
+				<Button>
+					Add images!
+				</Button>
+			</View>
+		)
 	}
 }
 
