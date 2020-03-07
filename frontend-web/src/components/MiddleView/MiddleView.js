@@ -13,7 +13,7 @@ class MiddleView extends React.Component {
 			case 'Favourites':
 				return <PostFeed store={ this.props.store } feedType="Favourites" />;
 			case 'My Posts':
-				return <PostFeed store={ this.props.store } feedType="MyPosts" />;
+				return <PostFeed store={ this.props.store } feedType="My Posts" />;
 			case 'Settings':
 				return <Settings store={ this.props.store } />;
 			default:

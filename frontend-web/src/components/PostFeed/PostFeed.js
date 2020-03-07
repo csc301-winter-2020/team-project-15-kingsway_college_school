@@ -30,10 +30,16 @@ class PostFeed extends React.Component {
 	getPosts = (feedType, searchTerm) => {
 		let getParams = {};
 
+		const userID = 1;
+
 		if (feedType === 'Home') {
 			if (searchTerm) {
 				getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: searchTerm } };
 			}
+		} else if (feedType === 'MyPosts') {
+			getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
+		} else if (feedType === 'Home') {
+			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
 		}
 
 		Amplify.API.get('getPosts', '', getParams).then((response) => {
@@ -42,8 +48,6 @@ class PostFeed extends React.Component {
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
-
-			console.log(response)
 
 			response.forEach((post) => {
 				posts.push({
