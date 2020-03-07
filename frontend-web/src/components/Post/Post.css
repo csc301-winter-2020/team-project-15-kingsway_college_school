@@ -16,6 +16,10 @@
 	padding: 2vw;
 }
 
+.PostImage {
+	padding-bottom: 2vw;
+}
+
 .PostUploadTime {
 	font-style: italic;
 }
