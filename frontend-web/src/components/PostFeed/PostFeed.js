@@ -27,6 +27,10 @@ class PostFeed extends React.Component {
 		});
 	}
 
+	filterPosts = (searchTerm) => {
+		console.log(searchTerm);
+	}
+
 	getPosts = () => {
 		Amplify.API.get('getPosts', '', { headers: {} }).then((response) => {
 			const posts = [];
@@ -62,7 +66,7 @@ class PostFeed extends React.Component {
 			{ this.state.hasPosts ? '' : <Loader /> }
 			{
 				this.state.posts.map((post) => (
-						<Post key={ uid(post.id) } post={post} />
+						<Post store={ this.props.store } key={ uid(post.id) } post={post} />
 				))
 			}
 		</div>
