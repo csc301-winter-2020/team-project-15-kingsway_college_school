@@ -35,10 +35,12 @@ class PostFeed extends React.Component {
 
 			response.forEach((post) => {
 				posts.push({
-					id: post.postID,
+					postID: post.postID,
+					userID: post.userID,
 					location: post.location,
 					content: post.content,
-					uploadTime: post.timeUploaded
+					images: post.images,
+					uploadTime: post.timeUploaded,
 				});
 			});
 
@@ -62,7 +64,7 @@ class PostFeed extends React.Component {
 			{ this.state.hasPosts ? '' : <Loader /> }
 			{
 				this.state.posts.map((post) => (
-						<Post key={ uid(post.id) } post={post} />
+						<Post key={ uid(post.postID) } post={post} />
 				))
 			}
 		</div>
