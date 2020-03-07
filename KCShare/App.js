@@ -25,7 +25,7 @@ function MyTabs(props) {
     let iconSize = 23;
     return (
 	<Tab.Navigator
-	    initialRouteName="Feed"
+	    initialRouteName="New Post"
 	    labelStyle={{ fontSize: 12 }}
 	    barStyle={styles.bar}
 	>

@@ -27,22 +27,32 @@ class PostFeed extends React.Component {
 		});
 	}
 
-	filterPosts = (searchTerm) => {
-		console.log(searchTerm);
-	}
+	getPosts = (feedType, searchTerm) => {
+		let getParams = {};
 
-	getPosts = () => {
-		Amplify.API.get('getPosts', '', { headers: {} }).then((response) => {
+		if (feedType === 'Home') {
+			if (searchTerm) {
+				getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: searchTerm } };
+			}
+		}
+
+		Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = [];
 
-			console.log(response);
+			if (Object.entries(response).length === 0 && response.constructor === Object) {
+				response = [];
+			}
+
+			console.log(response)
 
 			response.forEach((post) => {
 				posts.push({
-					id: post.postID,
+					postID: post.postID,
+					userID: post.userID,
 					location: post.location,
 					content: post.content,
-					uploadTime: post.timeUploaded
+					images: post.images,
+					uploadTime: post.timeUploaded,
 				});
 			});
 
@@ -52,12 +62,22 @@ class PostFeed extends React.Component {
 		});
 	}
 
+	search = (searchTerm) => {
+		this.setState({ hasPosts: false, posts: [] });
+
+		const feedType = this.props.feedType;
+
+		this.getPosts(feedType, searchTerm);
+	}
+
 	componentWillMount() {
 		this.setState({ hasPosts: false });
 
 		const feedType = this.props.feedType;
 
 		this.getPosts(feedType);
+
+		this.props.store.search = this.search;
 	}
 
 	render() {
@@ -66,7 +86,7 @@ class PostFeed extends React.Component {
 			{ this.state.hasPosts ? '' : <Loader /> }
 			{
 				this.state.posts.map((post) => (
-						<Post store={ this.props.store } key={ uid(post.id) } post={post} />
+					<Post store={ this.props.store } key={ uid(post.postID) } post={ post } />
 				))
 			}
 		</div>

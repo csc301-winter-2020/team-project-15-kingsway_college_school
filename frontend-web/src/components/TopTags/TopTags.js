@@ -16,7 +16,7 @@ class TopTags extends React.Component {
 	render() {
 		return (
 		<div className="TopTags dark-grey light-grey-text">
-			<SearchBar />
+			<SearchBar store={ this.props.store } />
 
 			<h1>
 				TopTags
