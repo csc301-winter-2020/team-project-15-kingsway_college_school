@@ -27,9 +27,9 @@ class TabMenu extends React.Component {
 			</h1>
 			{
 				this.state.tabs.map((tab) => (
-						<div key={ uid(tab) } onClick={ () => { this.tabClicked(tab) } } className={'Tab rounded ' + (this.state.selected === tab ? 'mid-grey selected' : 'dark-grey')}>
-							{ tab }
-						</div>
+					<div key={ uid(tab) } onClick={ () => { this.tabClicked(tab) } } className={'Tab rounded ' + (this.state.selected === tab ? 'mid-grey selected' : 'dark-grey')}>
+						{ tab }
+					</div>
 				))
 			}
 		</div>

@@ -8,15 +8,15 @@ class TopTags extends React.Component {
 	state = {
 		hashtags: [
 			'#torontozoo',
-			'#ohnotimmy',
-			'#donaldtrump'
+			'#biomed',
+			'#experiential'
 		]
 	}
 
 	render() {
 		return (
 		<div className="TopTags dark-grey light-grey-text">
-			<SearchBar parent={ this } />
+			<SearchBar store={ this.props.store } />
 
 			<h1>
 				TopTags

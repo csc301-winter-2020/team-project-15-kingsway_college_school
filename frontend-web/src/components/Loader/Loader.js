@@ -8,7 +8,7 @@ class Loader extends React.Component {
 	render() {
 		return (
 		<div className="Loader">
-			<div class="lds-ripple"><div></div><div></div></div>
+			<div className="lds-ripple"><div></div><div></div></div>
 		</div>
 	)}
 };
