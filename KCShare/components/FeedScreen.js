@@ -23,7 +23,10 @@ export default class FeedScreen extends Component {
 	if (this.state.posts.length === 0) {
 	    Amplify.API.get('getPosts', "").then( (response) => {
 		this.setState({posts: response});
-		console.log(this.state.posts[0])
+		console.log("Response: ")
+		
+		console.log(this.state.posts)
+
 	    }).catch((error) => {
 		console.log(error)
 	    })
@@ -38,8 +41,8 @@ export default class FeedScreen extends Component {
 		<SafeAreaView style={styles.container}>
 		    <FlatList
 			data={this.state.posts}
-			renderItem={({ item }) => <Post content={item.content} />}
-			keyExtractor={post => post.id}
+			renderItem={({ item }) => <Post post={item} />}
+			keyExtractor={post => post.postID}
 		    />
 		</SafeAreaView>
 	    </View>

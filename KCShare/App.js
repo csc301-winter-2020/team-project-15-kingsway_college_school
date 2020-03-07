@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import FeedScreen from './components/FeedScreen.js'
 import NewPostScreen from './components/NewPostScreen.js'
 import ProfileScreen from './components/ProfileScreen.js'
 import Amplify from 'aws-amplify';
 
-const Tab = createMaterialBottomTabNavigator();
 
 Amplify.configure({
     API: {
@@ -21,21 +21,25 @@ Amplify.configure({
     }
 });
 
+const Tab = createBottomTabNavigator();
+const SIZE = 70;
+
 function MyTabs(props) {
-    let iconSize = 23;
     return (
 	<Tab.Navigator
-	    initialRouteName="New Post"
-	    labelStyle={{ fontSize: 12 }}
-	    barStyle={styles.bar}
+	    initialRouteName="Feed"
+	    tabBarOptions={{
+		showLabel: false,
+		style: styles.bar,
+	    }}
 	>
 	    <Tab.Screen
 	    name="Feed"
 	    component={FeedScreen}
 	    options={{
 		tabBarLabel: 'Home',
-		tabBarIcon: ({focused, color, size }) => (
-		    <MaterialCommunityIcons name="home" color={color} size={iconSize} />
+		tabBarIcon: ({color, size }) => (
+		    <MaterialCommunityIcons name="home" color={color} size={size} />
 		),
             }}
 	    />
@@ -44,8 +48,20 @@ function MyTabs(props) {
 		component={NewPostScreen}
 		options={{
 		    tabBarLabel: 'New Post',
-		    tabBarIcon: ({ color, size }) => (
-			<MaterialCommunityIcons name="tooltip-plus-outline" color={color} size={iconSize} />
+		    tabBarIcon: ({focused, color, size }) => (
+			<View style={{paddingBottom: 0}}> 
+			<View style={{
+			    alignItems: 'center',
+			    justifyContent: 'center',
+			    width: SIZE,
+			    height: SIZE,
+			    borderRadius: SIZE / 2,
+			    backgroundColor: '#48A2F8',
+			}}>
+
+			    <MaterialCommunityIcons name="plus" color={"white"} size={24} />
+			</View>
+			</View>
 		    ),
 		}}
 	    />
@@ -55,7 +71,7 @@ function MyTabs(props) {
 		options={{
 		    tabBarLabel: 'Profile',
 		    tabBarIcon: ({ color, size }) => (
-			<MaterialCommunityIcons name="account" color={color} size={iconSize} />
+			<MaterialCommunityIcons name="account" color={color} size={size} />
 		    ),
 		}}
 	    />
@@ -66,7 +82,7 @@ function MyTabs(props) {
 export default function App() {
     return (
 	<View style={styles.view}>
-	    <NavigationContainer>
+	    <NavigationContainer style={styles.bar}>
 		<MyTabs />
 	    </NavigationContainer>
 	</View>
@@ -78,5 +94,7 @@ const styles = StyleSheet.create({
     },
     bar: {
 	backgroundColor: '#23275f',
+
+//	backgroundColor: '#110d41',
     },
 });
