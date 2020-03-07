@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from "react-native"
+import { Image, Text, View, StyleSheet } from "react-native"
 
 export default class Post extends Component {
     locationHeader = null;
+    image = null;
     render() {
-	console.log("Post props:")
-	console.log(this.props)
 	if (this.props.post.location) {
 	    this.locationHeader = (
 		<View style={styles.location}>
 		    <Text style={styles.locationText}>@{this.props.post.location}</Text>
+		</View>
+	    )
+	}
+	if (this.props.post.images) {
+	    this.image = (
+		<View style={{justifyContent: 'center'}}>
+		<Image
+		    style={{width: 300, height: 100}}
+		    source={{uri: this.props.post.images[0]}}
+		/>
 		</View>
 	    )
 	}
@@ -19,6 +28,7 @@ export default class Post extends Component {
 		<View styles={{flex:1}}>
 		    <Text style={styles.content}>{this.props.post.content}</Text>
 		</View>
+		{this.image}
 	    </View>
 	)
     }
