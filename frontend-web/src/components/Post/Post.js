@@ -36,6 +36,9 @@ class Post extends React.Component {
 			<div className="PostContent">
 				{ post.content }
 			</div>
+			{post.images && <div className="PostImages">
+				<img src={post.images[0]}/>
+			</div>} 
 
 			<div className="PostUploadTime">
 				{ '' + month[time.getMonth()] + ' ' + (time.getDay() + 1) + ', ' + time.getFullYear() }
