@@ -19,7 +19,7 @@ class PostFeed extends React.Component {
 			API: {
 				endpoints: [{
 					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
+					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts?searchType=FAV&searchParameter=2',
 					service: 'api-gateway',
 					region: 'us-east-1'
 				}]
@@ -34,12 +34,12 @@ class PostFeed extends React.Component {
 
 		if (feedType === 'Home') {
 			if (searchTerm) {
-				getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: searchTerm } };
+				// getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: searchTerm } };
 			}
 		} else if (feedType === 'MyPosts') {
-			getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
+			// getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
 		} else if (feedType === 'Home') {
-			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
+			// getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
 		}
 
 		Amplify.API.get('getPosts', '', getParams).then((response) => {
