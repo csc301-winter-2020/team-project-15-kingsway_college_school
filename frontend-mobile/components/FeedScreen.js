@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, TextInput } from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import Constants from 'expo-constants';
 import Amplify from 'aws-amplify';
 import Post from './Post.js';
@@ -9,12 +9,18 @@ class FeedHeader extends Component {
     render() {
 	return (
 	    <View style={styles.header}>
-		<Text style={styles.headerText}>KCShare</Text>
-		<SearchBar
-		    containerStyle={styles.searchBarContainer}
-		inputContainerStyle={styles.searchBarInput}
-		placeholder={"Search..."}
-		/>
+		<View style={{flex: 1}}>
+		    <Text style={styles.headerText}>KCShare</Text>
+		</View>
+		<View style={{flex: 1}}>
+		    <SearchBar
+			containerStyle={styles.searchBarContainer}
+			inputStyle={styles.searchBarInput}
+			inputContainerStyle={styles.searchBarInputContainer}
+			placeholder={"Search..."}
+			onFocus={() => console.log("pressed") }
+		    />
+		</View>
 	    </View>
 	)
     }
@@ -29,9 +35,7 @@ export default class FeedScreen extends Component {
 	if (this.state.posts.length === 0) {
 	    Amplify.API.get('getPosts', "").then( (response) => {
 		this.setState({posts: response});
-		console.log("Response: ")
 		
-		console.log(this.state.posts)
 
 	    }).catch((error) => {
 		console.log(error)
@@ -43,7 +47,8 @@ export default class FeedScreen extends Component {
 	
 	return (
 	    <View style={styles.view}>
-		<FeedHeader/>
+		<FeedHeader
+		navigator={this.props.navigator} />
 		<SafeAreaView style={styles.container}>
 		    <FlatList
 			data={this.state.posts}
@@ -78,9 +83,11 @@ const styles = StyleSheet.create({
 	flex: 1,
 	backgroundColor:'#110d41',
 	paddingTop: 25,
-	paddingBottom: 10
+	paddingBottom: 10,
+    },
+    searchBarInputContainer: {
+	backgroundColor: '#110d41',
     },
     searchBarInput: {
-	backgroundColor: '#fcfcff'
     }
 });

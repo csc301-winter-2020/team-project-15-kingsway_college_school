@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import { Icon } from 'react-native-elements';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import FeedScreen from './components/FeedScreen.js'
 import NewPostScreen from './components/NewPostScreen.js'
@@ -48,7 +49,7 @@ function MyTabs(props) {
 		component={NewPostScreen}
 		options={{
 		    tabBarLabel: 'New Post',
-		    tabBarIcon: () => (
+		    tabBarIcon: ({focused, color, size}) => (
 			<View style={{paddingBottom: 0}}> 
 			<View style={{
 			    alignItems: 'center',
@@ -56,10 +57,10 @@ function MyTabs(props) {
 			    width: SIZE,
 			    height: SIZE,
 			    borderRadius: SIZE / 2,
-			    backgroundColor: '#48A2F8',
+			    backgroundColor: focused? "#28B11D" : '#48A2F8',
 			}}>
 
-			    <MaterialCommunityIcons name="plus" color={"white"} size={24} />
+			<Icon name={focused? "check" : "add"} color={focused ? "#28B11D" : '#48A2F8'} reverse={true} onPress={focused? () => console.log("Submit !") : null}/>
 			</View>
 			</View>
 		    ),
@@ -71,7 +72,7 @@ function MyTabs(props) {
 		options={{
 		    tabBarLabel: 'Profile',
 		    tabBarIcon: ({ color, size }) => (
-			<MaterialCommunityIcons name="account" color={color} size={size} />
+			<MaterialCommunityIcons name="account" color={color} size={size}/>
 		    ),
 		}}
 	    />
