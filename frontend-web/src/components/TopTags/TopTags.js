@@ -10,13 +10,14 @@ class TopTags extends React.Component {
 			'#torontozoo',
 			'#biomed',
 			'#experiential'
-		]
+		],
+		tagClickedCallback: undefined
 	}
 
 	render() {
 		return (
 		<div className="TopTags dark-grey light-grey-text">
-			<SearchBar store={ this.props.store } />
+			<SearchBar parent={ this } store={ this.props.store } />
 
 			<h1>
 				TopTags

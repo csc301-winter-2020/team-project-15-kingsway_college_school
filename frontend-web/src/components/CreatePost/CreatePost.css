@@ -43,10 +43,12 @@
 	margin-left: 20px;
 	border-radius: 30px;
 	font-family: Raleway;
+	cursor: pointer;
 }
 
 .AttachPicture {
 	vertical-align: middle;
 	display: inline-block;
 	font-size: 2rem;
+	cursor: pointer;
 }
