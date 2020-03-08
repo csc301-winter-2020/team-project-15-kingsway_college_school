@@ -6,7 +6,7 @@ import Constants from 'expo-constants';
 import Amplify from 'aws-amplify';
 import Post from './Post.js';
 import { TabActions } from '@react-navigation/native';
-import Geolocation from 'react-native-geolocation-service';
+//import Geolocation from 'react-native-geolocation-service';
 
 const side_margins = 16
 const Tab = createBottomTabNavigator();
