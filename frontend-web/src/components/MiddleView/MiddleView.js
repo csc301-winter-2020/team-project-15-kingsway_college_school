@@ -4,6 +4,7 @@ import './MiddleView.css';
 import PostFeed from '../PostFeed/PostFeed'
 import Settings from '../Settings/Settings'
 import CreatePost from '../CreatePost/CreatePost'
+import Explore from '../Explore/Explore'
 
 class MiddleView extends React.Component {
 	state = {}
@@ -16,6 +17,8 @@ class MiddleView extends React.Component {
 				return <PostFeed store={ this.props.store } feedType="My Posts" />;
 			case 'Settings':
 				return <Settings store={ this.props.store } />;
+			case 'Explore':
+				return <Explore store={ this.props.store } />;
 			default:
 				return <div><CreatePost store={ this.props.store } /><PostFeed store={ this.props.store } feedType="Home" /></div>;
 		}
