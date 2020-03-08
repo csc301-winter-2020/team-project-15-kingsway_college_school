@@ -10,30 +10,56 @@ class ExploreHeader extends Component {
   render() {
     return (
       <View style={styles.header}>
-        <View style={{flex: 1}}>
+        <View style={styles.exploreBarContainer}>
           <SearchBar autoFocus 
             containerStyle={styles.exploreBarContainer}
-            inputStyle={styles.searchBarInput}
+            inputStyle={styles.exploreBarInput}
             inputContainerStyle={styles.exploreBarInputContainer}
           />
         </View>
-        
+
+        {/* <View style={{flex: 1}}>
+		      <Text style={styles.headerText}>KCShare</Text>
+		    </View> */}
       </View>
     )
   }
 }
 
 export default class ExploreScreen extends Component {
-  componentDidMount() {
-
+  state = {
+    hashtags: [],
+    placeholder: [
+      '#MARSCentre',
+      '#UofT',
+      '#Ryerson',
+      '#Autocad',
+      '#Timmy'
+    ]
   }
-
+  
+  componentDidMount() {
+    if (this.state.hashtags.length === 0) {
+	    Amplify.API.get('getPopularHashtags', "").then( (response) => {
+		    this.setState({hashtags: response});
+	    }).catch((error) => {
+		    console.log(error)
+	    })
+	  }
+  }
 
   render() {
     return (
       <View style={styles.view}>
         <ExploreHeader navigation={this.props.navigation} />
-        <Text style={styles.headerText}>Top Tags</Text>
+
+        <SafeAreaView style={styles.hashtagsContainer}>
+          <FlatList
+            data={this.state.hashtags}
+            renderItem={({ item }) => <Text style={styles.hashtagText}>#{item.hashtag}</Text>}
+            keyExtractor={hashtag => hashtag.postCount}
+          />
+		    </SafeAreaView>
       </View>
     );
   }
@@ -47,6 +73,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 8
   },
+  exploreBarContainer: {
+    flex: 1,
+    backgroundColor: "#110d41",
+    paddingTop: 25,
+    paddingBottom: 10
+  },
+  exploreBarInputContainer: {
+    padding: 20,
+    backgroundColor: '#292753',
+    borderRadius: 50,
+    marginLeft: 20,
+    marginRight: 20,
+  },
+  exploreBarInput: {
+    fontWeight: "normal",
+    color: '#FFFFFF',
+    padding: 50
+  },
   header: {
     flex: 1,
     flexDirection: "row"
@@ -57,21 +101,14 @@ const styles = StyleSheet.create({
     color: "#fcfcff",
     padding: 25
   },
-  exploreBarContainer: {
-    flex: 1,
-    backgroundColor: "#110d41",
-    paddingTop: 25,
-    paddingBottom: 10
+  hashtagsContainer: {
+    flex: 8,
+    marginLeft: 20
   },
-  exploreBarInputContainer: {
-    backgroundColor: '#292753',
-    borderRadius: 50,
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 10
-  },
-  searchBarInput: {
-    fontWeight: "normal",
-    color: "#000000",
+  hashtagText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: '#FB9B38',
+    padding: 6
   }
 });
