@@ -45,7 +45,7 @@ class HeaderButtons extends Component {
 	render () {
 		const buttons = ['My Posts', 'Favourites']
 		const { selectedIndex } = this.state
-	  
+
 		return (
 		<View style={styles.HeaderButtons}>
 			<ButtonGroup
