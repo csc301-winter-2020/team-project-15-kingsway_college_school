@@ -7,17 +7,17 @@ class TabMenu extends React.Component {
 		selected: 'Home',
 		tabs: [
 			'Home',
-			'Favourites',
+			// 'Favourites',
+			// 'Settings',
 			'My Posts',
-			'Explore',
-			'Settings'
+			'Explore'
 		]
 	}
 
 	tabClicked = (tab) => {
 		this.setState({ selected: tab });
 
-		this.props.parent.setState({ currentView: tab });
+		this.props.store.currentView = tab;
 	}
 
 	render() {

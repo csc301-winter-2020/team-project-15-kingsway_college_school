@@ -14,8 +14,8 @@ class HomePage extends React.Component {
 	render() {
 		return (
 		<div className="HomePage dark-grey">
-			<TabMenu store={ this.props.store } parent={ this } />
-			<MiddleView store={ this.props.store } currentView={ this.state.currentView } />
+			<TabMenu store={ this.props.store } />
+			<MiddleView store={ this.props.store } />
 			<TopTags store={ this.props.store } />
 		</div>
 	)}
