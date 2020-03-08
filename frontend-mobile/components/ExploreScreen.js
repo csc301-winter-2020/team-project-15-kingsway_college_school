@@ -87,7 +87,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: "#110d41",
     paddingTop: 20,
-    paddingBottom: 10
+    paddingBottom: 10,
+    borderBottomWidth: 0
   },
   exploreBarInputContainer: {
     padding: 5,
