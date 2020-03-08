@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
-import Constants from 'expo-constants';
 import Amplify from 'aws-amplify';
-import Post from './Post.js';
 import { SearchBar } from 'react-native-elements';
+import Tag from './Tag.js';
+
+// Delete these imports if unused
 import { createStackNavigator } from '@react-navigation/stack';
+import Constants from 'expo-constants';
+
 
 class ExploreHeader extends Component {
   render() {
@@ -50,10 +53,10 @@ export default class ExploreScreen extends Component {
         <SafeAreaView style={styles.hashtagsContainer}>
           <FlatList
             data={this.state.hashtags}
-            renderItem={({ item }) => <Text style={styles.hashtagText}>#{item.hashtag}</Text>}
-            keyExtractor={item => item.postCount}
+            renderItem={({ item }) => <Tag tag={item} />}
           />
 		    </SafeAreaView>
+        <Tag />
       </View>
     );
   }
@@ -86,11 +89,12 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   header: {
-    marginLeft: 20,
-    marginRight: 20,
+    marginLeft: 10,
+    marginRight: 10,
     flexDirection: "column"
   },
   headerText: {
+    marginLeft: 10,
     fontSize: 24,
     fontWeight: "bold",
     color: "#fcfcff"
@@ -99,7 +103,7 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   },
   hashtagText: {
-    marginLeft: 20,
+    marginLeft: 10,
     fontSize: 24,
     fontWeight: "bold",
     color: '#FB9B38',
