@@ -201,7 +201,7 @@ class Explore extends React.Component {
 			});
 			
 			// Add zoom and rotation controls to the map.
-			map.addControl(new mapboxgl.NavigationControl());
+			// map.addControl(new mapboxgl.NavigationControl());
 
 			//Enable pop-ups 
 			this.popUps(mapboxgl, map);
@@ -213,7 +213,6 @@ class Explore extends React.Component {
 		
 		return (
 		<div className="Explore dark-grey light-grey-text">
-			TEST
 			<div id="map"></div>
 		</div>
 	)}
