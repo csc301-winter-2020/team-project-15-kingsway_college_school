@@ -28,7 +28,7 @@ const SIZE = 80;
 function MyTabs(props) {
     return (
 	<Tab.Navigator
-	    initialRouteName="Feed"
+	    initialRouteName="New Post"
 	    tabBarOptions={{
 		showLabel: false,
 		style: styles.bar,
@@ -57,10 +57,9 @@ function MyTabs(props) {
 			    width: SIZE,
 			    height: SIZE,
 			    borderRadius: SIZE / 2,
-			    backgroundColor: focused? "#28B11D" : '#48A2F8',
+			    backgroundColor: '#48A2F8',
 			}}>
-
-			<Icon name={focused? "check" : "add"} color={focused ? "#28B11D" : '#48A2F8'} reverse={true} onPress={focused? () => console.log("Submit !") : null}/>
+			<Icon name="add" color='#48A2F8' reverse={true}/>
 			</View>
 			</View>
 		    ),
