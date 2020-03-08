@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, TextInput } from 'react-native';
 import { Icon, ButtonGroup } from 'react-native-elements';
-
 import Amplify from 'aws-amplify';
 import Post from './Post.js';
 
@@ -56,8 +55,11 @@ export default class ProfileScreen extends Component {
     }
     
     componentDidMount() {
+	const userID = '2';
+	let getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
+
 	if (this.state.posts.length === 0) {
-	    Amplify.API.get('getPosts', "").then( (response) => {
+	    Amplify.API.get('getPosts', "", getParams).then( (response) => {
 		this.setState({posts: response});
 		
 	    }).catch((error) => {
@@ -120,5 +122,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'center',
 
-	}
+	},
+    container: {
+	flex: 1
+    }
 });
