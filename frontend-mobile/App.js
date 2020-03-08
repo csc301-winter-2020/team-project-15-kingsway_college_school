@@ -22,7 +22,7 @@ Amplify.configure({
 });
 
 const Tab = createBottomTabNavigator();
-const SIZE = 70;
+const SIZE = 80;
 
 function MyTabs(props) {
     return (
@@ -48,7 +48,7 @@ function MyTabs(props) {
 		component={NewPostScreen}
 		options={{
 		    tabBarLabel: 'New Post',
-		    tabBarIcon: ({focused, color, size }) => (
+		    tabBarIcon: () => (
 			<View style={{paddingBottom: 0}}> 
 			<View style={{
 			    alignItems: 'center',
