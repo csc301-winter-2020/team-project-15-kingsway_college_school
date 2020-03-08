@@ -10,3 +10,19 @@ export default class ProfileScreen extends Component {
       )
   }
 }
+
+const styles = StyleSheet.create({
+	view: {
+		flex: 1,
+		backgroundColor: '#110d41'
+	},
+	header: {
+		flex:1,
+	},
+	headerText: {
+		fontSize: 30,
+		fontWeight: 'bold',
+		color: '#fcfcff',
+		padding: 25,
+	},
+});
