@@ -58,7 +58,7 @@ class NewPostButtons extends Component {
 		<View style={styles.addFiles}>
 			<Icon name="location-on" color="#2A5AD5" raised={true} reverse={true} onPress={() => this.getLocation()}/>
 			<Icon name="camera-alt" color="#2A5AD5" raised={true} reverse={true} onPress={() => this.getPhotosFromGallery()}/>
-			<Icon name="check" color="#28B11D" raised={true} onPress={() =>this.submitPost}/>
+			<Icon name="check" color="#28B11D" raised={true} reverse={true} onPress={() =>this.submitPost}/>
 		</View>
 		)
 	}

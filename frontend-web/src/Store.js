@@ -8,12 +8,14 @@ class Store extends React.Component {
 	search = (searchTerm) => {
 		console.error('[SEARCH NOT DEFINED]')
 	}
+
 	setCurrentView = (tab) => {
 		this.currentView = tab
-		this.refreshCurrentView()
+		this.refreshCurrentView(tab)
 	}
-	refreshCurrentView = function(){
 
+	refreshCurrentView = () => {
+		console.error('[REFRESH CURRENT VIEW NOT DEFINED]')
 	}
 
 }
@@ -21,7 +23,7 @@ class Store extends React.Component {
 decorate(Store, {
 	currentView: observable,
 	setCurrentView: action,
-	refreshCurrentView: observable,
+	refreshCurrentView: action,
 	search: action
 })
 

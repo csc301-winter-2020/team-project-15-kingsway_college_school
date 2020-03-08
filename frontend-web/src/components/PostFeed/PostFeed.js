@@ -12,9 +12,7 @@ class PostFeed extends React.Component {
 		posts: []
 	}
 
-	constructor() {
-		super();
-
+	getPosts = (feedType, searchTerm) => {
 		Amplify.configure({
 			API: {
 				endpoints: [{
@@ -25,9 +23,7 @@ class PostFeed extends React.Component {
 				}]
 			}
 		});
-	}
 
-	getPosts = (feedType, searchTerm) => {
 		let getParams = {};
 
 		const userID = '2';
@@ -53,7 +49,7 @@ class PostFeed extends React.Component {
 				posts.push({
 					postID: post.postID,
 					userID: post.userID,
-					location: post.location,
+					// location: post.location,
 					content: post.content,
 					images: post.images,
 					uploadTime: post.timeUploaded,
@@ -74,7 +70,7 @@ class PostFeed extends React.Component {
 		this.getPosts(feedType, searchTerm);
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.setState({ hasPosts: false });
 
 		const feedType = this.props.store.currentView;

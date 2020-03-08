@@ -1,4 +1,5 @@
 .Post {
+	position: relative;
 	margin: 2vw 4vw 2vw 4vw;
 	padding: 2vw;
 	border-radius: 30px;
@@ -22,4 +23,13 @@
 
 .PostUploadTime {
 	font-style: italic;
+}
+
+.delete-button {
+	position: absolute;
+	top: 25px;
+	right: 25px;
+	padding: 5px;
+	font-size: 1.5rem;
+	cursor: pointer;
 }
