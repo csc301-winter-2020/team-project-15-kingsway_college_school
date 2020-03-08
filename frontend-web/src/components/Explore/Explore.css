@@ -7,3 +7,16 @@
 ::-webkit-scrollbar {
 	display: none;
 }
+
+#map {
+	height: 60%;
+	width: 80%;
+	background-color: powderblue;
+	border-radius: 30px;
+	margin-left: 10%;
+	margin-top: 5%;
+  }
+
+div.mapboxgl-popup-content {
+	color: black;
+}
