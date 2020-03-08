@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, FlatList, RefreshControl, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import Constants from 'expo-constants';
 import Amplify from 'aws-amplify';
 import Post from './Post.js';
@@ -32,17 +32,32 @@ class FeedHeader extends Component {
 }
 
 class Feed extends Component {
+    constructor() {
+	super();
+	this.refresh = this.refresh.bind(this)
+    }
     state = {
-	posts: []
+	posts: [],
+	refreshing: true
     }
 
+    refresh() {
+	this.state.posts = [];
+
+	Amplify.API.get('getPosts', "").then( (response) => {
+	    this.setState({
+		posts: response,
+		refreshing: false
+	    });
+	}).catch((error) => {
+	    console.log(error)
+	})
+
+    }
     componentDidMount() {
 	if (this.state.posts.length === 0) {
-	    Amplify.API.get('getPosts', "").then( (response) => {
-		this.setState({posts: response});
-	    }).catch((error) => {
-		console.log(error)
-	    })
+	    this.refresh()
+	    
 	}
     }
     render() {
@@ -53,6 +68,14 @@ class Feed extends Component {
 		    <FlatList
 			data={this.state.posts}
 			renderItem={({ item }) => <Post post={item} />}
+			refreshControl={
+			    <RefreshControl
+				colors={["#fcfcff"]}
+				       refreshing={this.state.refreshing }
+				       onRefresh={() => this.refresh() }
+				       tintColor={"white"}
+			    />
+			}
 			keyExtractor={post => post.postID}
 		    />
 		</SafeAreaView>
