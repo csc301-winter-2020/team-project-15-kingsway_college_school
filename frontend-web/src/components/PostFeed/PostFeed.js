@@ -69,7 +69,7 @@ class PostFeed extends React.Component {
 	search = (searchTerm) => {
 		this.setState({ hasPosts: false, posts: [] });
 
-		const feedType = this.props.feedType;
+		const feedType = this.props.store.currentView;
 
 		this.getPosts(feedType, searchTerm);
 	}
@@ -77,7 +77,7 @@ class PostFeed extends React.Component {
 	componentWillMount() {
 		this.setState({ hasPosts: false });
 
-		const feedType = this.props.feedType;
+		const feedType = this.props.store.currentView;
 
 		this.getPosts(feedType);
 
