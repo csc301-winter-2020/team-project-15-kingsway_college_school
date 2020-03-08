@@ -1,0 +1,51 @@
+.Modal {
+
+}
+
+.Modal * button {
+	display: inline-block;
+	border: 0;
+	outline: 0;
+	height: 70%;
+	min-width: 6vw;
+	width: auto;
+	margin: 20px;
+	margin-bottom: 0;
+	padding: 20px;
+	border-radius: 20px;
+	font-family: Raleway;
+	cursor: pointer;
+	font-size: 1.3rem;
+}
+
+.overlay {
+	position: fixed;
+	z-index: 10;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background: #111111;
+	opacity: 0.6;
+}
+
+.ModalContent {
+	position: fixed;
+	text-align: center;
+	padding: 50px;
+	border-radius: 30px;
+	z-index: 100;
+	top: 50vh;
+	left: 50vw;
+	transform: translate(-50%, -50%);
+	min-width: 20%;
+	min-height: 15%;
+}
+
+.Modal.hidden {
+	display: none;
+}
+
+.Modal.visible {
+	display: block;
+}

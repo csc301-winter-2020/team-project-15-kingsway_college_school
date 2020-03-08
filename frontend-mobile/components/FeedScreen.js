@@ -4,6 +4,8 @@ import Constants from 'expo-constants';
 import Amplify from 'aws-amplify';
 import Post from './Post.js';
 import { SearchBar } from 'react-native-elements';
+import { createStackNavigator } from '@react-navigation/stack';
+import ExploreScreen from './ExploreScreen.js'
 
 // Global Variables
 const side_margins = 16
@@ -21,7 +23,7 @@ class FeedHeader extends Component {
 			inputStyle={styles.searchBarInput}
 			inputContainerStyle={styles.searchBarInputContainer}
 			placeholder={"Search..."}
-			onFocus={() => console.log("pressed") }
+			onFocus={() => this.props.navigation.push("Explore")}
 		    />
 		</View>
 	    </View>
@@ -29,7 +31,7 @@ class FeedHeader extends Component {
     }
 }
 
-export default class FeedScreen extends Component {
+class Feed extends Component {
     state = {
 	posts: []
     }
@@ -38,20 +40,15 @@ export default class FeedScreen extends Component {
 	if (this.state.posts.length === 0) {
 	    Amplify.API.get('getPosts', "").then( (response) => {
 		this.setState({posts: response});
-		
-
 	    }).catch((error) => {
 		console.log(error)
 	    })
 	}
     }
-
     render() {
-	
 	return (
 	    <View style={styles.view}>
-		<FeedHeader
-		navigator={this.props.navigator} />
+		<FeedHeader navigation={this.props.navigation} />
 		<SafeAreaView style={styles.container}>
 		    <FlatList
 			data={this.state.posts}
@@ -60,6 +57,22 @@ export default class FeedScreen extends Component {
 		    />
 		</SafeAreaView>
 	    </View>
+	)
+    }
+}
+const Stack = createStackNavigator();
+
+export default class FeedScreen extends Component {
+    
+
+    render() {
+	
+	return (
+	    <Stack.Navigator headerMode={"none"}>
+		<Stack.Screen name="Feed" component={Feed} />
+		<Stack.Screen name="Explore" component={ExploreScreen} />
+	    </Stack.Navigator>
+	    
 	);
     }
 }

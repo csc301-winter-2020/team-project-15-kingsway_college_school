@@ -1,5 +1,6 @@
 .TopTags {
 	position: fixed;
+	z-index: 1;
 	top: 0;
 	display: inline-block;
 	transition: width ease-in-out 100ms;
