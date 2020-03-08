@@ -10,6 +10,7 @@
   "dependencies": {
     "@aws-amplify/api": "^2.1.6",
     "@aws-amplify/pubsub": "^2.1.7",
+    "@react-native-community/cameraroll": "^1.4.1",
     "@react-native-community/masked-view": "0.1.5",
     "@react-native-community/netinfo": "^5.5.1",
     "@react-navigation/bottom-tabs": "^5.1.1",
@@ -25,6 +26,7 @@
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-elements": "^1.2.7",
+    "react-native-geolocation-service": "^4.0.0",
     "react-native-gesture-handler": "~1.5.0",
     "react-native-paper": "^3.6.0",
     "react-native-reanimated": "~1.4.0",
