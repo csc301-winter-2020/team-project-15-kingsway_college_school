@@ -1,6 +1,32 @@
 import React, { Component } from 'react';
 import { Image, Text, View, StyleSheet } from "react-native"
+import { MenuProvider } from 'react-native-popup-menu';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from 'react-native-popup-menu';
 
+class PostMenu extends Component {
+    render() {
+	return (
+<View>
+    <Text>Hello world!</Text>
+    <Menu>
+      <MenuTrigger text='Select action' />
+      <MenuOptions>
+        <MenuOption onSelect={() => alert(`Save`)} text='Save' />
+        <MenuOption onSelect={() => alert(`Delete`)} >
+          <Text style={{color: 'red'}}>Delete</Text>
+        </MenuOption>
+        <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled' />
+      </MenuOptions>
+    </Menu>
+  </View>
+	)
+    }
+}
 export default class Post extends Component {
     locationHeader = null;
     dateHeader = null;
@@ -20,9 +46,10 @@ export default class Post extends Component {
 			10: 'November',
 			11: 'December'
 	}
-	if (this.props.post.location) {
+	if (this.props.post.location.name) {
+	    console.log(this.props.post.location)
 	    this.locationHeader = (
-		<Text style={styles.locationText}>@{this.props.post.location}</Text>
+		<Text style={styles.locationText}>@{this.props.post.location.name}</Text>
 	    )
 	}
 	if (this.props.post.images) {
@@ -38,16 +65,23 @@ export default class Post extends Component {
 	let time = new Date(0)
 	time.setUTCSeconds(this.props.post.timeUploaded)
 	return (
+	    <MenuProvider>
 	    <View style={styles.post}>
 		<View style={styles.header}>
-		    {this.locationHeader}
-		    <Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + (time.getDay() + 1) + ', ' + time.getFullYear() }</Text>
+		    <View style={styles.headerLeft}>
+			{this.locationHeader}
+			<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + (time.getDay() + 1) + ', ' + time.getFullYear() }</Text>
+		    </View>
+		    <View styles={styles.headerRight}>
+			<PostMenu/>
+		    </View>
 		</View>
 		<View styles={{flex:1}}>
 		    <Text style={styles.content}>{this.props.post.content}</Text>
 		</View>
 		{this.image}
 	    </View>
+	    </MenuProvider>
 	)
     }
 }
@@ -70,6 +104,12 @@ const styles = StyleSheet.create({
 	paddingBottom: 5,
 	flexDirection: "row",
 	justifyContent: "space-between"
+    },
+    headerLeft: {
+	
+    },
+    headerRight: {
+
     },
     locationText: {
 	fontSize: 15,
