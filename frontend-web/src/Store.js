@@ -9,6 +9,10 @@ class Store extends React.Component {
 		console.error('[SEARCH NOT DEFINED]')
 	}
 
+	changeTab = () => {
+		console.error('[CHANGE TAB NOT DEFINED]')
+	}
+
 	setCurrentView = (tab) => {
 		this.currentView = tab
 		this.refreshCurrentView(tab)
@@ -31,6 +35,7 @@ decorate(Store, {
 	updateFeedCallback: observable,
 	updateFeeds: action,
 	setCurrentView: action,
+	changeTab: action,
 	refreshCurrentView: action,
 	search: action
 })
