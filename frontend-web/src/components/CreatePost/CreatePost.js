@@ -31,7 +31,7 @@ class CreatePost extends React.Component {
 			</div>
 			<div className="CreatePostButtons">
 				<input id="fileUpload" type="file" name="file" className="hidden" onChange={ this.fileUploaded }/>
-				<label for="fileUpload" className="AttachPicture fa fa-paperclip"></label>
+				<label htmlFor="fileUpload" className="AttachPicture fa fa-paperclip"></label>
 				<input type="submit" className="ShareButton shadow light-grey dark-grey-text" value="Share" />
 			</div>
 		</div>
