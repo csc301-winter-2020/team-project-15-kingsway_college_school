@@ -9,6 +9,7 @@ class TabMenu extends React.Component {
 			'Home',
 			'Favourites',
 			'My Posts',
+			'Explore',
 			'Settings'
 		]
 	}
