@@ -2,15 +2,26 @@ import { decorate, observable, action, configure } from "mobx"
 import React from "react"
 
 class Store extends React.Component {
+
+	currentView = 'Home'
+
 	search = (searchTerm) => {
 		console.error('[SEARCH NOT DEFINED]')
 	}
+	setCurrentView = (tab) => {
+		this.currentView = tab
+		this.refreshCurrentView()
+	}
+	refreshCurrentView = function(){
 
-	currentView = 'Home'
+	}
+
 }
 
 decorate(Store, {
 	currentView: observable,
+	setCurrentView: action,
+	refreshCurrentView: observable,
 	search: action
 })
 
