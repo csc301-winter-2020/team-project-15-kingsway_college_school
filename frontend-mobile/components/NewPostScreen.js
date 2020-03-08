@@ -22,7 +22,7 @@ class NewPostHeader extends Component {
 }
 
 // Adding attachments to the new post
-class AddAttachments extends Component {
+class NewPostButtons extends Component {
 	render() {
 		return (
 			<View style={{flexDirection: "row",}}>
@@ -53,7 +53,7 @@ export default class NewPostScreen extends Component {
 				numberOfLines={10}
 				multiline={true}			
 			/>
-			<AddAttachments/>
+			<NewPostButtons/>
 			
 			</View>
 			
