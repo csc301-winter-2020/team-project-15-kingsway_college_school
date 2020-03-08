@@ -25,15 +25,15 @@ class NewPostHeader extends Component {
 class NewPostButtons extends Component {
 	render() {
 		return (
-			<View style={{flexDirection: "row",}}>
+			// <View style={{flexDirection: "row",}}>
 				<View style={styles.addFiles}>
 					<Icon name="location-searching" color="#2A5AD5" raised={true} reverse={true}/>
 					<Icon name="camera-alt" color="#2A5AD5" raised={true} reverse={true}/>
 				</View>
-				<View style={styles.SubmitPost}>
+				/* <View style={styles.SubmitPost}>
 					<Icon name="check" color="#28B11D" raised={true} reverse={true}/>
-				</View>
-			</View>
+				</View> */
+			// </View>
 		)
 	}
 }
@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
 		marginHorizontal: side_margins,
 	},
 	addFiles: {
-		flex: 4,
-		justifyContent: 'flex-start',
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
 		marginHorizontal: side_margins,
 	},
 	SubmitPost: {
