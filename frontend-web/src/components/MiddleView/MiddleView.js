@@ -11,7 +11,6 @@ class MiddleView extends React.Component {
 		tab: <div><CreatePost store={ this.props.store } /><PostFeed store={ this.props.store } /></div>
 	}
 
-
 	currentViewSwitch = (currentView) => {
 		switch(currentView) {
 			case 'My Posts':
