@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Image, Text, View, StyleSheet } from "react-native"
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
 } from 'react-native-popup-menu';
 
 class MenuIcon extends Component {
@@ -15,18 +15,29 @@ class MenuIcon extends Component {
 }
 class PostMenu extends Component {
     render() {
+	const userID = 2;
+	const menuOptionStyle = {
+	    optionWrapper: {
+		backgroundColor: "#fcfcff",
+		borderRadius: 10
+	    },
+	    optionText: {
+		fontSize: 15
+	    },
+	    optionsWrapper: {
+		borderRadius: 10,
+	    }
+	}
 	return (
-<View>
-    <Menu>
-      <MenuTrigger children={<MenuIcon/>} />
-      <MenuOptions>
-        <MenuOption onSelect={() => alert(`Save`)} text='Save' />
-        <MenuOption onSelect={() => alert(`Delete`)} text='Delete' >
-        </MenuOption>
-        <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled' />
-      </MenuOptions>
-    </Menu>
-  </View>
+	    <View style={{borderRadius: 10}}>
+		<Menu>
+		    <MenuTrigger children={<MenuIcon/>} />
+		    <MenuOptions customStyles={menuOptionStyle}>
+			<MenuOption onSelect={() => alert(`Save`)} text='Favourite' customStyles={menuOptionStyle} />
+			<MenuOption onSelect={() => alert(`Delete`)} disabled={!this.props.userID == userID  } text='Delete' customStyles={menuOptionStyle}/>
+		    </MenuOptions>
+		</Menu>
+	    </View>
 	)
     }
 }
@@ -37,17 +48,17 @@ export default class Post extends Component {
     render() {
 	const month = {
 	    0: 'January',
-			1: 'February',
-			2: 'March',
-			3: 'April',
-			4: 'May',
-			5: 'June',
-			6: 'July',
-			7: 'August',
-			8: 'September',
-			9: 'October',
-			10: 'November',
-			11: 'December'
+	    1: 'February',
+	    2: 'March',
+	    3: 'April',
+	    4: 'May',
+	    5: 'June',
+	    6: 'July',
+	    7: 'August',
+	    8: 'September',
+	    9: 'October',
+	    10: 'November',
+	    11: 'December'
 	}
 	if (this.props.post.location.name) {
 	    this.locationHeader = (
@@ -58,10 +69,10 @@ export default class Post extends Component {
 	    console.log(this.props.post)
 	    this.image = (
 		<View style={{alignItems: 'center', paddingTop: 20}}>
-		<Image
-		    style={{width: 300, height: 100}}
-		    source={{uri: this.props.post.images[0]}}
-		/>
+		    <Image
+			style={{width: 300, height: 100}}
+			source={{uri: this.props.post.images[0]}}
+		    />
 		</View>
 	    )
 	}
@@ -75,7 +86,7 @@ export default class Post extends Component {
 			<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + (time.getDay() + 1) + ', ' + time.getFullYear() }</Text>
 		    </View>
 		    <View styles={styles.headerRight}>
-			<PostMenu/>
+			<PostMenu userID={this.props.post.userID} />
 		    </View>
 		</View>
 		<View styles={{flex:1}}>
@@ -122,6 +133,9 @@ const styles = StyleSheet.create({
     date: {
 	fontSize: 15,
 	color: 'lightgrey',
+    },
+    menuOption: {
+	backgroundColor: "red"
     }
 });
 
