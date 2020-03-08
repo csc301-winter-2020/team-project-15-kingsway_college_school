@@ -11,7 +11,6 @@ import { TabActions } from '@react-navigation/native';
 const side_margins = 16
 const Tab = createBottomTabNavigator();
 
-
 // New Post Header for the page
 class NewPostHeader extends Component {
 	render() {
