@@ -30,15 +30,15 @@ class PostFeed extends React.Component {
 	getPosts = (feedType, searchTerm) => {
 		let getParams = {};
 
-		const userID = 1;
+		const userID = '2';
 
 		if (feedType === 'Home') {
 			if (searchTerm) {
-				getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: searchTerm } };
+				getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
 			}
-		} else if (feedType === 'MyPosts') {
+		} else if (feedType === 'My Posts') {
 			getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
-		} else if (feedType === 'Home') {
+		} else if (feedType === 'Favourites') {
 			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
 		}
 
@@ -69,7 +69,7 @@ class PostFeed extends React.Component {
 	search = (searchTerm) => {
 		this.setState({ hasPosts: false, posts: [] });
 
-		const feedType = this.props.feedType;
+		const feedType = this.props.store.currentView;
 
 		this.getPosts(feedType, searchTerm);
 	}
@@ -77,7 +77,7 @@ class PostFeed extends React.Component {
 	componentWillMount() {
 		this.setState({ hasPosts: false });
 
-		const feedType = this.props.feedType;
+		const feedType = this.props.store.currentView;
 
 		this.getPosts(feedType);
 
