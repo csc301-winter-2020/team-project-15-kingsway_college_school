@@ -18,10 +18,18 @@ class Store extends React.Component {
 		console.error('[REFRESH CURRENT VIEW NOT DEFINED]')
 	}
 
+	updateFeedCallback = []
+
+	updateFeeds = () => {
+		this.updateFeedCallback.forEach((f) => { f() });
+	}
+
 }
 
 decorate(Store, {
 	currentView: observable,
+	updateFeedCallback: observable,
+	updateFeeds: action,
 	setCurrentView: action,
 	refreshCurrentView: action,
 	search: action
