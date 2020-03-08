@@ -10,16 +10,14 @@ class ExploreHeader extends Component {
   render() {
     return (
       <View style={styles.header}>
-        <View>
-            <Text style={styles.headerText}>Top Tags</Text>
-        </View>
         <View style={{flex: 1}}>
           <SearchBar autoFocus 
-            containerStyle={styles.searchBarContainer}
+            containerStyle={styles.exploreBarContainer}
             inputStyle={styles.searchBarInput}
-            inputContainerStyle={styles.searchBarInputContainer}
+            inputContainerStyle={styles.exploreBarInputContainer}
           />
         </View>
+        
       </View>
     )
   }
@@ -35,6 +33,7 @@ export default class ExploreScreen extends Component {
     return (
       <View style={styles.view}>
         <ExploreHeader navigation={this.props.navigation} />
+        <Text style={styles.headerText}>Top Tags</Text>
       </View>
     );
   }
@@ -58,14 +57,21 @@ const styles = StyleSheet.create({
     color: "#fcfcff",
     padding: 25
   },
-  searchBarContainer: {
+  exploreBarContainer: {
     flex: 1,
     backgroundColor: "#110d41",
     paddingTop: 25,
     paddingBottom: 10
   },
-  searchBarInputContainer: {
-    backgroundColor: "#110d41"
+  exploreBarInputContainer: {
+    backgroundColor: '#292753',
+    borderRadius: 50,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 10
   },
-  searchBarInput: {}
+  searchBarInput: {
+    fontWeight: "normal",
+    color: "#000000",
+  }
 });
