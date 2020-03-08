@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { SafeAreaView, View, FlatList, StyleSheet, Text, TextInput } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-elements';
 import Constants from 'expo-constants';
 import Amplify from 'aws-amplify';
 import Post from './Post.js';
+import { TabActions } from '@react-navigation/native';
 
 const side_margins = 16
+const Tab = createBottomTabNavigator();
 
 // New Post Header for the page
 class NewPostHeader extends Component {
@@ -19,21 +22,17 @@ class NewPostHeader extends Component {
 }
 
 // Adding attachments to the new post
-class AddAttachments extends Component {
+class NewPostButtons extends Component {
 	render() {
 		return (
-			<View style={styles.addFiles}>
-				<Icon name="camera" color="#2A5AD5" raised={true} reverse="true" size={32}/>
-			</View>
-		)
-	}
-}
-
-class AddLocation extends Component {
-	render() {
-		return (
-			<View style={styles.addLocation}>
-				<Icon name="location"/>
+			<View style={{flexDirection: "row",}}>
+				<View style={styles.addFiles}>
+					<Icon name="location-searching" color="#2A5AD5" raised={true} reverse={true}/>
+					<Icon name="camera-alt" color="#2A5AD5" raised={true} reverse={true}/>
+				</View>
+				<View style={styles.SubmitPost}>
+					<Icon name="check" color="#28B11D" raised={true} reverse={true}/>
+				</View>
 			</View>
 		)
 	}
@@ -48,13 +47,14 @@ export default class NewPostScreen extends Component {
 				<TextInput
 				style={styles.TextInputStyleClass}
 				underlineColorAndroid="transparent"
-				placeholder={"Type Something in Text Area."}
-				placeholderTextColor={"#9E9E9E"}
+				placeholder={"Share what you've learnt!"}
+				placeholderTextColor="#9E9E9E"
+				borderBottomColor='#000000'
 				numberOfLines={10}
 				multiline={true}			
 			/>
-			<AddAttachments/>
-			<AddLocation/>
+			<NewPostButtons/>
+			
 			</View>
 			
 	  </View>
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
 	},
 	TextInputStyleClass: { 
 		textAlign: 'left',
+		color:'#FFFFFF',
 		height: 200,
 		borderRadius: 20 ,
 		backgroundColor : "#292654",
@@ -86,13 +87,12 @@ const styles = StyleSheet.create({
 		marginHorizontal: side_margins,
 	},
 	addFiles: {
-		flexDirection: 'row',
-		justifyContent: 'flex-end',
-		marginHorizontal: side_margins,
-	},
-	addLocation: {
-		flexDirection: 'row',
+		flex: 4,
 		justifyContent: 'flex-start',
 		marginHorizontal: side_margins,
+	},
+	SubmitPost: {
+		flex: 1,
+		justifyContent: 'flex-end',
 	}
 });
