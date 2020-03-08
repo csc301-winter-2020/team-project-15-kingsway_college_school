@@ -2,7 +2,6 @@ import React from 'react';
 import './MiddleView.css';
 
 import PostFeed from '../PostFeed/PostFeed'
-import Settings from '../Settings/Settings'
 import CreatePost from '../CreatePost/CreatePost'
 import Explore from '../Explore/Explore'
 
