@@ -15,32 +15,35 @@ class PostFeed extends React.Component {
 	constructor() {
 		super();
 
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts?searchType=FAV&searchParameter=2',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
 	}
 
 	getPosts = (feedType, searchTerm) => {
 		let getParams = {};
 
 		const userID = 1;
-
+		let queryStringParameters = ""
 		if (feedType === 'Home') {
 			if (searchTerm) {
-				// getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: searchTerm } };
+				queryStringParameters = "?searchType=FAV&searchParameter=" + searchTerm
 			}
 		} else if (feedType === 'MyPosts') {
 			// getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
+			queryStringParameters = "?searchType=USER&searchParameter=" + userID
 		} else if (feedType === 'Home') {
 			// getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
+			queryStringParameters="?searchType=FAV&searchParameter=" + userID
+
 		}
+		Amplify.configure({
+			API: {
+				endpoints: [{
+					name: 'getPosts',
+					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts' + queryStringParameters,
+					service: 'api-gateway',
+					region: 'us-east-1'
+				}]
+			}
+		});
 
 		Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = [];
