@@ -17,13 +17,15 @@ class CreatePost extends React.Component {
 	}
 
 	fileUploaded = (e) => {
-		const reader = new FileReader();
+		try {
+			const reader = new FileReader();
 
-		reader.addEventListener("load", () => {
-			this.setState({ attachment: reader.result.slice(reader.result.indexOf(',') + 1) });
-		}, false);
+			reader.addEventListener("load", () => {
+				this.setState({ attachment: reader.result });
+			}, false);
 
-		reader.readAsDataURL(e.target.files[0])
+			reader.readAsDataURL(e.target.files[0])
+		} catch (e) {}
 	}
 
 	handleSubmit = (e) => {
@@ -40,7 +42,7 @@ class CreatePost extends React.Component {
 			}
 		});
 
-		const imageParam = JSON.stringify(this.state.attachment ? [ this.state.attachment ] : []);
+		const imageParam = this.state.attachment ? [ this.state.attachment ] : [];
 
 		const reqParams = { body: { userID: 2, content: this.state.postData, images: imageParam,
 							location: { name: this.state.locName, latitude: this.state.lat.toString(), longitude: this.state.long.toString() } } };

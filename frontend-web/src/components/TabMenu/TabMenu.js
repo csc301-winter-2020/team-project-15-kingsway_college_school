@@ -14,6 +14,12 @@ class TabMenu extends React.Component {
 		]
 	}
 
+	changeToHome = () => {
+		this.setState({ selected: 'Home' });
+
+		this.props.store.setCurrentView('Home')
+	}
+
 	tabClicked = (tab) => {
 		tab = tab.target.innerText
 
@@ -22,8 +28,11 @@ class TabMenu extends React.Component {
 		this.props.store.setCurrentView(tab)
 	}
 
-	render() {
+	componentDidMount() {
+		this.props.store.changeTab = this.changeToHome;
+	}
 
+	render() {
 		return (
 		<div className="TabMenu dark-grey light-grey-text">
 			<h1>
