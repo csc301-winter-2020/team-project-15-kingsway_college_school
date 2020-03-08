@@ -11,16 +11,17 @@ class ExploreHeader extends Component {
     return (
       <View style={styles.header}>
         <View style={styles.exploreBarContainer}>
-          <SearchBar autoFocus 
+          <SearchBar
+            autoFocus 
             containerStyle={styles.exploreBarContainer}
             inputStyle={styles.exploreBarInput}
             inputContainerStyle={styles.exploreBarInputContainer}
           />
         </View>
 
-        {/* <View style={{flex: 1}}>
-		      <Text style={styles.headerText}>KCShare</Text>
-		    </View> */}
+        <View>
+		      <Text style={styles.headerText}>Top Tags</Text>
+		    </View>
       </View>
     )
   }
@@ -29,13 +30,6 @@ class ExploreHeader extends Component {
 export default class ExploreScreen extends Component {
   state = {
     hashtags: [],
-    placeholder: [
-      '#MARSCentre',
-      '#UofT',
-      '#Ryerson',
-      '#Autocad',
-      '#Timmy'
-    ]
   }
   
   componentDidMount() {
@@ -51,13 +45,13 @@ export default class ExploreScreen extends Component {
   render() {
     return (
       <View style={styles.view}>
-        <ExploreHeader navigation={this.props.navigation} />
+        <ExploreHeader  />
 
         <SafeAreaView style={styles.hashtagsContainer}>
           <FlatList
             data={this.state.hashtags}
             renderItem={({ item }) => <Text style={styles.hashtagText}>#{item.hashtag}</Text>}
-            keyExtractor={hashtag => hashtag.postCount}
+            keyExtractor={item => item.postCount}
           />
 		    </SafeAreaView>
       </View>
@@ -74,38 +68,38 @@ const styles = StyleSheet.create({
     flex: 8
   },
   exploreBarContainer: {
-    flex: 1,
+    flexDirection: 'column',
     backgroundColor: "#110d41",
-    paddingTop: 25,
+    paddingTop: 20,
     paddingBottom: 10
   },
   exploreBarInputContainer: {
-    padding: 20,
+    padding: 5,
     backgroundColor: '#292753',
     borderRadius: 50,
-    marginLeft: 20,
-    marginRight: 20,
   },
   exploreBarInput: {
     fontWeight: "normal",
     color: '#FFFFFF',
-    padding: 50
+    flex: 1,
+    height: 20,
+    fontSize: 18
   },
   header: {
-    flex: 1,
-    flexDirection: "row"
+    marginLeft: 20,
+    marginRight: 20,
+    flexDirection: "column"
   },
   headerText: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#fcfcff",
-    padding: 25
+    color: "#fcfcff"
   },
   hashtagsContainer: {
-    flex: 8,
-    marginLeft: 20
+    flexDirection: "column"
   },
   hashtagText: {
+    marginLeft: 20,
     fontSize: 24,
     fontWeight: "bold",
     color: '#FB9B38',
