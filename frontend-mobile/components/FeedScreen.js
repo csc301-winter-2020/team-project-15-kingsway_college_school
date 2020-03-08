@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, FlatList, RefreshControl, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import Constants from 'expo-constants';
 import Amplify from 'aws-amplify';
 import Post from './Post.js';
@@ -19,11 +19,11 @@ class FeedHeader extends Component {
 		</View>
 		<View style={{flex: 1}}>
 		    <SearchBar
-			containerStyle={styles.searchBarContainer}
-			inputStyle={styles.searchBarInput}
-			inputContainerStyle={styles.searchBarInputContainer}
-			placeholder={"Search..."}
-			onFocus={() => this.props.navigation.push("Explore")}
+		    containerStyle={styles.searchBarContainer}
+		    inputStyle={styles.searchBarInput}
+		    inputContainerStyle={styles.searchBarInputContainer}
+		    placeholder={"Search..."}
+		    onFocus={() => this.props.navigation.push("Explore")}
 		    />
 		</View>
 	    </View>
@@ -32,17 +32,32 @@ class FeedHeader extends Component {
 }
 
 class Feed extends Component {
+    constructor() {
+	super();
+	this.refresh = this.refresh.bind(this)
+    }
     state = {
-	posts: []
+	posts: [],
+	refreshing: true
     }
 
+    refresh() {
+	this.state.posts = [];
+
+	Amplify.API.get('getPosts', "").then( (response) => {
+	    this.setState({
+		posts: response,
+		refreshing: false
+	    });
+	}).catch((error) => {
+	    console.log(error)
+	})
+
+    }
     componentDidMount() {
 	if (this.state.posts.length === 0) {
-	    Amplify.API.get('getPosts', "").then( (response) => {
-		this.setState({posts: response});
-	    }).catch((error) => {
-		console.log(error)
-	    })
+	    this.refresh()
+	    
 	}
     }
     render() {
@@ -51,9 +66,17 @@ class Feed extends Component {
 		<FeedHeader navigation={this.props.navigation} />
 		<SafeAreaView style={styles.container}>
 		    <FlatList
-			data={this.state.posts}
-			renderItem={({ item }) => <Post post={item} />}
-			keyExtractor={post => post.postID}
+		    data={this.state.posts}
+		    renderItem={({ item }) => <Post post={item} />}
+		    refreshControl={
+			<RefreshControl
+			colors={["#fcfcff"]}
+			       refreshing={this.state.refreshing }
+			       onRefresh={() => this.refresh() }
+			       tintColor={"white"}
+			/>
+		    }
+		    keyExtractor={post => post.postID}
 		    />
 		</SafeAreaView>
 	    </View>
@@ -79,31 +102,33 @@ export default class FeedScreen extends Component {
 
 const styles = StyleSheet.create({
     view: {
-		flex: 1,
-		backgroundColor: '#110d41'
+	flex: 1,
+	backgroundColor: '#110d41'
     },
     container: {
-		flex: 8,
+	flex: 8,
     },
     header: {
-		flex:1,
-		flexDirection: 'row',
-		marginTop: side_margins/2,
+	flex:1,
+	flexDirection: 'row',
+	marginTop: side_margins/2,
     },
     headerText: {
-		fontSize: 30,
-		fontWeight: 'bold',
-		color: '#fcfcff',
-		padding: 25,
+	fontSize: 30,
+	fontWeight: 'bold',
+	color: '#fcfcff',
+	padding: 25,
     },
     searchBarContainer: {
-		flex: 1,
-		backgroundColor:'#110d41',
-		paddingTop: 25,
-		paddingBottom: 10,
+	flex: 1,
+	backgroundColor:'#110d41',
+	paddingTop: 25,
+	paddingBottom: 10,
+	borderBottomWidth: 0,
+	borderTopWidth: 0
     },
     searchBarInputContainer: {
-		backgroundColor: '#110d41',
+	backgroundColor: '#110d41',
     },
     searchBarInput: {
     }
