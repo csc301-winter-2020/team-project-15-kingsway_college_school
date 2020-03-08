@@ -27,7 +27,7 @@ const SIZE = 80;
 function MyTabs(props) {
     return (
 	<Tab.Navigator
-	    initialRouteName="New Post"
+	    initialRouteName="Profile"
 	    tabBarOptions={{
 		showLabel: false,
 		style: styles.bar,
