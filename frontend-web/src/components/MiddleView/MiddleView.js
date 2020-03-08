@@ -11,12 +11,12 @@ class MiddleView extends React.Component {
 
 	currentViewSwitch = (currentView) => {
 		switch(currentView) {
-			case 'Favourites':
-				return <PostFeed store={ this.props.store } feedType="Favourites" />;
+			// case 'Favourites':
+			// 	return <PostFeed store={ this.props.store } feedType="Favourites" />;
 			case 'My Posts':
 				return <PostFeed store={ this.props.store } feedType="My Posts" />;
-			case 'Settings':
-				return <Settings store={ this.props.store } />;
+			// case 'Settings':
+			// 	return <Settings store={ this.props.store } />;
 			case 'Explore':
 				return <Explore store={ this.props.store } />;
 			default:
