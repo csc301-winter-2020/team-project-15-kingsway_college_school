@@ -8,16 +8,20 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 
+class MenuIcon extends Component {
+    render() {
+	return <MaterialCommunityIcons name="dots-horizontal" color={"white"} size={20}/>
+    }
+}
 class PostMenu extends Component {
     render() {
 	return (
 <View>
     <Menu>
-      <MenuTrigger text='Select action' />
+      <MenuTrigger children={<MenuIcon/>} />
       <MenuOptions>
         <MenuOption onSelect={() => alert(`Save`)} text='Save' />
-        <MenuOption onSelect={() => alert(`Delete`)} >
-	  <MaterialCommunityIcons name={"dots-horizonal"} color={"white"} size={20} />
+        <MenuOption onSelect={() => alert(`Delete`)} text='Delete' >
         </MenuOption>
         <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled' />
       </MenuOptions>
@@ -46,12 +50,12 @@ export default class Post extends Component {
 			11: 'December'
 	}
 	if (this.props.post.location.name) {
-	    console.log(this.props.post.location)
 	    this.locationHeader = (
 		<Text style={styles.locationText}>@{this.props.post.location.name}</Text>
 	    )
 	}
-	if (this.props.post.images) {
+	if (this.props.post.images.length > 0) {
+	    console.log(this.props.post)
 	    this.image = (
 		<View style={{alignItems: 'center', paddingTop: 20}}>
 		<Image
