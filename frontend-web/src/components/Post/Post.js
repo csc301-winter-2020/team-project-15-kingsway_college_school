@@ -1,8 +1,42 @@
 import React from 'react';
 import './Post.css';
+import Amplify from 'aws-amplify';
+
+import Modal from '../Modal/Modal'
 
 class Post extends React.Component {
-	state = {}
+	state = {
+		modalVisible: false
+	}
+
+	confirmDeletion = (e) => {
+		e.preventDefault();
+
+		this.setState({ modalVisible: true });
+	}
+
+	deletePost = () => {
+		Amplify.configure({
+			API: {
+				endpoints: [{
+					name: 'deletePost',
+					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/deletePost',
+					service: 'api-gateway',
+					region: 'us-east-1'
+				}]
+			}
+		});
+
+		const reqParams = { queryStringParameters: { userID: 2, postID: this.props.post.postID } };
+
+		Amplify.API.del('deletePost', '', reqParams).then((response) => {
+			console.log(response)
+		}).catch((error) => {
+			console.log(error);
+		});
+
+		this.setState({ modalVisible: false })
+	}
 
 	render() {
 		const { post } = this.props;
@@ -43,6 +77,12 @@ class Post extends React.Component {
 			<div className="PostUploadTime">
 				{ '' + month[time.getMonth()] + ' ' + (time.getDay() + 1) + ', ' + time.getFullYear() }
 			</div>
+
+			{ this.props.store.currentView === 'My Posts' ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }
+
+			<Modal parent={ this } visible={ this.state.modalVisible } prompt="Are you sure you sure you want to delete this post?"
+				positiveButtonAction={ this.deletePost } negativeButtonAction={ () => { this.setState({ modalVisible: false }) } } 
+				positiveButtonText="Delete" negativeButtonText="Cancel"/>
 		</div>
 	)}
 };
