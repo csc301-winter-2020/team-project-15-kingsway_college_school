@@ -25,6 +25,7 @@ class MiddleView extends React.Component {
 	}
 
 	render() {
+		this.props.store.refreshCurrentView = this.currentViewSwitch
 		return (
 		<div className="MiddleView dark-grey light-grey-text">
 			{ this.currentViewSwitch() }
