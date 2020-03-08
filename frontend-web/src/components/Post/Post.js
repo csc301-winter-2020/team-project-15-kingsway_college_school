@@ -30,7 +30,7 @@ class Post extends React.Component {
 		const reqParams = { queryStringParameters: { userID: 2, postID: this.props.post.postID } };
 
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
-			console.log(response)
+			this.props.store.updateFeeds();
 		}).catch((error) => {
 			console.log(error);
 		});
@@ -64,13 +64,13 @@ class Post extends React.Component {
 			<div className="PostLocation">
 				<a className="accent fa fa-map-marker"></a>
 				&nbsp;&nbsp;
-				{ post.location }
+				{ post.location.name }
 			</div>
 
 			<div className="PostContent">
 				{ post.content }
 			</div>
-			{post.images && <div className="PostImage">
+			{post.images.length > 0 && <div className="PostImage">
 				<img src={ post.images[0] }/>
 			</div>} 
 

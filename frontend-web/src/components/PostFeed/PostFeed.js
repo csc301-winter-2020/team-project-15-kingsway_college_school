@@ -49,7 +49,7 @@ class PostFeed extends React.Component {
 				posts.push({
 					postID: post.postID,
 					userID: post.userID,
-					// location: post.location,
+					location: post.location,
 					content: post.content,
 					images: post.images,
 					uploadTime: post.timeUploaded,
@@ -78,6 +78,8 @@ class PostFeed extends React.Component {
 		this.getPosts(feedType);
 
 		this.props.store.search = this.search;
+
+		this.props.store.updateFeedCallback = [() => { this.getPosts(this.props.store.currentView) }];
 	}
 
 	render() {
