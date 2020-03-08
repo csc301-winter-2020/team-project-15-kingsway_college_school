@@ -7,28 +7,30 @@ import CreatePost from '../CreatePost/CreatePost'
 import Explore from '../Explore/Explore'
 
 class MiddleView extends React.Component {
-	state = {}
+	state = {
+		tab: <div><CreatePost store={ this.props.store } /><PostFeed store={ this.props.store } /></div>
+	}
 
-	currentViewSwitch = () => {
-		switch(this.props.store.currentView) {
-			// case 'Favourites':
-			// 	return <PostFeed store={ this.props.store } feedType="Favourites" />;
+	currentViewSwitch = (currentView) => {
+		switch(currentView) {
 			case 'My Posts':
-				return <PostFeed store={ this.props.store } />;
-			// case 'Settings':
-			// 	return <Settings store={ this.props.store } />;
+				this.setState({ tab: <PostFeed store={ this.props.store } /> });
+				return;
 			case 'Explore':
-				return <Explore store={ this.props.store } />;
+				this.setState({ tab: <Explore store={ this.props.store } /> });
+				return;
 			default:
-				return <div><CreatePost store={ this.props.store } /><PostFeed store={ this.props.store } /></div>;
+				this.setState({ tab: <div><CreatePost store={ this.props.store } /><PostFeed store={ this.props.store } /></div> });
+				return;
 		}
 	}
 
 	render() {
 		this.props.store.refreshCurrentView = this.currentViewSwitch
+
 		return (
 		<div className="MiddleView dark-grey light-grey-text">
-			{ this.currentViewSwitch() }
+			{ this.state.tab }
 		</div>
 	)}
 };
