@@ -5,9 +5,12 @@ class Store extends React.Component {
 	search = (searchTerm) => {
 		console.error('[SEARCH NOT DEFINED]')
 	}
+
+	currentView = 'Home'
 }
 
 decorate(Store, {
+	currentView: observable,
 	search: action
 })
 
