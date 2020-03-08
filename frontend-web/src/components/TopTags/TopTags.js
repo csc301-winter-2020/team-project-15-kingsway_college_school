@@ -35,7 +35,7 @@ class TopTags extends React.Component {
 
 			this.setState({ hashtags: tags });
 		}).catch((error) => {
-			console.log(error);
+			console.error(error);
 		});
 	}
 
@@ -50,7 +50,7 @@ class TopTags extends React.Component {
 
 			{
 				this.state.hashtags.map((hashtag) => (
-					<div key={ uid(hashtag) } onClick={ () => { this.props.store.search(hashtag) } } className="Hashtag accent">
+					<div key={ uid(hashtag) } onClick={ () => { this.props.store.changeTab(); } } className="Hashtag accent">
 						{ hashtag }
 					</div>
 				))
