@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Image, Text, View, StyleSheet } from "react-native"
-import { MenuProvider } from 'react-native-popup-menu';
+import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import {
   Menu,
   MenuOptions,
@@ -12,13 +12,12 @@ class PostMenu extends Component {
     render() {
 	return (
 <View>
-    <Text>Hello world!</Text>
     <Menu>
       <MenuTrigger text='Select action' />
       <MenuOptions>
         <MenuOption onSelect={() => alert(`Save`)} text='Save' />
         <MenuOption onSelect={() => alert(`Delete`)} >
-          <Text style={{color: 'red'}}>Delete</Text>
+	  <MaterialCommunityIcons name={"dots-horizonal"} color={"white"} size={20} />
         </MenuOption>
         <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled' />
       </MenuOptions>
@@ -65,7 +64,6 @@ export default class Post extends Component {
 	let time = new Date(0)
 	time.setUTCSeconds(this.props.post.timeUploaded)
 	return (
-	    <MenuProvider>
 	    <View style={styles.post}>
 		<View style={styles.header}>
 		    <View style={styles.headerLeft}>
@@ -81,7 +79,6 @@ export default class Post extends Component {
 		</View>
 		{this.image}
 	    </View>
-	    </MenuProvider>
 	)
     }
 }
@@ -106,7 +103,7 @@ const styles = StyleSheet.create({
 	justifyContent: "space-between"
     },
     headerLeft: {
-	
+	flexDirection: "row",
     },
     headerRight: {
 
@@ -115,11 +112,12 @@ const styles = StyleSheet.create({
 	fontSize: 15,
 	color: '#fcfcff',
 	fontWeight: 'bold',
-	fontStyle: 'italic'
+	fontStyle: 'italic',
+	paddingRight: 10
     },
     date: {
 	fontSize: 15,
-	color: '#fcfcff',
+	color: 'lightgrey',
     }
 });
 

@@ -3,6 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+import { MenuProvider } from 'react-native-popup-menu';
 import { Icon } from 'react-native-elements';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import FeedScreen from './components/FeedScreen.js'
@@ -34,7 +35,7 @@ const SIZE = 80;
 function MyTabs(props) {
     return (
 	<Tab.Navigator
-	    initialRouteName="New Post"
+	    initialRouteName="Feed"
 	    tabBarOptions={{
 		showLabel: false,
 		style: styles.bar,
@@ -89,7 +90,9 @@ export default function App() {
     return (
 	<View style={styles.view}>
 	    <NavigationContainer style={styles.bar}>
+	    <MenuProvider>
 		<MyTabs />
+	    </MenuProvider>
 	    </NavigationContainer>
 	</View>
     );
