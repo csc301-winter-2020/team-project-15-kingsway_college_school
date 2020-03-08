@@ -91,6 +91,7 @@ export default function App() {
 const styles = StyleSheet.create({
     view: {
 	flex: 1,
+	backgroundColor: 'red'
     },
     bar: {
 	backgroundColor: '#23275f',
