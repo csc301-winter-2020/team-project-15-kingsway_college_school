@@ -213,7 +213,6 @@ class Explore extends React.Component {
 		
 		return (
 		<div className="Explore dark-grey light-grey-text">
-			TEST
 			<div id="map"></div>
 		</div>
 	)}
