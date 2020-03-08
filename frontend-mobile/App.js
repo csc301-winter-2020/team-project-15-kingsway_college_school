@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     },
     bar: {
 	backgroundColor: '#23275f',
-
+	borderTopWidth: 0,
 //	backgroundColor: '#110d41',
     },
 });
