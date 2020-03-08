@@ -62,7 +62,7 @@ export default class Post extends Component {
 	}
 	if (this.props.post.location.name) {
 	    this.locationHeader = (
-		<Text style={styles.locationText}>@{this.props.post.location.name}</Text>
+		<Text style={styles.locationText}>@{this.props.post.location.name.split(',')[0]}</Text>
 	    )
 	}
 	if (this.props.post.images.length > 0) {
@@ -70,7 +70,7 @@ export default class Post extends Component {
 	    this.image = (
 		<View style={{alignItems: 'center', paddingTop: 20}}>
 		    <Image
-			style={{width: 300, height: 100}}
+			style={{width: 300, height: 300}}
 			source={{uri: this.props.post.images[0]}}
 		    />
 		</View>

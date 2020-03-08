@@ -14,7 +14,7 @@ export default class Tag extends Component {
 			return (
 				<Text onPress={() => Linking.openURL(`https://www.google.com/search?q=${this.content}`)}
 				style={styles.hashtagText}>
-					#{this.postCount}
+					#{this.content}
 				</Text>
 			)
 		}
