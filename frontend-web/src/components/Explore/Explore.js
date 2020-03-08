@@ -130,7 +130,7 @@ class Explore extends React.Component {
 			'type': 'Feature',
 			'properties': {
 			'description':
-			'<strong>Art Gallery of Ontario</strong><p><a href="http://www.truckeroodc.com/www/" target="_blank">Truckeroo</a> brings dozens of food trucks, live music, and games to half and M Street SE (across from Navy Yard Metro Station) today from 11:00 a.m. to 11:00 p.m.</p>',
+			'<strong>Art Gallery of Ontario</strong><p><a href="http://www.truckeroodc.com/www/" target="_blank">AGO</a> brings dozens of food trucks, live music, and games to half and M Street SE (across from Navy Yard Metro Station) today from 11:00 a.m. to 11:00 p.m.</p>',
 			'icon': 'music'
 			},
 			'geometry': {
@@ -213,6 +213,7 @@ class Explore extends React.Component {
 		
 		return (
 		<div className="Explore dark-grey light-grey-text">
+			TEST
 			<div id="map"></div>
 		</div>
 	)}
