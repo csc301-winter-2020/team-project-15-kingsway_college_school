@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { CameraRoll, Image, View, FlatList, StyleSheet, Text, TextInput, KeyboardAvoidingView } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-elements';
@@ -22,9 +22,18 @@ class NewPostHeader extends Component {
 	}
 }
 
-// Adding attachments to the new post
-class NewPostButtons extends Component {
-	
+
+class NewPostBody extends Component {
+	constructor() {
+		super();
+		this.newInputText = this.newInputText.bind(this)
+		this.getLocation = this.getLocation.bind(this)
+		this.getPhotosFromGallery = this.getPhotosFromGallery.bind(this)
+
+	}
+	state = {
+		text: ''
+	}
 	getLocation() {
 		if (hasLocationPermission) {
 			Geolocation.getCurrentPosition(
@@ -48,22 +57,15 @@ class NewPostButtons extends Component {
 		  })
 	}
 
+	newInputText(text) {
+		this.state.text = text
+	}
+
 	submitPost() {
+		console.log(this.state.text)
 		console.log("Submitting Post")
 	}
 
-	render() {
-		return (
-		<View style={styles.addFiles}>
-			<Icon name="location-on" color="#2A5AD5" raised={true} reverse={true} onPress={() => this.getLocation()}/>
-			<Icon name="camera-alt" color="#2A5AD5" raised={true} reverse={true} onPress={() => this.getPhotosFromGallery()}/>
-			<Icon name="check" color="#28B11D" raised={true} reverse={true} onPress={() =>this.submitPost}/>
-		</View>
-		)
-	}
-}
-
-class NewPostText extends Component {
 	render() {
 		return (
 			<KeyboardAvoidingView style={{flex:8}} behavior="padding" keyboardVerticalOffset={100}>
@@ -74,8 +76,20 @@ class NewPostText extends Component {
 				borderBottomColor='#000000'
 				numberOfLines={10}
 				multiline={true}
+				onChangeText={(text) => this.newInputText(text)}
 			/>
-			<NewPostButtons/>
+
+			<View style={{flexDirection: 'row', justifyContent: "space-between"}}>
+				<View style={styles.addFiles}>
+					<Icon name="location-on" color="#2A5AD5" raised={true} reverse={true} onPress={() => this.getLocation()}/>
+					<Icon name="camera-alt" color="#2A5AD5" raised={true} reverse={true} onPress={() => this.getPhotosFromGallery()}/>
+				</View>
+
+				<View style={styles.submitPost}>
+					<Icon name="check" color="#28B11D" raised={true} reverse={true} onPress={() => this.submitPost()}/>
+				</View>
+
+			</View>
 			</KeyboardAvoidingView>
 		)
 	} 
@@ -86,8 +100,7 @@ export default class NewPostScreen extends Component {
       return (
 	  <View style={styles.view}>
 		  <NewPostHeader/>
-
-		  <NewPostText/>
+		  <NewPostBody/>
 	  </View>
 
       )
@@ -121,11 +134,12 @@ const styles = StyleSheet.create({
 	},
 	addFiles: {
 		flexDirection: 'row',
-		justifyContent: 'flex-end',
+		justifyContent: 'flex-start',
 		marginHorizontal: side_margins,
 	},
-	SubmitPost: {
-		flex: 1,
+	submitPost: {
+		flexDirection:'row',
 		justifyContent: 'flex-end',
-	}
+		marginRight: 10,
+	},
 });

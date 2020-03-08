@@ -64,10 +64,17 @@ class CreatePost extends React.Component {
     	var xhr = new XMLHttpRequest();
 
     	xhr.onload = () => {
-    		this.setState({ locName: JSON.parse(xhr.responseText).features[0].place_name })
+			let full_name = JSON.parse(xhr.responseText).features[0].place_name;
+			// let names = full_name.split(',');
+			// let place = names[0];
+			// let address = names[0]
+			// let city = names[2]; //[place, city].join(', ')
+
+    		this.setState({ locName: full_name})
     	}
 
-    	xhr.open('GET', `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?access_token=pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ`);
+		// Only uses POI (points of interests --> remove this to get the best guess address at current location)
+    	xhr.open('GET', `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?types=poi&access_token=pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ`);
     	xhr.responseType = 'text';
     	xhr.send();
 
