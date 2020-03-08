@@ -10,30 +10,50 @@ class ExploreHeader extends Component {
   render() {
     return (
       <View style={styles.header}>
-        <View style={{flex: 1}}>
-          <SearchBar autoFocus 
+        <View style={styles.exploreBarContainer}>
+          <SearchBar
+            autoFocus 
             containerStyle={styles.exploreBarContainer}
-            inputStyle={styles.searchBarInput}
+            inputStyle={styles.exploreBarInput}
             inputContainerStyle={styles.exploreBarInputContainer}
           />
         </View>
-        
+
+        <View>
+		      <Text style={styles.headerText}>Top Tags</Text>
+		    </View>
       </View>
     )
   }
 }
 
 export default class ExploreScreen extends Component {
-  componentDidMount() {
-
+  state = {
+    hashtags: [],
   }
-
+  
+  componentDidMount() {
+    if (this.state.hashtags.length === 0) {
+	    Amplify.API.get('getPopularHashtags', "").then( (response) => {
+		    this.setState({hashtags: response});
+	    }).catch((error) => {
+		    console.log(error)
+	    })
+	  }
+  }
 
   render() {
     return (
       <View style={styles.view}>
-        <ExploreHeader navigation={this.props.navigation} />
-        <Text style={styles.headerText}>Top Tags</Text>
+        <ExploreHeader  />
+
+        <SafeAreaView style={styles.hashtagsContainer}>
+          <FlatList
+            data={this.state.hashtags}
+            renderItem={({ item }) => <Text style={styles.hashtagText}>#{item.hashtag}</Text>}
+            keyExtractor={item => item.postCount}
+          />
+		    </SafeAreaView>
       </View>
     );
   }
@@ -47,31 +67,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 8
   },
-  header: {
+  exploreBarContainer: {
+    flexDirection: 'column',
+    backgroundColor: "#110d41",
+    paddingTop: 20,
+    paddingBottom: 10
+  },
+  exploreBarInputContainer: {
+    padding: 5,
+    backgroundColor: '#292753',
+    borderRadius: 50,
+  },
+  exploreBarInput: {
+    fontWeight: "normal",
+    color: '#FFFFFF',
     flex: 1,
-    flexDirection: "row"
+    height: 20,
+    fontSize: 18
+  },
+  header: {
+    marginLeft: 20,
+    marginRight: 20,
+    flexDirection: "column"
   },
   headerText: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#fcfcff",
-    padding: 25
+    color: "#fcfcff"
   },
-  exploreBarContainer: {
-    flex: 1,
-    backgroundColor: "#110d41",
-    paddingTop: 25,
-    paddingBottom: 10
+  hashtagsContainer: {
+    flexDirection: "column"
   },
-  exploreBarInputContainer: {
-    backgroundColor: '#292753',
-    borderRadius: 50,
+  hashtagText: {
     marginLeft: 20,
-    marginRight: 20,
-    marginTop: 10
-  },
-  searchBarInput: {
-    fontWeight: "normal",
-    color: "#000000",
+    fontSize: 24,
+    fontWeight: "bold",
+    color: '#FB9B38',
+    padding: 6
   }
 });
