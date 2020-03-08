@@ -22,8 +22,6 @@ class NewPostHeader extends Component {
 
 class HeaderButtons extends Component {
 	
-	  
-	 
 	render () {
 		const buttons = ['My Posts', 'Favourites']
 
@@ -106,6 +104,7 @@ const styles = StyleSheet.create({
 	},
 	header: {
 		flex:2,
+		marginTop: side_margins/2
 	},
 	headerText: {
 		fontSize: 30,
@@ -114,9 +113,9 @@ const styles = StyleSheet.create({
 		padding: 25,
 	},
 	HeaderButtons: {
-		marginHorizontal: side_margins/2,
+		// marginHorizontal: side_margins/2,
+		marginTop: side_margins/2,
 		flex: 3,
-		//fontWeight: 'light',
 		flexDirection: 'column',
 		justifyContent: 'center',
 
