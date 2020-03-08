@@ -21,41 +21,21 @@ class NewPostHeader extends Component {
 }
 
 class HeaderButtons extends Component {
-	constructor () {
-		super()
-		this.state = {
-		  selectedIndex: 0
-		}
-		this.updateIndex = this.updateIndex.bind(this)
-		this.screen = (
-			<SafeAreaView style={styles.container}>
-				<FlatList
-				data={this.state.posts}
-				renderItem={({ item }) => <Post post={item} />}
-				keyExtractor={post => post.postID}
-				/>
-			</SafeAreaView>
-		)
-	}
+	
 	  
-	  updateIndex (selectedIndex) {
-		this.setState({selectedIndex})
-	  }
-	  
+	 
 	render () {
 		const buttons = ['My Posts', 'Favourites']
-		const { selectedIndex } = this.state
 	  
 		return (
 		<View style={styles.HeaderButtons}>
 			<ButtonGroup
-				onPress={this.updateIndex}
-				selectedIndex={selectedIndex}
+				onPress={this.props.updateIndex}
+				selectedIndex={this.props.selectedIndex}
 				buttons={buttons}
 				containerStyle={{height: 40, borderRadius: 20}}
-				selectedButtonStyle={{backgroundColor: '#FD9E27', fontWeight: 900}}
+				selectedButtonStyle={{backgroundColor: '#FD9E27'}}
 			/>
-			{this.screen}
 			
 			
 		</View>
@@ -64,34 +44,59 @@ class HeaderButtons extends Component {
 }
 
 export default class ProfileScreen extends Component {
-	state = {
-		posts: []
-		}
-	
-		componentDidMount() {
-		if (this.state.posts.length === 0) {
-			Amplify.API.get('getPosts', "").then( (response) => {
-			this.setState({posts: response});
-			console.log("Response: ")
-			
-			console.log(this.state.posts)
-	
-			}).catch((error) => {
-			console.log(error)
-			})
-		}
-		}
-	
-	render() {
-      return (
-	  <View style={styles.view}>
-			<View style={{flexDirection: 'row'}}>
-				<NewPostHeader/>
-				<HeaderButtons/>
-			</View>
-	  </View>
-      )
-  }
+    state = {
+	posts: [],
+	selectedIndex: 0
+    }
+
+    constructor () {
+	super()
+	this.updateIndex = this.updateIndex.bind(this)
+	this.selectedScreen = this.selectedScreen.bind(this)
+    }
+    
+    componentDidMount() {
+	if (this.state.posts.length === 0) {
+	    Amplify.API.get('getPosts', "").then( (response) => {
+		this.setState({posts: response});
+		
+	    }).catch((error) => {
+		console.log(error)
+	    })
+	}
+    }
+    updateIndex(selectedIndex) {
+	this.setState({selectedIndex})
+	console.log(this.state)
+    }
+
+    selectedScreen() {
+	if (this.state.selectedIndex == 0) {
+	    return (
+		<SafeAreaView style={styles.container}>
+		    <FlatList
+		    data={this.state.posts}
+		    renderItem={({ item }) => <Post post={item} />}
+		    keyExtractor={post => post.postID}
+		    />
+		</SafeAreaView>)
+	}
+	else {
+	    return <Text>Hey</Text>
+	}
+    }
+	 
+    render() {
+	return (
+	    <View style={styles.view}>
+		<View style={{flexDirection: 'row'}}>
+		    <NewPostHeader/>
+		    <HeaderButtons updateIndex={this.updateIndex} selectedIndex={this.state.selectedIndex} />
+		</View>
+		{this.selectedScreen()}
+	    </View>
+	)
+    }
 }
 
 const styles = StyleSheet.create({
@@ -111,7 +116,7 @@ const styles = StyleSheet.create({
 	HeaderButtons: {
 		marginHorizontal: side_margins/2,
 		flex: 3,
-		fontWeight: 'light',
+		//fontWeight: 'light',
 		flexDirection: 'column',
 		justifyContent: 'center',
 
