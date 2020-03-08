@@ -37,8 +37,6 @@ class Feed extends Component {
 	if (this.state.posts.length === 0) {
 	    Amplify.API.get('getPosts', "").then( (response) => {
 		this.setState({posts: response});
-		
-
 	    }).catch((error) => {
 		console.log(error)
 	    })
@@ -79,7 +77,7 @@ export default class FeedScreen extends Component {
 const styles = StyleSheet.create({
     view: {
 	flex: 1,
-	backgroundColor: '#110d41'
+	backgroundColor: '#110d41',
     },
     container: {
 	flex: 8,
@@ -99,9 +97,12 @@ const styles = StyleSheet.create({
 	backgroundColor:'#110d41',
 	paddingTop: 25,
 	paddingBottom: 10,
+	borderBottomWidth: 0,
     },
     searchBarInputContainer: {
 	backgroundColor: '#110d41',
+
+
     },
     searchBarInput: {
     }
