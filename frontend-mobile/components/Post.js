@@ -14,7 +14,7 @@ export default class Post extends Component {
 	}
 	if (this.props.post.images) {
 	    this.image = (
-		<View style={{justifyContent: 'center'}}>
+		<View style={{alignItems: 'center', paddingTop: 20}}>
 		<Image
 		    style={{width: 300, height: 100}}
 		    source={{uri: this.props.post.images[0]}}
