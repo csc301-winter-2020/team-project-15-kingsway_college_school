@@ -16,6 +16,7 @@ class TabMenu extends React.Component {
 
 	tabClicked = (tab) => {
 		tab = tab.target.innerText
+
 		this.setState({ selected: tab });
 
 		this.props.store.setCurrentView(tab)
@@ -28,6 +29,7 @@ class TabMenu extends React.Component {
 			<h1>
 				KCShare
 			</h1>
+			
 			{
 				this.state.tabs.map((tab) => (
 					<div key={ uid(tab) } onClick={ this.tabClicked } className={'Tab rounded ' + (this.state.selected === tab ? 'mid-grey selected' : 'dark-grey')}>
