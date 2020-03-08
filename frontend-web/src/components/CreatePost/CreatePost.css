@@ -36,14 +36,15 @@
 	display: inline-block;
 	border: 0;
 	outline: 0;
-	height: 80%;
+	height: 70%;
 	min-width: 6vw;
 	width: auto;
 	margin-top: 10px;
 	margin-left: 20px;
-	border-radius: 30px;
+	border-radius: 20px;
 	font-family: Raleway;
 	cursor: pointer;
+	font-size: 1.3rem;
 }
 
 .AttachPicture {
