@@ -10,15 +10,27 @@ import Constants from 'expo-constants';
 
 
 class ExploreHeader extends Component {
+  state = {
+    text: ''
+  };
+  
+  searching (text) {
+    this.setState(text);
+    // doSomeDelay();
+    // startSearching();
+  }
+
   render() {
     return (
       <View style={styles.header}>
         <View style={styles.exploreBarContainer}>
           <SearchBar
-            autoFocus 
+            autoFocus
+            value={this.state.text}
             containerStyle={styles.exploreBarContainer}
             inputStyle={styles.exploreBarInput}
             inputContainerStyle={styles.exploreBarInputContainer}
+            onChangeText={(text) => this.searching({text})}
           />
         </View>
 
@@ -33,15 +45,16 @@ class ExploreHeader extends Component {
 export default class ExploreScreen extends Component {
   state = {
     hashtags: [],
-  }
+  };
   
   componentDidMount() {
     if (this.state.hashtags.length === 0) {
 	    Amplify.API.get('getPopularHashtags', "").then( (response) => {
-		    this.setState({hashtags: response});
+        // Hashtags arrive in descending order of postCount (most popular first)
+        this.setState({hashtags: response});
 	    }).catch((error) => {
 		    console.log(error)
-	    })
+	    });
 	  }
   }
 
