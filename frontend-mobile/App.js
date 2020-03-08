@@ -18,6 +18,12 @@ Amplify.configure({
 	    endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
 	    service: 'api-gateway',
 	    region: 'us-east-1'
+	},
+	{
+	    name: 'getPopularHashtags',
+	    endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPopularHashtags',
+	    service: 'api-gateway',
+	    region: 'us-east-1'
 	}]
     }
 });
