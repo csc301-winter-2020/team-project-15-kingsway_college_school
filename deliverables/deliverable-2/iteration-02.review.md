@@ -1,85 +1,63 @@
-# README - VISIBLE LEARNING TEAM (KCShare)
+# ITERATION REVIEW - VISIBLE LEARNING TEAM (KCShare)
 
-## Description
+Note: This document is meant to be written during (or shortly after) your review meeting, which should happen fairly close to the due date.
+Suggestion: Have your review meeting a day or two before the due date. This way you will have some time to go over (and edit) this document, and all team members should have a chance to make their contribution.
 
-Kingsway College School is a private school which uses a non-traditional learning model focused on experiential learning, where a student learns just as much out of class as they do in it. They treat the city of Toronto as their campus. Our team’s application allows students to share their learning experiences both in and out of the classroom.
+## Iteration 02 - Review & Retrospect
+When: Sunday March 8, 2020
+Where: Where: Bahen Centre for Information Technology
 
-Educators at Kingsway (and Harvard researchers) recognize that in education, the final product of a student’s work is the visible, but the process the student found to get there is usually invisible. It is more instructive and useful to other students to see into that process than it is to only see the final product. This app is part of Kingsway’s efforts to make that learning process visible to all of their students.
+## Process - Reflection
+### Q1. Decisions that turned out well
 
-KCShare (the working name of the app) is a social platform which allows students to share media and information in a private social network with other students and teachers. The feature set of the app is additionally specifically differentiated from existing social networks wherever the sharing of learning can be optimized by these changes.
+Decisions that turned out well, ordered from most to least important:
+- Separation of team
+- Establishing communication expectations early on
+- Regular weekly meetings
+- Wednesday check-ins
 
-## Key Features
+#### Separation of team
+Separating our team into back and front end teams, and further separating those subgroups into individuals responsible for specific views and features, has been the most important organizational decision we have made. It has allowed us to make as much progress as possible independently of each other (as we all have different schedules), to manage a large workload utilizing our total manpower, and to clarify responsibility and expectations.
 
-At present, here is the complete set of features a user can access for this deliverable. Note that these features are uniformly available over both web and mobile front ends, and implemented with full backend support.
+#### Establishing communication expectations early on
+Early in the course we decided to set clear expectations for how we would all communicate as a group. Since these expectations were set, we have all had a clear understanding of where everyone stands with regards to their progress on the project. Questions are responded to with a helpful attitude and the general atmosphere of the group is highly positive and helpful. Overall this decision was so successful because it took all the ambiguity out of the channels of communication so we could focus on the work.
 
-- View feed & posts
-    - The main feed shows all posts organized by date. Posts show post content (text/hashtags, images), location, and have time encoded.
-- Create posts
-    - A user can make a new post, entering text and attaching an image. The post will behave as expected on all feeds.
-- Delete posts
-    - Remove posts from the feed. This feature is meant to only be available on the posts that a user creates themselves, or on every post if the user is school staff (and therefore can act as an admin).
-- View own posts
-    - A user can view a feed where only their own posts are shown.
-    - Part of this functionality is meant to involve viewing one’s favourited posts (the feature looks available in the UI), but the scope of this feature was changed partway through development (after a partner meeting) and this feature rescheduled for the next deliverable.
-- Search by hashtag
-    - Using the search bar on the main feed brings up a list of the most popular “Top Tags” used in posts.
-    - A search by text entry can also be completed.
-    - Either method will return a feed where only posts with the relevant tags are shown.
+#### Regular weekly meetings
+In addition to setting communication expectations early on, we also set a weekly date for meetings. We meet in person for several hours. This allows us to hash out ideas far more quickly than we could over communication platforms or even online meetings. In addition, we are able to work on parts of the project together. Most of all, we know that every week, we will all be in one place, and can have any lingering questions or issues resolved between each other, and any remaining work tends to get done. We are fortunate to all live close enough to campus for this to be possible on a weekend, as it has made a huge difference in our effectiveness and cohesiveness. [You can see our weekly meeting agendas in this folder](https://drive.google.com/open?id=1r8x69vY3sCS-xi7c3GMZMdyTOLrmyXBJ) (see the Past Team Meetings folder for past meetings). 
 
-## Instructions
+#### Wednesday check-ins
+Following the communication expectations and weekly meetings, we also check in mid-week with each other. As a mandated check-in, and one that happens in-person after a 301 class, we reduce the pressure on everyone to have immediate results every time they speak to the group as a whole. While this helps us gauge progress and plan work, it also has had the nice side effect of promoting a more open, honest and ego-less group dynamic, where we can admit when we are struggling (either with implementing a piece of the project, or with other course work that prevents our contribution in the short term).
 
-The web app can simply be accessed from the following temporary URL:
-http://kcsharewebsite.s3-website-us-east-1.amazonaws.com/
+*Special mention* goes to our snack provisions. At each weekly meeting we have one team member assigned to bringing snacks for the group! Not being distracted by hunger makes a big difference in how much work a group can get done in an afternoon.
 
-The mobile app requires a more involved process described below in the Development Requirements section. At present there is no way to access the mobile app online, nor are there any accounts. Our plan (in accordance with the partner’s wishes) is to integrate with the school’s Google user account pool, so we have not developed our own account system.
+### Q2. Decisions that did not turn out as well as we hoped
 
-**To view the feed:** access the first page of either the web or mobile app. Use the left bar Home button on web or the bottom-left Home icon on mobile to return to this view.
+Decisions that did not turn out as well as we hoped, ordered from most to least important:
+- Friday online check-ins
+- Voting on team conflicts
 
-**To create posts:** Use the left bar Home button on web. Write a new post in the box at the top centre, attach an image if desired, and click Share. On mobile, use the bottom centre ‘+’ button to reach a screen where a new post can be written, an image can be attached, and the post can be shared.
+#### Friday online check-ins
+Our mid-week check-ins have been successful, but our Friday online check-ins not so much. We are quite preoccupied as a group with school work and other obligations and Fridays tend to be quite busy. In addition, because we meet for a long interval on Sundays, the bulk of weekly work as a group tends to concentrate around the Sunday. There either hasn’t been strong participation or much to report at all for Friday check-ins, and because they are only online, they haven’t been as meaningful as our Wednesday check-ins. This decision has not proved to be very useful.
 
-**To delete posts:** This feature will only be available on one’s own posts when accounts have been integrated, but the method will remain the same. For both web and mobile, press the trash can icon on the top right of a post and confirm your decision at the confirmation pop-up.
+#### Voting on team conflicts
+In creating documentation for deliverable 1, we also set expectations for how the group would resolve matters of conflict. In our case it was a decision related to the structure of our project’s backend. With a group of 7, ties are not possible but we had one member abstain from voting, leading to a tie. Rather than getting the majority of the group to agree on something, the decision was left to the flip of a coin. While there was no real resentment present in the group, it took some time for everyone to fully accept the path that had been selected. Now, we are all established and happy with what we chose, but we may have made better decisions on how to handle such a stalemate in our choices as a group.
 
-**To view your own posts:** On web, click the left bar My Posts button to view a feed containing only your own posts. On mobile, tap the bottom right profile button and ensure that “My Posts” is selected at the top right on the Profile screen.
 
-**To search by hashtag:** On web, click one of the Top Tags listed on the right bar, or enter a hashtag search term in the top right search bar and hit Enter/Return to make the search. On mobile, ensure that you’re on the Home screen/main feed (bottom left Home button), tap the top right search bar, and either tap one of the Top Tags listed or enter a search term and the app will automatically make a search on what you’ve typed after a short delay.
+It can be noted overall that the group generally agrees we have made a lot of good decisions in our process, decisions informed by (collectively) many bad group assignment experiences and a desire to do better. This makes it one of, if not the best, groups we have all had the pleasure of working in, in any computer science course here at U of T.
 
-## Development requirements
+### Q3. Planned changes
 
-### Backend
-To make changes to the backend, navigate to http://aws.amazon.com/ and log in to the team account. This requires our team’s AWS credentials, which can be provided to course staff on request.
+Changes we are planning to make, ordered from most to least important:
+- Working on version control branches
+- Communicating long term goals with the team ahead of time
 
-### Web
-Install node.js and npm package manager. Once the project repo is cloned navigate to the frontend-web/ folder from the command line. Run the command `npm install` which will populate the node_modules/ folder for all required dependencies that are not attached to the repo. This command only needs to be run when new dependencies are added to the package.json. Once dependencies have finished installing, run the command `npm start` to begin hosting the website on your localhost (accessible by http://localhost:3000/ if your browser does not automatically open it). Once running, any time a js/css file is modified and saved it will automatically push those changes to your locally hosted site. These files are found in the public/ and src/ folders.
+#### Working on version control branches
+For this deliverable, we worked mostly in separate folders and tried to coordinate our commits and pushes in a loose fashion. We discovered the value of being a bit more organized with the structure of development on our Github repository. To avoid conflicts and enable more predictable development (i.e., features not breaking in some part of the app while, somewhere else in the app, a feature is being developed that relies on that feature to be working), we will be planning and structuring branches for each part of the app in advance of adding or modifying features.
 
-To deploy to the AWS site, you will need the AWS CLI installed and the AWS access keys as described above. Run the following commands:
-```
-npm run-script build
-aws s3 sync ./build/ s3://kcsharewebsite
-```
+#### Communicating long term goals with the team ahead of time
+We had some issues with communication related to the development of our backend that arose because of changing needs in development. Because goals for each division of the team were not as tightly unified as they could have been, we believed that some parts were working with the required functionality when in fact there was still more work to be done, once it became clear that these goals were not aligned. We plan to prioritize what to work on *first* from now on, and ensure that we move together as a team instead of getting so fractioned into team divisions that we are not fully aware of what other divisions require.
 
-Once initial setup is complete the `npm start` command should suffice as the only 'go to' command that is needed.
+## Product - Review
+### Q4. How was your product demo?
 
-The web app has been tested using Google Chrome.
-
-### Mobile  
-As described in the Web setup above, ensure you have node.js and the npm package manager installed. Navigate into the frontend-mobile/ folder and run the command `npm install`. You will also need to download the “Expo” app from the Apple or Android app store. 
-
-Ensure that both your phone and computer used to run the mobile web app are on the same WiFi network. In the frontend-mobile/ folder, run the command `npm start`. A QR code will appear in your terminal - use the Expo app or your phone camera app to scan it. The link contained within will prompt the Expo app to run our app inside it.
-
-Any changes made to files in the current folder and subfolders assets/ and components/ will be reflected in the Expo app when saved for live editing of the mobile application.
-
-## Deployment and Github Workflow
-
-We manage our project together using the Projects feature of our project repo to plan and manage tasks on a project management level, keeping us all organized and keeping the focus of the team visible to all.
-
-As we develop our dynamic and workflow as a team of seven, we are learning how better to work on a big project with so many people. For this deliverable, we used only a small amount of branching and merging for several reasons: our team has well-defined boundaries between responsibilities for this deliverable, we often work together in person, and our communication has been strong. However, we learned from working on major features in one division of the team, where implementation relied on stable code from another division, that it would be best to have well-defined and structured branches for the different areas of development. For the next deliverable, we will establish these branches and this process in advance of working on any feature, whether the addition of a new feature or updates and maintenance on an existing one.
-
-The backend code and API uses camelCase. Web and mobile frontends use camelCase for variable and function names, and PascalCase for class names.
-
-The backend code is automatically deployed by AWS as it is written. This can be turned into a rolling deployment if necessary. The mobile frontend must be demoed using the Development Requirements instructions written above. The web frontend is deployed directly to an AWS S3 bucket (public cloud storage resource) - after building the web app from npm, a sync must be run from the AWS Command Line Interface (CLI), which then updates the web app at the url http://kcsharewebsite.s3-website-us-east-1.amazonaws.com/.
-
-## Licenses
-
-We are using the [MIT License](https://choosealicense.com/licenses/mit/) for our codebase.
-
-This license provides open source modification and adaptation for commercial use which is agreeable for our team and our partner (who may want to expand on our work after our team has moved on from this course). It protects our team from liability which is important to us as well. It also preserves some token of our contribution to the codebase in the case of any type of reuse.
+Our partner was out of town and did not have time for technical setup, so our demo was prepared by showing the partner use cases of our apps in progress over a video call. We managed to demo the look of our web and mobile frontends, some basic tasks in those frontends, and explain in simplified terms how our backend would be set up. Our partner accepted the features, with some requests for extensions to those features (most notably asking for extended functionality in the way favourites work). The partner also requested the ability to download text and images from the app, and clarified some questions for us on the format of posts inside the app. We learned that it pays to keep in contact with the partner to ensure our development meets the partner’s needs at each stage, but even in doing so, the scope of a project is subject to change and we should remain adaptable (and construct our product in such a way that adapting to new needs is not unnecessarily complicated or restrictive).

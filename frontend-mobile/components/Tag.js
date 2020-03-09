@@ -12,7 +12,7 @@ export default class Tag extends Component {
 			this.postCount = this.props.tag.postCount;
 	
 			return (
-				<Text onPress={() => Linking.openURL(`https://www.google.com/search?q=${this.content}`)}
+				<Text onPress={() => this.props.search(this.content)}
 				style={styles.hashtagText}>
 					#{this.content}
 				</Text>

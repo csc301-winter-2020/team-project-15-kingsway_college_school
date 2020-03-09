@@ -14,17 +14,31 @@ import Amplify from 'aws-amplify';
 
 Amplify.configure({
     API: {
-	endpoints: [{
-	    name: 'getPosts',
-	    endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
-	    service: 'api-gateway',
-	    region: 'us-east-1'
-	},
-	{
-	    name: 'getPopularHashtags',
-	    endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPopularHashtags',
-	    service: 'api-gateway',
-	    region: 'us-east-1'
+	endpoints: [
+	    {
+		name: 'getPosts',
+		endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
+		service: 'api-gateway',
+		region: 'us-east-1'
+	    },
+	    {
+		name: 'getPopularHashtags',
+		endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPopularHashtags',
+		service: 'api-gateway',
+		region: 'us-east-1',
+	    },
+	    
+	    {
+		name: 'newPost',
+		endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/newPost',
+		service: 'api-gateway',
+		region: 'us-east-1'
+	    },
+	    {
+		name: 'deletePost',
+		endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/deletePost',
+		service: 'api-gateway',
+		region: 'us-east-1'
 	}]
     }
 });
@@ -42,22 +56,22 @@ function MyTabs(props) {
 	    }}
 	>
 	    <Tab.Screen
-	    name="Feed"
-	    component={FeedScreen}
-	    options={{
-		tabBarLabel: 'Home',
-		tabBarIcon: ({color, size }) => (
-		    <MaterialCommunityIcons name="home" color={color} size={size} />
-		),
-            }}
+		name="Feed"
+		component={FeedScreen}
+		options={{
+		    tabBarLabel: 'Home',
+		    tabBarIcon: ({color, size }) => (
+			<MaterialCommunityIcons name="home" color={color} size={size} />
+		    ),
+		}}
 	    />
 	    <Tab.Screen
-		name="New Post"
-		component={NewPostScreen}
-		options={{
-		    tabBarLabel: 'New Post',
-		    tabBarIcon: ({focused, color, size}) => (
-			<View style={{paddingBottom: 0}}> 
+	    name="New Post"
+	    component={NewPostScreen}
+	    options={{
+		tabBarLabel: 'New Post',
+		tabBarIcon: ({focused, color, size}) => (
+		    <View style={{paddingBottom: 0}}> 
 			<View style={{
 			    alignItems: 'center',
 			    justifyContent: 'center',
@@ -66,21 +80,21 @@ function MyTabs(props) {
 			    borderRadius: SIZE / 2,
 			    backgroundColor: '#48A2F8',
 			}}>
-			<Icon name="add" color='#48A2F8' reverse={true}/>
+			    <Icon name="add" color='#48A2F8' reverse={true}/>
 			</View>
-			</View>
-		    ),
-		}}
+		    </View>
+		),
+	    }}
 	    />
 	    <Tab.Screen
-		name="Profile"
-		component={ProfileScreen}
-		options={{
-		    tabBarLabel: 'Profile',
-		    tabBarIcon: ({ color, size }) => (
-			<MaterialCommunityIcons name="account" color={color} size={size}/>
-		    ),
-		}}
+	    name="Profile"
+	    component={ProfileScreen}
+	    options={{
+		tabBarLabel: 'Profile',
+		tabBarIcon: ({ color, size }) => (
+		    <MaterialCommunityIcons name="account" color={color} size={size}/>
+		),
+	    }}
 	    />
 	</Tab.Navigator>
     );
@@ -90,9 +104,9 @@ export default function App() {
     return (
 	<View style={styles.view}>
 	    <NavigationContainer style={styles.bar}>
-	    <MenuProvider>
-		<MyTabs />
-	    </MenuProvider>
+		<MenuProvider>
+		    <MyTabs />
+		</MenuProvider>
 	    </NavigationContainer>
 	</View>
     );
@@ -105,6 +119,6 @@ const styles = StyleSheet.create({
     bar: {
 	backgroundColor: '#23275f',
 	borderTopWidth: 0,
-//	backgroundColor: '#110d41',
+	//	backgroundColor: '#110d41',
     },
 });

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Image, Text, View, StyleSheet } from "react-native"
+import { Alert, Image, Text, View, StyleSheet } from "react-native"
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
+import Amplify from 'aws-amplify';
 import {
     Menu,
     MenuOptions,
@@ -14,6 +15,21 @@ class MenuIcon extends Component {
     }
 }
 class PostMenu extends Component {
+    constructor() {
+	super();
+	this.deletePost = this.deletePost.bind(this)
+    }
+    deletePost() {
+	const reqParams = { queryStringParameters: { userID: 2, postID: this.props.postID } };
+	Amplify.API.del('deletePost', '', reqParams).then((response) => {
+	    Alert.alert("Post deleted", ":)")
+	    this.props.refresh();
+	}).catch((error) => {
+	    console.log(error);
+	});
+
+
+    }
     render() {
 	const userID = 2;
 	const menuOptionStyle = {
@@ -34,7 +50,7 @@ class PostMenu extends Component {
 		    <MenuTrigger children={<MenuIcon/>} />
 		    <MenuOptions customStyles={menuOptionStyle}>
 			<MenuOption onSelect={() => alert(`Save`)} text='Favourite' customStyles={menuOptionStyle} />
-			<MenuOption onSelect={() => alert(`Delete`)} disabled={!this.props.userID == userID  } text='Delete' customStyles={menuOptionStyle}/>
+			<MenuOption onSelect={() => this.deletePost()} disabled={!this.props.userID == userID  } text='Delete' customStyles={menuOptionStyle}/>
 		    </MenuOptions>
 		</Menu>
 	    </View>
@@ -66,7 +82,6 @@ export default class Post extends Component {
 	    )
 	}
 	if (this.props.post.images.length > 0) {
-	    console.log(this.props.post)
 	    this.image = (
 		<View style={{alignItems: 'center', paddingTop: 20}}>
 		    <Image
@@ -86,7 +101,7 @@ export default class Post extends Component {
 			<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + (time.getDay() + 1) + ', ' + time.getFullYear() }</Text>
 		    </View>
 		    <View styles={styles.headerRight}>
-			<PostMenu userID={this.props.post.userID} />
+			<PostMenu userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
 		    </View>
 		</View>
 		<View styles={{flex:1}}>

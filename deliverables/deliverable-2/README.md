@@ -25,6 +25,8 @@ At present, here is the complete set of features a user can access for this deli
     - Using the search bar on the main feed brings up a list of the most popular “Top Tags” used in posts.
     - A search by text entry can also be completed.
     - Either method will return a feed where only posts with the relevant tags are shown.
+- Search by location (web only)
+    - Using the Explore page in the web app, the location of posts is visible in the Google Maps applet. Clicking the icon in its physical location on the map will bring up the related post that was made from that location.
 
 ## Instructions
 
@@ -33,15 +35,29 @@ http://kcsharewebsite.s3-website-us-east-1.amazonaws.com/
 
 The mobile app requires a more involved process described below in the Development Requirements section. At present there is no way to access the mobile app online, nor are there any accounts. Our plan (in accordance with the partner’s wishes) is to integrate with the school’s Google user account pool, so we have not developed our own account system.
 
-**To view the feed:** access the first page of either the web or mobile app. Use the left bar Home button on web or the bottom-left Home icon on mobile to return to this view.
+**To view the feed:** Access the first page of either the web or mobile app. Use the left bar Home button on web or the bottom-left Home icon on mobile to return to this view.
+
+*Web* ![alt ](web-feed.png "Web feed") *Mobile* ![alt ](mobile-feed.png "Mobile feed")
 
 **To create posts:** Use the left bar Home button on web. Write a new post in the box at the top centre, attach an image if desired, and click Share. On mobile, use the bottom centre ‘+’ button to reach a screen where a new post can be written, an image can be attached, and the post can be shared.
 
-**To delete posts:** This feature will only be available on one’s own posts when accounts have been integrated, but the method will remain the same. For both web and mobile, press the trash can icon on the top right of a post and confirm your decision at the confirmation pop-up.
+*Web* ![alt ](web-makepost.png "Web create post") *Mobile* ![alt ](mobile-makepost.png "Mobile create post")
+
+**To delete posts:** This feature will only be available on one’s own posts when accounts have been integrated, but the method will remain the same. For web and mobile, press the trash can icon on the top right of a post and confirm your decision at the confirmation pop-up. On mobile, use the "..." button at the top right to choose to delete a post.
+
+*Web* ![alt ](web-delete.png "Web delete post") *Mobile* ![alt ](mobile-delete.png "Mobile delete post")
 
 **To view your own posts:** On web, click the left bar My Posts button to view a feed containing only your own posts. On mobile, tap the bottom right profile button and ensure that “My Posts” is selected at the top right on the Profile screen.
 
+*Web* ![alt ](web-myposts.png "Web view own posts") *Mobile* ![alt ](mobile-myposts.png "Mobile view own posts")
+
 **To search by hashtag:** On web, click one of the Top Tags listed on the right bar, or enter a hashtag search term in the top right search bar and hit Enter/Return to make the search. On mobile, ensure that you’re on the Home screen/main feed (bottom left Home button), tap the top right search bar, and either tap one of the Top Tags listed or enter a search term and the app will automatically make a search on what you’ve typed after a short delay.
+
+*Web* ![alt ](web-search.png "Web search") *Mobile* ![alt ](mobile-search0.png "Mobile search 1") ![alt ](mobile-search1.png "Mobile search 2")
+
+**Search by location (web only):**  On the web app only, click Explore on the left bar. Clicking an icon on the map will bring up the post that was made from that location.
+
+![alt ](web-location.png "Web explore by location")
 
 ## Development requirements
 
