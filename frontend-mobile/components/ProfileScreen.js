@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, TextInput } from 'react-native';
+import { RefreshControl, SafeAreaView, View, FlatList, StyleSheet, Text, TextInput } from 'react-native';
 import { Icon, ButtonGroup } from 'react-native-elements';
 import Amplify from 'aws-amplify';
 import Post from './Post.js';
@@ -43,28 +43,38 @@ class HeaderButtons extends Component {
 export default class ProfileScreen extends Component {
     state = {
 	posts: [],
-	selectedIndex: 0
+	selectedIndex: 0,
+	refreshing: true
     }
-
     constructor () {
 	super()
 	this.updateIndex = this.updateIndex.bind(this)
 	this.selectedScreen = this.selectedScreen.bind(this)
+	this.refresh = this.refresh.bind(this)
     }
-    
-    componentDidMount() {
+
+    refresh() {
+	this.state.posts = [];
+
 	const userID = '2';
 	let getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
 
+	Amplify.API.get('getPosts', "", getParams).then( (response) => {
+	    this.setState({
+		posts: response,
+		refreshing: false
+	    });
+	}).catch((error) => {
+	    console.log(error)
+	})
+
+    }
+    componentDidMount() {
 	if (this.state.posts.length === 0) {
-	    Amplify.API.get('getPosts', "", getParams).then( (response) => {
-		this.setState({posts: response});
-		
-	    }).catch((error) => {
-		console.log(error)
-	    })
+	    this.refresh()
 	}
     }
+    
     updateIndex(selectedIndex) {
 	this.setState({selectedIndex})
 	console.log(this.state)
@@ -78,6 +88,14 @@ export default class ProfileScreen extends Component {
 		    data={this.state.posts}
 		    renderItem={({ item }) => <Post post={item} />}
 		    keyExtractor={post => post.postID}
+			refreshControl={
+			<RefreshControl
+				colors={["#fcfcff"]}
+				       refreshing={this.state.refreshing }
+				       onRefresh={() => this.refresh() }
+				       tintColor={"white"}
+			    />
+			}
 		    />
 		</SafeAreaView>)
 	}
