@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, Image, Text, View, StyleSheet } from "react-native"
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
-import { Icon } from 'react-native-elements';
 import Amplify from 'aws-amplify';
 // import {
 //     Menu,
@@ -14,7 +13,7 @@ import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 
 class MenuIcon extends Component {
     render() {
-	return <MaterialCommunityIcons name="dots-horizontal" color={"white"} size={20}/>
+	return <MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20}/>
     }
 }
 class PostMenu extends Component {
@@ -64,7 +63,7 @@ class PostMenu extends Component {
 	    <View style={{borderRadius: 10}}>
 		<Menu 
 		ref={this.setMenuRef}
-		button={<Icon name="menu" onPress={this.showMenu}/>}>
+		button={<MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} onPress={this.showMenu} />}>
 
 			<MenuItem onPress={() => alert(`Save`)} customStyles={menuOptionStyle}> Favourite </MenuItem>
 			<MenuDivider/>
