@@ -86,7 +86,7 @@ export default class ProfileScreen extends Component {
 		<SafeAreaView style={styles.container}>
 		    <FlatList
 		    data={this.state.posts}
-		    renderItem={({ item }) => <Post post={item} />}
+		    renderItem={({ item }) => <Post post={item} refresh={() => this.refresh() } />}
 		    keyExtractor={post => post.postID}
 			refreshControl={
 			<RefreshControl
