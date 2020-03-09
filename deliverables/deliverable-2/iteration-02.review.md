@@ -2,6 +2,7 @@
 
 ## Iteration 02 - Review & Retrospect
 When: Sunday March 8, 2020
+
 Where: Where: Bahen Centre for Information Technology
 
 ## Process - Reflection
