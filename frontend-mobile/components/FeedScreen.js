@@ -61,13 +61,14 @@ class Feed extends Component {
 	}
     }
     render() {
+	console.log(this.refresh)
 	return (
 	    <View style={styles.view}>
 		<FeedHeader navigation={this.props.navigation} />
 		<SafeAreaView style={styles.container}>
 		    <FlatList
 		    data={this.state.posts}
-		    renderItem={({ item }) => <Post post={item} />}
+		    renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
 		    refreshControl={
 			<RefreshControl
 			colors={["#fcfcff"]}
