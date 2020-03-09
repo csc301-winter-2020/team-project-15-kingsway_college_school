@@ -20,6 +20,7 @@ class PostMenu extends Component {
     constructor() {
 	super();
 	this.deletePost = this.deletePost.bind(this)
+	this.deleteAlert = this.deleteAlert.bind(this)
     }
     deletePost() {
 	const reqParams = { queryStringParameters: { userID: 2, postID: this.props.postID } };
@@ -31,7 +32,7 @@ class PostMenu extends Component {
 	});
 
 
-	}
+    }
 
 	showMenu = () => {
 		this._menu.show();
@@ -44,7 +45,21 @@ class PostMenu extends Component {
 	hideMenu = () => {
 		this._menu.hide();
 	};
-
+    deleteAlert() {
+	Alert.alert(
+	    'Delete post?',
+	    'Are you sure you want to delete this post?',
+	    [
+		{
+		    text: 'Cancel',
+		    onPress: () => console.log('Cancel Pressed'),
+		    style: 'cancel',
+		},
+		{text: 'OK', onPress: () => this.deletePost()},
+	    ],
+	    {cancelable: true},
+	);   
+    }
     render() {
 	const userID = 2;
 	const menuOptionStyle = {
@@ -59,6 +74,7 @@ class PostMenu extends Component {
 		borderRadius: 10,
 	    }
 	}
+	
 	return (
 	    <View style={{borderRadius: 10}}>
 		<Menu 
@@ -67,7 +83,7 @@ class PostMenu extends Component {
 
 			<MenuItem onPress={() => alert(`Save`)} customStyles={menuOptionStyle}> Favourite </MenuItem>
 			<MenuDivider/>
-			<MenuItem onPress={() => this.deletePost()} disabled={!this.props.userID == userID}> Delete</MenuItem>
+			<MenuItem onPress={() => this.deleteAlert()} disabled={!this.props.userID == userID}> Delete</MenuItem>
 		</Menu>
 	    </View>
 	)
