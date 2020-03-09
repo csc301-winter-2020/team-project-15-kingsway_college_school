@@ -46,6 +46,21 @@ export default class ExploreScreen extends Component {
   state = {
     hashtags: [],
   };
+    constructor() {
+	super();
+	this.search = this.search.bind(this)
+    }
+    search(searchTerm) {
+
+	console.log("Searching for:", searchTerm)
+	let getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
+
+	Amplify.API.get('getPosts', "", getParams).then( (response) => {
+	    console.log(response) 
+	}).catch((error) => {
+	    console.log(error)
+	})
+  }
   
   componentDidMount() {
     if (this.state.hashtags.length === 0) {
@@ -66,7 +81,7 @@ export default class ExploreScreen extends Component {
         <SafeAreaView style={styles.hashtagsContainer}>
           <FlatList
             data={this.state.hashtags}
-            renderItem={({ item }) => <Tag tag={item} />}
+            renderItem={({ item }) => <Tag tag={item} search={(searchTerm) => this.search(searchTerm) } />}
           />
 		    </SafeAreaView>
         <Tag />
