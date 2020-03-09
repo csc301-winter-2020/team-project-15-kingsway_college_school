@@ -44,8 +44,11 @@ class CreatePost extends React.Component {
 
 		const imageParam = this.state.attachment ? [ this.state.attachment ] : [];
 
-		const reqParams = { body: { userID: 2, content: this.state.postData, images: imageParam,
-							location: { name: this.state.locName, latitude: this.state.lat.toString(), longitude: this.state.long.toString() } } };
+		const reqParams = { body: { userID: 2, content: this.state.postData, images: imageParam } };
+
+		if (this.state.locName && this.state.lat && this.state.long) {
+			reqParams.body['location'] = { name: this.state.locName, latitude: this.state.lat.toString(), longitude: this.state.long.toString() }
+		}
 
 		Amplify.API.post('newPost', '', reqParams).then((response) => {
 			this.props.store.updateFeeds();
@@ -65,10 +68,6 @@ class CreatePost extends React.Component {
 
     	xhr.onload = () => {
 			let full_name = JSON.parse(xhr.responseText).features[0].place_name;
-			// let names = full_name.split(',');
-			// let place = names[0];
-			// let address = names[0]
-			// let city = names[2]; //[place, city].join(', ')
 
     		this.setState({ locName: full_name})
     	}
