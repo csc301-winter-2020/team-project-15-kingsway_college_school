@@ -6,6 +6,7 @@ import Post from '../Post/Post'
 
 class Explore extends React.Component {
 	state = { posts: [],
+		features: [],
 		selectedPost: undefined}
 
 	// componentDidMount() {
@@ -17,172 +18,6 @@ class Explore extends React.Component {
 	// 	style: 'mapbox://styles/mapbox/streets-v11'
 	// 	});
 	// }
-
-	
-
-	getAllPosts = () => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
-
-		let getParams = {};
-
-		Amplify.API.get('getPosts', '', getParams).then((response) => {
-			const posts = [];
-
-			if (Object.entries(response).length === 0 && response.constructor === Object) {
-				response = [];
-			}
-
-			response.forEach((post) => {
-				posts.push({
-					postID: post.postID,
-					userID: post.userID,
-					location: post.location,
-					content: post.content,
-					images: post.images,
-					uploadTime: post.timeUploaded,
-				});
-			});
-
-			this.setState({posts: posts});
-		}).catch((error) => {
-			console.log(error);
-		});
-	}
-
-	getSelectedPost = (postID) => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
-
-		let getParams = {};
-		getParams = { queryStringParameters: { searchType: 'POST', searchParameter: postID } }
-
-		Amplify.API.get('getPosts', '', getParams).then((response) => {
-			const selectedPost = undefined;
-
-			if (Object.entries(response).length === 0 && response.constructor === Object) {
-				response = [];
-			}
-
-			response.forEach((post) => {
-				selectedPost = {
-					postID: post.postID,
-					userID: post.userID,
-					location: post.location,
-					content: post.content,
-					images: post.images,
-					uploadTime: post.timeUploaded,
-				};
-			});
-
-			this.setState({selectedPost: selectedPost});
-		}).catch((error) => {
-			console.log(error);
-		});
-	}
-
-	popUps(mapboxgl, map, features){
-		map.on('load', function() {
-			map.addSource('places', {
-			'type': 'geojson',
-			'data': {
-			'type': 'FeatureCollection',
-			'features': [features]
-			}
-			});
-			// Add a layer showing the places.
-			map.addLayer({
-			'id': 'places',
-			'type': 'symbol',
-			'source': 'places',
-			'layout': {
-			'icon-image': '{icon}-15',
-			'icon-allow-overlap': true
-			},
-			"paint": {
-	            "icon-color":"#539038",
-				// "text-color":"#9fcb3b",
-				// "text-size":12
-	        }
-			});
-			 
-			// When a click event occurs on a feature in the places layer, open a popup at the
-			// location of the feature, with description HTML from its properties.
-			map.on('click', 'places', function(e) {
-			var coordinates = e.features[0].geometry.coordinates.slice();
-			var description = e.features[0].properties.description;
-			 
-			// Ensure that if the map is zoomed out such that multiple
-			// copies of the feature are visible, the popup appears
-			// over the copy being pointed to.
-			while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-			coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-			}
-			 
-			new mapboxgl.Popup()
-			.setLngLat(coordinates)
-			.setHTML(description)
-			.addTo(map);
-			});
-			 
-			// Change the cursor to a pointer when the mouse is over the places layer.
-			map.on('mouseenter', 'places', function() {
-			map.getCanvas().style.cursor = 'pointer';
-			});
-			 
-			// Change it back to a pointer when it leaves.
-			map.on('mouseleave', 'places', function() {
-			map.getCanvas().style.cursor = '';
-			});
-			});
-	}
-
-	componentDidMount(){
-			var mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
-			mapboxgl.accessToken = 'pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ';
-			var map = new mapboxgl.Map({
-			container: 'map', // container id
-			// style: 'mapbox://styles/mapbox/streets-v11',
-			style: 'mapbox://styles/ryanmarten/ck7jbiwkj34nv1io28t0c73ts',
-			center: [-79.3949, 43.6529], // starting position
-			zoom: 10.99 // starting zoom
-			});
-			
-			// Add zoom and rotation controls to the map.
-			map.addControl(new mapboxgl.NavigationControl());
-
-			//Enable pop-ups 
-			this.popUps(mapboxgl, map, this.example_features);
-			
-			// this.getPosts();
-			
-			// this.getSelectedPost(postID)
-	}
-
-	render() {
-		
-		return (
-		<div className="Explore dark-grey light-grey-text">
-			<div id="map"></div>
-			<Post store={ this.props.store } post={ this.state.post } />
-		</div>
-	)}
 
 	example_features = [{
 		'type': 'Feature',
@@ -301,6 +136,199 @@ class Explore extends React.Component {
 			43.653946000000005]
 		}
 		}];
+
+	saved_features = [{"type":"Feature","properties":{"description":"24","icon":"theatre"},"geometry":{"type":"Point","coordinates":[-79.3976539,43.6591399]}}];
+
+	getAllPosts = (mapboxgl, map) => {
+		Amplify.configure({
+			API: {
+				endpoints: [{
+					name: 'getPosts',
+					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
+					service: 'api-gateway',
+					region: 'us-east-1'
+				}]
+			}
+		});
+
+		let getParams = {};
+
+		Amplify.API.get('getPosts', '', getParams).then((response) => {
+			const posts = [];
+			const features = [];
+
+			if (Object.entries(response).length === 0 && response.constructor === Object) {
+				response = [];
+			}
+
+			response.forEach((post) => {
+				posts.push({
+					postID: post.postID,
+					userID: post.userID,
+					location: post.location,
+					content: post.content,
+					images: post.images,
+					uploadTime: post.timeUploaded,
+				});
+
+				if (post.location.latitude && post.location.longitude){
+					features.push({
+						'type': 'Feature',
+						'properties': {
+						'description': (post.postID).toString(),
+						'icon': 'theatre'
+						},
+						'geometry': {
+						'type': 'Point',
+						'coordinates': [parseFloat(post.location.longitude), parseFloat(post.location.latitude)]
+						}
+					});
+				}
+			});
+
+			this.setState({posts: posts});
+			this.setState({features: features});
+
+			console.log(JSON.stringify(this.state.features));
+
+			// Plot features on map
+			this.popUps(mapboxgl, map, this.state.features);
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
+
+	getSelectedPost = (postID) => {
+		console.log(postID);
+
+		Amplify.configure({
+			API: {
+				endpoints: [{
+					name: 'getPosts',
+					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
+					service: 'api-gateway',
+					region: 'us-east-1'
+				}]
+			}
+		});
+
+		let getParams = {};
+		getParams = { queryStringParameters: { searchType: 'POST', searchParameter: postID } }
+
+		Amplify.API.get('getPosts', '', getParams).then((response) => {
+			let selectedPost = undefined;
+
+			if (Object.entries(response).length === 0 && response.constructor === Object) {
+				response = [];
+			}
+
+			response.forEach((post) => {
+				selectedPost = {
+					postID: post.postID,
+					userID: post.userID,
+					location: post.location,
+					content: post.content,
+					images: post.images,
+					uploadTime: post.timeUploaded,
+				};
+			});
+
+			console.log(selectedPost)
+			this.setState({selectedPost: selectedPost});
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
+
+	popUps(mapboxgl, map, features){
+		// map.on('load', () => { CHANGE THE WAY IT LOADS
+			map.addSource('places', {
+			'type': 'geojson',
+			'data': {
+			'type': 'FeatureCollection',
+			'features': features
+			}
+			});
+			// Add a layer showing the places.
+			map.addLayer({
+			'id': 'places',
+			'type': 'symbol',
+			'source': 'places',
+			'layout': {
+			'icon-image': '{icon}-15',
+			'icon-allow-overlap': true
+			},
+			"paint": {
+	            "icon-color":"#539038",
+				// "text-color":"#9fcb3b",
+				// "text-size":12
+	        }
+			});
+			 
+			// When a click event occurs on a feature in the places layer, open a popup at the
+			// location of the feature, with description HTML from its properties.
+			map.on('click', 'places', (e) => {
+				let postID = e.features[0].properties.description;
+				console.log(postID)
+				this.getSelectedPost(parseInt(postID));
+			
+			// var coordinates = e.features[0].geometry.coordinates.slice();
+			// var description = e.features[0].properties.description;
+			 
+			// // Ensure that if the map is zoomed out such that multiple
+			// // copies of the feature are visible, the popup appears
+			// // over the copy being pointed to.
+			// while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+			// coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+			// }
+			 
+			// new mapboxgl.Popup()
+			// .setLngLat(coordinates)
+			// .setHTML(description)
+			// .addTo(map);
+			});
+			 
+			// Change the cursor to a pointer when the mouse is over the places layer.
+			map.on('mouseenter', 'places', function() {
+			map.getCanvas().style.cursor = 'pointer';
+			});
+			 
+			// Change it back to a pointer when it leaves.
+			map.on('mouseleave', 'places', function() {
+			map.getCanvas().style.cursor = '';
+			});
+			// }); CHANGE THE WAY IT LOADS
+	}
+
+	componentDidMount(){
+			let mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
+			mapboxgl.accessToken = 'pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ';
+			let map = new mapboxgl.Map({
+			container: 'map', // container id
+			// style: 'mapbox://styles/mapbox/streets-v11',
+			style: 'mapbox://styles/ryanmarten/ck7jbiwkj34nv1io28t0c73ts',
+			center: [-79.3949, 43.6529], // starting position
+			zoom: 10.99 // starting zoom
+			});
+			
+			// Add zoom and rotation controls to the map.
+			map.addControl(new mapboxgl.NavigationControl());
+
+			this.getAllPosts(mapboxgl, map);
+			
+			// used this.saved_features for test
+			// this.popUps(mapboxgl, map, this.saved_features);
+			// this.getSelectedPost(postID)
+	}
+
+	render() {
+		
+		return (
+		<div className="Explore dark-grey light-grey-text">
+			<div id="map"></div>
+			<Post store={ this.props.store } post={ this.state.selectedPost } />
+		</div>
+	)}
 };
 
 export default Explore;
