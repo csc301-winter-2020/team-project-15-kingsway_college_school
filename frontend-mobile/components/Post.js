@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { Alert, Image, Text, View, StyleSheet } from "react-native"
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
+import { Icon } from 'react-native-elements';
 import Amplify from 'aws-amplify';
-import {
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
-} from 'react-native-popup-menu';
+// import {
+//     Menu,
+//     MenuOptions,
+//     MenuOption,
+//     MenuTrigger,
+// } from 'react-native-popup-menu';
+import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
+
 
 class MenuIcon extends Component {
     render() {
@@ -29,7 +32,20 @@ class PostMenu extends Component {
 	});
 
 
-    }
+	}
+
+	showMenu = () => {
+		this._menu.show();
+	  };
+
+	setMenuRef = ref => {
+		this._menu = ref;
+	};
+	 
+	hideMenu = () => {
+		this._menu.hide();
+	};
+
     render() {
 	const userID = 2;
 	const menuOptionStyle = {
@@ -46,12 +62,13 @@ class PostMenu extends Component {
 	}
 	return (
 	    <View style={{borderRadius: 10}}>
-		<Menu>
-		    <MenuTrigger children={<MenuIcon/>} />
-		    <MenuOptions customStyles={menuOptionStyle}>
-			<MenuOption onSelect={() => alert(`Save`)} text='Favourite' customStyles={menuOptionStyle} />
-			<MenuOption onSelect={() => this.deletePost()} disabled={!this.props.userID == userID  } text='Delete' customStyles={menuOptionStyle}/>
-		    </MenuOptions>
+		<Menu 
+		ref={this.setMenuRef}
+		button={<Icon name="menu" onPress={this.showMenu}/>}>
+
+			<MenuItem onPress={() => alert(`Save`)} customStyles={menuOptionStyle}> Favourite </MenuItem>
+			<MenuDivider/>
+			<MenuItem onPress={() => this.deletePost()} disabled={!this.props.userID == userID}> Delete</MenuItem>
 		</Menu>
 	    </View>
 	)
