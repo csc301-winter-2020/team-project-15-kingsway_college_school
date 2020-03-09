@@ -13,10 +13,10 @@ class ExploreTags extends Component {
         <View>
             <Text style={styles.headerText}>Top Tags</Text>
         </View>
-		    <SafeAreaView style={styles.hashtagsContainer}>
-		    <FlatList
-          data={this.props.hashtags}
-          renderItem={({ item }) => <Tag tag={item} search={(searchTerm) => this.search(searchTerm) } />}
+	      <SafeAreaView style={styles.hashtagsContainer}>
+	      <FlatList
+              data={this.props.hashtags}
+              renderItem={({ item }) => <Tag tag={item} search={(searchTerm) => this.props.search(searchTerm) } />}
 		    />
 		    </SafeAreaView>
 	    </View>
@@ -130,7 +130,7 @@ export default class ExploreScreen extends Component {
   }
 
   render() {
-    let currentView = <ExploreTags hashtags={this.state.hashtags}  />
+    let currentView = <ExploreTags hashtags={this.state.hashtags} search={(searchTerm) => this.search(searchTerm)}/>
     if (this.state.showSearch) {
 	    currentView = <ExploreSearchResults posts={this.state.posts}/>
     }
