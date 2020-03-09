@@ -61,7 +61,6 @@ class Feed extends Component {
 	}
     }
     render() {
-	console.log(this.refresh)
 	return (
 	    <View style={styles.view}>
 		<FeedHeader navigation={this.props.navigation} />
@@ -71,7 +70,6 @@ class Feed extends Component {
 		    renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
 		    refreshControl={
 			<RefreshControl
-			colors={["#fcfcff"]}
 			       refreshing={this.state.refreshing }
 			       onRefresh={() => this.refresh() }
 			       tintColor={"white"}
