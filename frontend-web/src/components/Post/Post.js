@@ -41,6 +41,12 @@ class Post extends React.Component {
 	render() {
 		const { post } = this.props;
 
+		if(post === undefined){
+			return(
+			<div className="Post shadow mid-grey light-grey-text">Click a post on the map to see it! </div>
+			)
+		}
+
 		let time = new Date(post.uploadTime * 1000);
 
 		const month = {
