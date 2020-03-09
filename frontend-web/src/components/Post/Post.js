@@ -41,8 +41,7 @@ class Post extends React.Component {
 	render() {
 		const { post } = this.props;
 
-		let time = new Date(0);
-		time.setUTCSeconds(post.uploadTime);
+		let time = new Date(post.uploadTime * 1000);
 
 		const month = {
 			0: 'January',
@@ -75,7 +74,7 @@ class Post extends React.Component {
 			</div>} 
 
 			<div className="PostUploadTime">
-				{ '' + month[time.getMonth()] + ' ' + (time.getDay() + 1) + ', ' + time.getFullYear() }
+				{ '' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear() }
 			</div>
 
 			{ this.props.store.currentView === 'My Posts' ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }
