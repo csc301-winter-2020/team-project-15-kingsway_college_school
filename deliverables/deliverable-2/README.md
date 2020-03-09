@@ -25,6 +25,8 @@ At present, here is the complete set of features a user can access for this deli
     - Using the search bar on the main feed brings up a list of the most popular “Top Tags” used in posts.
     - A search by text entry can also be completed.
     - Either method will return a feed where only posts with the relevant tags are shown.
+- Search by location (web only)
+    - Using the Explore page in the web app, the location of posts is visible in the Google Maps applet. Clicking the icon in its physical location on the map will bring up the related post that was made from that location.
 
 ## Instructions
 
@@ -52,6 +54,10 @@ The mobile app requires a more involved process described below in the Developme
 **To search by hashtag:** On web, click one of the Top Tags listed on the right bar, or enter a hashtag search term in the top right search bar and hit Enter/Return to make the search. On mobile, ensure that you’re on the Home screen/main feed (bottom left Home button), tap the top right search bar, and either tap one of the Top Tags listed or enter a search term and the app will automatically make a search on what you’ve typed after a short delay.
 
 *Web* ![alt ](web-search.png "Web search") *Mobile* ![alt ](mobile-search0.png "Mobile search 1") ![alt ](mobile-search1.png "Mobile search 2")
+
+**Search by location (web only):**  On the web app only, click Explore on the left bar. Clicking an icon on the map will bring up the post that was made from that location.
+
+![alt ](web-location.png "Web explore by location")
 
 ## Development requirements
 
