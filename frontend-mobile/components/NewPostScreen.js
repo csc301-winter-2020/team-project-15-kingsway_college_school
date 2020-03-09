@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { CameraRoll, Image, View, FlatList, StyleSheet, Text, TextInput, KeyboardAvoidingView } from 'react-native';
+import { Alert, CameraRoll, Image, View, FlatList, StyleSheet, Text, TextInput, KeyboardAvoidingView } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-elements';
 import Constants from 'expo-constants';
@@ -69,6 +69,7 @@ class NewPostBody extends Component {
 
 	Amplify.API.post('newPost', '', reqParams).then((response) => {
 	    console.log("Post submitted")
+	    Alert.alert("Post submitted", ":)")
 	}).catch((error) => {
 	    console.log(error);
 	});
