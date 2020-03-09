@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { Alert, CameraRoll, Image, View, FlatList, StyleSheet, Text, TextInput, KeyboardAvoidingView } from 'react-native';
+import { TouchableWithoutFeedback, Keyboard, Alert, CameraRoll, Image, View, FlatList, StyleSheet, Text, TextInput, KeyboardAvoidingView } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-elements';
 import Constants from 'expo-constants';
@@ -73,14 +73,17 @@ class NewPostBody extends Component {
 	}).catch((error) => {
 	    console.log(error);
 	});
-
+	Keyboard.dismiss();
+	this.textInput.clear();
 
     }
 
     render() {
 	return (
+	    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 	    <KeyboardAvoidingView style={{flex:8}} behavior="padding" keyboardVerticalOffset={100}>
 		<TextInput
+		    ref={input => { this.textInput = input }}
 		style={styles.TextInputStyleClass}
 		placeholder={"Share what you've learnt!"}
 		placeholderTextColor="#9E9E9E"
@@ -102,6 +105,7 @@ class NewPostBody extends Component {
 
 		</View>
 	    </KeyboardAvoidingView>
+	    </TouchableWithoutFeedback>
 	)
     } 
 }
