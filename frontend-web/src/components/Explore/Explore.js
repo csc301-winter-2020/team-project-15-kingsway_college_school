@@ -331,8 +331,7 @@ class Explore extends React.Component {
 		return (
 		<div className="Explore dark-grey light-grey-text">
 			<div id="map"></div>
-			{ this.state.loading ?  <Loader /> : '' }
-			<Post store={ this.props.store } post={ this.state.selectedPost } />
+			{ this.state.loading ?  <Loader /> : <Post store={ this.props.store } post={ this.state.selectedPost } /> }
 		</div>
 	)}
 };
