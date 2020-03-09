@@ -90,7 +90,6 @@ export default class ProfileScreen extends Component {
 		    keyExtractor={post => post.postID}
 			refreshControl={
 			<RefreshControl
-				colors={["#fcfcff"]}
 				       refreshing={this.state.refreshing }
 				       onRefresh={() => this.refresh() }
 				       tintColor={"white"}
