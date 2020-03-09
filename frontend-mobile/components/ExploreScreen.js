@@ -3,24 +3,22 @@ import { SafeAreaView, View, FlatList, StyleSheet, Text, TextInput, TouchableOpa
 import Amplify from 'aws-amplify';
 import { SearchBar } from 'react-native-elements';
 import Tag from './Tag.js';
+import Post from './Post.js';
 
-// Delete these imports if unused
-import { createStackNavigator } from '@react-navigation/stack';
-import Constants from 'expo-constants';
 
 class ExploreTags extends Component {
-    render() {
-	return (
+  render() {
+	  return (
 	    <View>
-		<View>
-		    <Text style={styles.headerText}>Top Tags</Text>
-		</View>
-		<SafeAreaView style={styles.hashtagsContainer}>
+        <View>
+            <Text style={styles.headerText}>Top Tags</Text>
+        </View>
+		    <SafeAreaView style={styles.hashtagsContainer}>
 		    <FlatList
-			data={this.props.hashtags}
-			renderItem={({ item }) => <Tag tag={item} search={(searchTerm) => this.search(searchTerm) } />}
+          data={this.props.hashtags}
+          renderItem={({ item }) => <Tag tag={item} search={(searchTerm) => this.search(searchTerm) } />}
 		    />
-		</SafeAreaView>
+		    </SafeAreaView>
 	    </View>
 	)
 
@@ -28,13 +26,18 @@ class ExploreTags extends Component {
 }
 class ExploreSearch extends Component {
   state = {
-    text: ''
+    text: '',
   };
   
   searching (text) {
     this.setState(text);
-    // doSomeDelay();
-    // startSearching();
+    if (text.text) {
+      // doSomeDelay();
+      this.props.search(text.text);
+    }
+    else {
+      this.props.setFlag();
+    }
   }
 
   render() {
@@ -57,33 +60,62 @@ class ExploreSearch extends Component {
 }
 
 class ExploreSearchResults extends Component {
-    render() {
-	return (
-	    <Text> Hello </Text>
-	)
-    }
+  posts = [];
+  
+  constructor() {
+    super();
+  }
+
+  render() {
+    this.posts = this.props.posts;
+	  return (
+	    <SafeAreaView style={styles.container}>
+		  <FlatList
+		    data={this.posts}
+		    renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
+		    // refreshControl={
+        // <RefreshControl
+        // colors={["#fcfcff"]}
+        //       refreshing={this.state.refreshing }
+        //       onRefresh={() => this.refresh() }
+        //       tintColor={"white"}
+        // />
+		    // }
+		    keyExtractor={post => post.postID}
+		  />
+		  </SafeAreaView>
+	  )
+  }
 }
 
 export default class ExploreScreen extends Component {
   state = {
     hashtags: [],
-      showSearch: false,
-      postst: []
+    showSearch: false,
+    posts: []
   };
-    constructor() {
-	super();
-	this.search = this.search.bind(this)
-    }
-    search(searchTerm) {
 
-	console.log("Searching for:", searchTerm)
-	let getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
+  constructor() {
+    super();
+    this.search = this.search.bind(this);
+    this.setShowSearchFalse.bind(this);
+  }
 
-	Amplify.API.get('getPosts', "", getParams).then( (response) => {
-	    this.setState({posts: response})
-	}).catch((error) => {
-	    console.log(error)
-	})
+  setShowSearchFalse () {
+    this.setState({showSearch: false});
+  }
+  
+  search(searchTerm) {
+    this.setState({showSearch: true});
+    console.log("Searching for:", searchTerm)
+    let getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
+
+    Amplify.API.get('getPosts', "", getParams).then( (response) => {
+        this.setState({posts: response});
+        console.log(this.state.posts);
+    }).catch((error) => {
+        console.log(error)
+    })
   }
   
   componentDidMount() {
@@ -98,14 +130,14 @@ export default class ExploreScreen extends Component {
   }
 
   render() {
-      let currentView = <ExploreTags hashtags={this.state.hashtags}  />
-      if (this.state.showSearch) {
-	  currentView = <ExploreSearchResults/>
-      }
+    let currentView = <ExploreTags hashtags={this.state.hashtags}  />
+    if (this.state.showSearch) {
+	    currentView = <ExploreSearchResults posts={this.state.posts}/>
+    }
     return (
       <View style={styles.view}>
-	  <ExploreSearch/>
-	  {currentView}
+	      <ExploreSearch search={this.search} setFlag={() => this.setShowSearchFalse()}/>
+	      {currentView}
         <Tag />
       </View>
     );
