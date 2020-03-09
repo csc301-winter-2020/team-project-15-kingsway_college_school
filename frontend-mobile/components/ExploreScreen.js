@@ -8,8 +8,25 @@ import Tag from './Tag.js';
 import { createStackNavigator } from '@react-navigation/stack';
 import Constants from 'expo-constants';
 
+class ExploreTags extends Component {
+    render() {
+	return (
+	    <View>
+		<View>
+		    <Text style={styles.headerText}>Top Tags</Text>
+		</View>
+		<SafeAreaView style={styles.hashtagsContainer}>
+		    <FlatList
+			data={this.props.hashtags}
+			renderItem={({ item }) => <Tag tag={item} search={(searchTerm) => this.search(searchTerm) } />}
+		    />
+		</SafeAreaView>
+	    </View>
+	)
 
-class ExploreHeader extends Component {
+    }
+}
+class ExploreSearch extends Component {
   state = {
     text: ''
   };
@@ -34,17 +51,24 @@ class ExploreHeader extends Component {
           />
         </View>
 
-        <View>
-		      <Text style={styles.headerText}>Top Tags</Text>
-		    </View>
-      </View>
+     </View>
     )
   }
+}
+
+class ExploreSearchResults extends Component {
+    render() {
+	return (
+	    <Text> Hello </Text>
+	)
+    }
 }
 
 export default class ExploreScreen extends Component {
   state = {
     hashtags: [],
+      showSearch: false,
+      postst: []
   };
     constructor() {
 	super();
@@ -56,7 +80,7 @@ export default class ExploreScreen extends Component {
 	let getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
 
 	Amplify.API.get('getPosts', "", getParams).then( (response) => {
-	    console.log(response) 
+	    this.setState({posts: response})
 	}).catch((error) => {
 	    console.log(error)
 	})
@@ -74,16 +98,14 @@ export default class ExploreScreen extends Component {
   }
 
   render() {
+      let currentView = <ExploreTags hashtags={this.state.hashtags}  />
+      if (this.state.showSearch) {
+	  currentView = <ExploreSearchResults/>
+      }
     return (
       <View style={styles.view}>
-        <ExploreHeader  />
-
-        <SafeAreaView style={styles.hashtagsContainer}>
-          <FlatList
-            data={this.state.hashtags}
-            renderItem={({ item }) => <Tag tag={item} search={(searchTerm) => this.search(searchTerm) } />}
-          />
-		    </SafeAreaView>
+	  <ExploreSearch/>
+	  {currentView}
         <Tag />
       </View>
     );
