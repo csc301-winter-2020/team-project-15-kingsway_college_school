@@ -7,8 +7,14 @@
 
 ## Deploy to AWS site(you need the AWS CLI installed and the AWS access keys, which are in the slack under credentials)
 Run the following commands:
+# Builds a production version of the React site
 npm run-script build
+# Syncs the build artifacts with the S3 bucket hosting the kcshare website
 aws s3 sync ./build/ s3://kcsharewebsite 
+# Invalidates the cloudfront invalidation files, essentially telling cloudfront 
+# that when you get a request for these files pull the files from the s3 bucket 
+# instead of using the cached version of these files
+aws cloudfront create-invalidation --distribution-id E3FZYOB0ATU0DJ --paths "/*"
 
 ## Maintainability and continued use
 - Once initial setup is complete the `npm start` command should suffice as the only 'go to' command that is needed
