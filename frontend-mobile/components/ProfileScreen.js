@@ -100,7 +100,11 @@ export default class ProfileScreen extends Component {
 		</SafeAreaView>)
 	}
 	else {
-	    return <Text>Hey</Text>
+	    return (
+		<View style={styles.favorites}>
+		    <Text style={{color: "white", fontSize: 40}}>Favorites</Text>
+		</View>
+	    )
 	}
     }
 	 
@@ -138,9 +142,12 @@ const styles = StyleSheet.create({
 		flex: 3,
 		flexDirection: 'column',
 		justifyContent: 'center',
-
 	},
     container: {
 	flex: 1
+    },
+    favorites: {
+	justifyContent: "center",
+	alignItems: "center"
     }
 });
