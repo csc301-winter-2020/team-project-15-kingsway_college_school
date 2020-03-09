@@ -3,10 +3,12 @@ import { uid } from "react-uid";
 import './Explore.css';
 import Amplify from 'aws-amplify';
 import Post from '../Post/Post'
+import Loader from '../Loader/Loader'
 
 class Explore extends React.Component {
 	state = { posts: [],
 		features: [],
+		loading: false,
 		selectedPost: undefined}
 
 	// componentDidMount() {
@@ -200,6 +202,7 @@ class Explore extends React.Component {
 
 	getSelectedPost = (postID) => {
 		console.log(postID);
+		this.setState({loading: true});
 
 		Amplify.configure({
 			API: {
@@ -234,6 +237,7 @@ class Explore extends React.Component {
 			});
 
 			console.log(selectedPost)
+			this.setState({loading: false});
 			this.setState({selectedPost: selectedPost});
 		}).catch((error) => {
 			console.log(error);
@@ -313,6 +317,7 @@ class Explore extends React.Component {
 			
 			// Add zoom and rotation controls to the map.
 			map.addControl(new mapboxgl.NavigationControl());
+			map.scrollZoom.disable();
 
 			this.getAllPosts(mapboxgl, map);
 			
@@ -326,7 +331,7 @@ class Explore extends React.Component {
 		return (
 		<div className="Explore dark-grey light-grey-text">
 			<div id="map"></div>
-			<Post store={ this.props.store } post={ this.state.selectedPost } />
+			{ this.state.loading ?  <Loader /> : <Post store={ this.props.store } post={ this.state.selectedPost } /> }
 		</div>
 	)}
 };
