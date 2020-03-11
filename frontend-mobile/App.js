@@ -17,26 +17,26 @@ Amplify.configure({
 	endpoints: [
 	    {
 		name: 'getPosts',
-		endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
+		endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPosts',
 		service: 'api-gateway',
 		region: 'us-east-1'
 	    },
 	    {
 		name: 'getPopularHashtags',
-		endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPopularHashtags',
+		endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPopularHashtags',
 		service: 'api-gateway',
 		region: 'us-east-1',
 	    },
 	    
 	    {
 		name: 'newPost',
-		endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/newPost',
+		endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/newPost',
 		service: 'api-gateway',
 		region: 'us-east-1'
 	    },
 	    {
 		name: 'deletePost',
-		endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/deletePost',
+		endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/deletePost',
 		service: 'api-gateway',
 		region: 'us-east-1'
 	}]
