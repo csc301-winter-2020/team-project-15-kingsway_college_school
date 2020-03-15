@@ -11,6 +11,7 @@ import NewPostScreen from './components/NewPostScreen.js'
 import ProfileScreen from './components/ProfileScreen.js'
 import LoginScreen from './components/LoginScreen.js'
 import Amplify from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import { withAuthenticator } from 'aws-amplify-react-native'; // or 'aws-amplify-react-native';
 
 Amplify.configure({
@@ -48,49 +49,127 @@ Amplify.configure({
         region: 'us-east-1',
 
         // OPTIONAL - Amazon Cognito User Pool ID
-        userPoolId: 'us-east-1_mgyiyKSzT',
+        userPoolId: 'us-east-1_jXw5z0sO3',
 
         // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-        userPoolWebClientId: '1lnuahrib0rj0c2gs84o9nsu1i',
+        userPoolWebClientId: '11r43dtvj0bnu97a20je2g97cf',
 
         // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
         mandatorySignIn: true,
 
         // OPTIONAL - Configuration for cookie storage
         // Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
-        cookieStorage: {
-        // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-            domain: 'kcsshare.auth.us-east-1.amazoncognito.com',
-        // OPTIONAL - Cookie path
-            path: '/',
-        // OPTIONAL - Cookie expiration in days
-            expires: 365,
-        // OPTIONAL - Cookie secure flag
-        // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
-            secure: true
-        },
+        // cookieStorage: {
+        // // REQUIRED - Cookie domain (only required if cookieStorage is provided)
+        //     domain: 'kcsshare.auth.us-east-1.amazoncognito.com',
+        // // OPTIONAL - Cookie path
+        //     path: '/',
+        // // OPTIONAL - Cookie expiration in days
+        //     expires: 365,
+        // // OPTIONAL - Cookie secure flag
+        // // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
+        //     secure: true
+        // },
 
         // OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
         authenticationFlowType: 'USER_PASSWORD_AUTH',
 
         // OPTIONAL - Manually set key value pairs that can be passed to Cognito Lambda Triggers
-        clientMetadata: { myCustomKey: 'myCustomValue' },
+        // clientMetadata: { myCustomKey: 'myCustomValue' },
 
          // OPTIONAL - Hosted UI configuration
-        oauth: {
-            domain: 'your_cognito_domain',
-            scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
-            redirectSignIn: 'http://localhost:3000/',
-            redirectSignOut: 'http://localhost:3000/',
-            responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
-        }
+        // oauth: {
+        //     domain: 'your_cognito_domain',
+        //     scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
+        //     redirectSignIn: 'http://localhost:3000/',
+        //     redirectSignOut: 'http://localhost:3000/',
+        //     responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+        // }
     }
 });
-
+let username = "devin"
+let password = "bing0Bang@@"
+let email = "asdf@gmail.com"
+async function SignIn() {
+    try {
+		console.log('oh man god damn')
+		const user = await Auth.signIn(username, password);
+		console.log('wow')
+        if (user.challengeName === 'SMS_MFA' ||
+            user.challengeName === 'SOFTWARE_TOKEN_MFA') {
+            // You need to get the code from the UI inputs
+            // and then trigger the following function with a button click
+            // const code = getCodeFromUserInput();
+            // If MFA is enabled, sign-in should be confirmed with the confirmation code
+            const loggedUser = await Auth.confirmSignIn( 
+                user,   // Return object from Auth.signIn()
+                code,   // Confirmation code  
+                mfaType // MFA Type e.g. SMS_MFA, SOFTWARE_TOKEN_MFA
+            );
+        } else if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+            const {requiredAttributes} = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
+            // You need to get the new password and required attributes from the UI inputs
+            // and then trigger the following function with a button click
+            // For example, the email and phone_number are required attributes
+			// const {username, email, phone_number} = getInfoFromUserInput();
+			console.log('in new pass req');
+			// password = "bing0Bang@@"
+            const loggedUser = await Auth.completeNewPassword(
+                user,              // the Cognito User Object
+                password,       // the new password
+                // OPTIONAL, the required attributes
+                // {
+				// 	email : email,
+				// }
+                //     phone_number,
+                // } 
+			);
+        } else if (user.challengeName === 'MFA_SETUP') {
+            // This happens when the MFA method is TOTP
+            // The user needs to setup the TOTP before using it
+            // More info please check the Enabling MFA part
+            Auth.setupTOTP(user);
+        } else {
+            // The user directly signs in
+			console.log(user);
+			console.log('success')
+        }
+    } catch (err) { 
+		console.log(err);
+		console.log('that was error');
+        if (err.code === 'UserNotConfirmedException') {
+            // The error happens if the user didn't finish the confirmation step when signing up
+            // In this case you need to resend the code and confirm the user
+            // About how to resend the code and confirm the user, please check the signUp part
+        } else if (err.code === 'PasswordResetRequiredException') {
+            // The error happens when the password is reset in the Cognito console
+            // In this case you need to call forgotPassword to reset the password
+            // Please check the Forgot Password part.
+        } else if (err.code === 'NotAuthorizedException') {
+            // The error happens when the incorrect password is provided
+        } else if (err.code === 'UserNotFoundException') {
+            // The error happens when the supplied username/email does not exist in the Cognito user pool
+        } else {
+            console.log(err);
+        }
+    }
+}
+// For advanced usage
+SignIn();
+// You can pass an object which has the username, password and validationData which is sent to a PreAuthentication Lambda trigger
+// Auth.signIn({
+//     username, // Required, the username
+//     password, // Optional, the password
+//     // validationData, // Optional, a random key-value pair map which can contain any key and will be passed to your PreAuthentication Lambda trigger as-is. It can be used to implement additional validations around authentication
+// }).then(user => {console.log(user); console.log('auth we got em boys'); console.log(Auth.currentUserPoolUser())})
+// .catch(err => {console.log(err); console.log('failed')});
+setTimeout( async () => {
+	await console.log(Auth.currentAuthenticatedUser())
+}, 10000)
 const Tab = createBottomTabNavigator();
 const SIZE = 80;
 
-function MyTabs(props) {
+function MyTabs(props) { 
     return (
 	<Tab.Navigator
 	    initialRouteName="Feed"
@@ -171,7 +250,7 @@ function App() {
     );
 }
 
-export default withAuthenticator(App);
+export default App;
 
 const styles = StyleSheet.create({
     view: {
