@@ -53,6 +53,7 @@ function MyTabs(props) {
 	    tabBarOptions={{
 		showLabel: false,
 		style: styles.bar,
+		keyboardHidesTabBar: true
 	    }}
 	>
 	    <Tab.Screen
