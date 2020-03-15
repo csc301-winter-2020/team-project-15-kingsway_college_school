@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
 import { MenuProvider } from 'react-native-popup-menu';
 import { Icon } from 'react-native-elements';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import FeedScreen from './components/FeedScreen.js'
 import NewPostScreen from './components/NewPostScreen.js'
 import ProfileScreen from './components/ProfileScreen.js'
+import LoginScreen from './components/LoginScreen.js'
 import Amplify from 'aws-amplify';
 
 
@@ -99,13 +100,28 @@ function MyTabs(props) {
 	</Tab.Navigator>
     );
 }
+const Stack = createStackNavigator();
 
 export default function App() {
     return (
 	<View style={styles.view}>
 	    <NavigationContainer style={styles.bar}>
 		<MenuProvider>
-		    <MyTabs />
+		    <Stack.Navigator
+			headerMode="none"
+			screenOptions={{
+			    gestureEnabled: false
+			}}
+		    >
+			<Stack.Screen
+			name="Login"
+			component={LoginScreen}
+			/>
+			<Stack.Screen
+			name="Tabs"
+			component={MyTabs}
+			/>
+		    </Stack.Navigator>
 		</MenuProvider>
 	    </NavigationContainer>
 	</View>

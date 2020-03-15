@@ -90,7 +90,7 @@ export default class FeedScreen extends Component {
     render() {
 	
 	return (
-	    <Stack.Navigator headerMode={"none"}>
+	    <Stack.Navigator headerMode={"none"} gestureEnables={true}>
 		<Stack.Screen name="Feed" component={Feed} />
 		<Stack.Screen name="Explore" component={ExploreScreen} />
 	    </Stack.Navigator>
