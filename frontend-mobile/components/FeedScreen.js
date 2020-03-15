@@ -42,7 +42,7 @@ class Feed extends Component {
     }
 
     refresh() {
-	this.state.posts = [];
+	this.setState({refreshing: true})
 
 	Amplify.API.get('getPosts', "").then( (response) => {
 	    this.setState({
