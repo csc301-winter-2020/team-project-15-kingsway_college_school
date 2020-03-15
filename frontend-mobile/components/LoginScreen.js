@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Button,Text, View, StyleSheet, Animated } from 'react-native';
+import { Auth } from 'aws-amplify';
 
 const Stack = createStackNavigator();
 
 export default class LoginScreen extends Component {
-
-    componentWillMount() {
+    constructor() {
+	super();
+	this.logIn = this.logIn.bind(this)
 	this.animatedValue = new Animated.Value(0);
     }
+
     componentDidMount() {
 	Animated.loop(
 	    Animated.timing(this.animatedValue, {
@@ -16,6 +19,12 @@ export default class LoginScreen extends Component {
 		duration: 1500
 	    })
 	).start();
+    }
+
+    async logIn() {
+
+	console.log(await Auth.currentSession())
+	this.props.navigation.navigate('Tabs')
     }
 
     render() {
@@ -32,7 +41,7 @@ export default class LoginScreen extends Component {
 	    <Button
 	    title="Login"
 	    style={styles.button}
-	    onPress={() => this.props.navigation.navigate('Tabs')}
+	    onPress={() => this.logIn()}
 	    />
 	    </View>
 	    </Animated.View>
