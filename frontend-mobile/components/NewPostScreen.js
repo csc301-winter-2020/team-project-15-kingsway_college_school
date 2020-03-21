@@ -64,7 +64,7 @@ class NewPostBody extends Component {
     submitPost() {
 	console.log(this.state.text)
 	console.log("Submitting Post");
-	const reqParams = { body: { userID: 2, content: this.state.text } };
+	const reqParams = { body: { content: this.state.text } };
 
 
 	Amplify.API.post('newPost', '', reqParams).then((response) => {
@@ -72,6 +72,7 @@ class NewPostBody extends Component {
 	    Alert.alert("Post submitted", ":)")
 	}).catch((error) => {
 	    console.log(error);
+	    console.log(error.response)
 	});
 	Keyboard.dismiss();
 	this.textInput.clear();

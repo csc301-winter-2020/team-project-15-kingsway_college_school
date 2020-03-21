@@ -35,7 +35,7 @@ class CreatePost extends React.Component {
 			API: {
 				endpoints: [{
 					name: 'newPost',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/newPost',
+					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/newPost',
 					service: 'api-gateway',
 					region: 'us-east-1'
 				}]
