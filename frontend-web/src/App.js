@@ -14,6 +14,7 @@ let password = "bing0Bang@@"
 let email = "asdf@gmail.com"
 globalStore.user = observable.box(globalStore.user)
 globalStore.session = observable.box(globalStore.session)
+
 class App extends React.Component {
 	state = {
 		store: null
@@ -27,6 +28,7 @@ class App extends React.Component {
 		}
 
 	}
+	
 	async componentDidMount(){
 		Amplify.configure({
 			Auth: {
