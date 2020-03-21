@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, Image } from 'react-native';
+import { Text, View, StyleSheet, Button, Image, KeyboardAvoidingView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -128,7 +128,7 @@ class Authentication extends Component {
 	}
 	async signIn(username, password) {
 		try {
-			console.log('oh man god damn')
+
 			const user = await Auth.signIn(username, password);
 			console.log(user)
 			if (user.challengeName === 'SMS_MFA' ||
@@ -328,6 +328,5 @@ const styles = StyleSheet.create({
 		marginHorizontal: 20,
 		marginVertical: 10,
 		borderRadius: 5,
-		backgroundColor: "red"
 	}
 });
