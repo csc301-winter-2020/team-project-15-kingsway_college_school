@@ -13,6 +13,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		hasPosts: false,
 		posts: []
 	}
+
 	callPostsApi = async (session, feedType, searchTerm) => {
 		Amplify.configure({
 			API: {
@@ -24,6 +25,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 				}]
 			}
 		})
+
 		let getParams = {};
 
 		const userID = '2';
@@ -36,11 +38,13 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		} else if (feedType === 'Favourites') {
 			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
 		}
+
 		getParams["headers"] = {"Authorization" : session.idToken.jwtToken}
 		let currCreds
 		Auth.currentCredentials().then(response => {
 					currCreds = response
 		})
+		
 		await Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = [];
 
@@ -100,6 +104,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			console.log(error);
 		});
 	}
+
 	getPosts = async (feedType, searchTerm) => {
 		// Janky solution for waiting until authenticated		
 		setTimeout( () => {
@@ -108,6 +113,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 
 			
 	}
+
 	search = (searchTerm) => {
 		this.setState({ hasPosts: false, posts: [] });
 
