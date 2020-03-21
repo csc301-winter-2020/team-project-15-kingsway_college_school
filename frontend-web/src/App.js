@@ -5,6 +5,8 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import './App.css';
 
 import HomePage from './components/HomePage/HomePage'
+import Login from './components/Login/Login'
+
 import globalStore from './Store.js'
 import Amplify from 'aws-amplify';
 import { observable } from "mobx";
@@ -60,6 +62,7 @@ class App extends React.Component {
 				<BrowserRouter>
 					<Switch>
 						<Route exact path='/' render={() => (<HomePage store={ this.state.store } />)}/>
+						<Route exact path='/login' render={() => (<Login store={ this.state.store } />)}/>
 					</Switch>
 				</BrowserRouter>
 			</div>
