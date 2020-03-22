@@ -6,10 +6,9 @@ class Store extends React.Component {
 	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod'
 
 	currentView = 'Home'
-
-	user = null
-	session = null
-
+	user = null;
+	session = null; 
+	userID = null;
 	search = (searchTerm) => {
 		console.error('[SEARCH NOT DEFINED]')
 	}
@@ -46,6 +45,11 @@ class Store extends React.Component {
 			} else {
 				// The user directly signs in
 				this.user = user
+				Auth.userAttributes(user).then( (attributes) => {
+					// If we ever add more attributes this indice may need to be changed
+					this.userID = attributes[3].Value
+					console.log(this.userID)
+				})
 				this.session = user.signInUserSession
 			}
 
@@ -78,6 +82,7 @@ decorate(Store, {
 	updateFeedCallback: observable,
 	user: observable,
 	session: observable,
+	userID: observable,
 	updateFeeds: action,
 	setCurrentView: action,
 	changeTab: action,
