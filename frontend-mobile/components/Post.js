@@ -36,16 +36,13 @@ class PostMenu extends Component {
 	favouritePost() {
 		const userID = '2'; // TODO: this will have to be replaced with proper creds ID
 		const reqParams = { queryStringParameters: { postID: this.props.postID, userID: userID} };
-		Amplify.API.put('favouritePost', "", reqParams).then( (response) => {
-			this.setState({
-			posts: response,
-			refreshing: false
-			});
-		Alert.alert("Post saved to favourites!", "");
+		Amplify.API.put('favouritePost', '', reqParams).then( (response) => {
+			Alert.alert("Post saved to favourites!");
+			this.props.refresh();
+			this.hideMenu();
 		}).catch((error) => {
 			console.log(error)
 		})
-		this.hideMenu();
 	}
 
 	showMenu = () => {
