@@ -3,13 +3,14 @@ import React from "react"
 import { Auth } from 'aws-amplify';
 
 class Store extends React.Component {
-	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev'
+	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod'
 
 	currentView = 'Home'
 
 	user = null
-	session = null
-
+	session = null 
+	userID = null
+	
 	search = (searchTerm) => {
 		console.error('[SEARCH NOT DEFINED]')
 	}
@@ -32,6 +33,7 @@ class Store extends React.Component {
 	updateFeeds = () => {
 		this.updateFeedCallback.forEach((f) => { f() });
 	}
+
 	SignIn = async (username, password) => {
 		try {
 			const user = await Auth.signIn(username, password);
@@ -45,8 +47,14 @@ class Store extends React.Component {
 			} else {
 				// The user directly signs in
 				this.user = user
+				Auth.userAttributes(user).then( (attributes) => {
+					// If we ever add more attributes this indice may need to be changed
+					this.userID = attributes[3].Value
+				})
 				this.session = user.signInUserSession
 			}
+
+			return true
 		} catch (err) { 
 			console.log(err);
 			if (err.code === 'UserNotConfirmedException') {
@@ -64,10 +72,10 @@ class Store extends React.Component {
 			} else {
 				console.log(err);
 			}
+
+			return false
 		}
 	}
-
-
 }
 
 decorate(Store, {
@@ -75,6 +83,7 @@ decorate(Store, {
 	updateFeedCallback: observable,
 	user: observable,
 	session: observable,
+	userID: observable,
 	updateFeeds: action,
 	setCurrentView: action,
 	changeTab: action,

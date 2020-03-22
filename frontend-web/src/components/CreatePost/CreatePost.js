@@ -44,7 +44,7 @@ class CreatePost extends React.Component {
 
 		const imageParam = this.state.attachment ? [ this.state.attachment ] : [];
 
-		const reqParams = { body: { userID: 2, content: this.state.postData, images: imageParam } };
+		const reqParams = { body: { userID: parseInt(this.props.store.userID), content: this.state.postData, images: imageParam } };
 
 		if (this.state.locName && this.state.lat && this.state.long) {
 			reqParams.body['location'] = { name: this.state.locName, latitude: this.state.lat.toString(), longitude: this.state.long.toString() }
@@ -62,26 +62,28 @@ class CreatePost extends React.Component {
 
 	acquiredLocation = (pos) => {
 		const latitude  = pos.coords.latitude;
-    	const longitude = pos.coords.longitude;
+		const longitude = pos.coords.longitude;
 
-    	var xhr = new XMLHttpRequest();
+		var xhr = new XMLHttpRequest();
 
-    	xhr.onload = () => {
-			let full_name = JSON.parse(xhr.responseText).features[0].place_name;
+		xhr.onload = () => {
+			try {
+				let full_name = JSON.parse(xhr.responseText).features[0].place_name;
 
-    		this.setState({ locName: full_name})
-    	}
+				this.setState({ locName: full_name })
+			} catch {}
+		}
 
 		// Only uses POI (points of interests --> remove this to get the best guess address at current location)
-    	xhr.open('GET', `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?types=poi&access_token=pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ`);
-    	xhr.responseType = 'text';
-    	xhr.send();
+		xhr.open('GET', `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?types=poi&access_token=pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ`);
+		xhr.responseType = 'text';
+		xhr.send();
 
-    	this.setState({ lat: latitude, long: longitude });
+		this.setState({ lat: latitude, long: longitude });
 	}
 
 	componentDidMount() {
-		// navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
+		navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
 	}
 
 	render() {
