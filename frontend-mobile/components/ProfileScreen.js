@@ -41,83 +41,111 @@ class HeaderButtons extends Component {
 }
 
 export default class ProfileScreen extends Component {
-    state = {
-	posts: [],
-	selectedIndex: 0,
-	refreshing: true
-    }
-    constructor () {
-	super()
-	this.updateIndex = this.updateIndex.bind(this)
-	this.selectedScreen = this.selectedScreen.bind(this)
-	this.refresh = this.refresh.bind(this)
-    }
 
-    refresh() {
-	this.state.posts = [];
-
-	const userID = '2';
-	let getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
-
-	Amplify.API.get('getPosts', "", getParams).then( (response) => {
-	    this.setState({
-		posts: response,
-		refreshing: false
-	    });
-	}).catch((error) => {
-	    console.log(error)
-	})
-
-    }
-    componentDidMount() {
-	if (this.state.posts.length === 0) {
-	    this.refresh()
+	state = {
+		posts: [],
+		favourites: [],
+		selectedIndex: 0,
+		refreshing: true
 	}
-    }
-    
-    updateIndex(selectedIndex) {
-	this.setState({selectedIndex})
-	console.log(this.state)
-    }
+	constructor() {
+		super()
+		this.updateIndex = this.updateIndex.bind(this)
+		this.selectedScreen = this.selectedScreen.bind(this)
+		this.refresh = this.refresh.bind(this)
+	}
 
-    selectedScreen() {
-	if (this.state.selectedIndex == 0) {
-	    return (
-		<SafeAreaView style={styles.container}>
-		    <FlatList
-		    data={this.state.posts}
-		    renderItem={({ item }) => <Post post={item} refresh={() => this.refresh() } />}
-		    keyExtractor={post => post.postID}
-			refreshControl={
-			<RefreshControl
-				       refreshing={this.state.refreshing }
-				       onRefresh={() => this.refresh() }
-				       tintColor={"white"}
-			    />
-			}
-		    />
-		</SafeAreaView>)
+	refresh() {
+		this.state.posts = [];
+		this.state.favourites = [];
+
+		const userID = '2';
+		let getMyPostsParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
+		let getFavouritesParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
+
+		// Get own posts from backend
+		Amplify.API.get('getPosts', "", getMyPostsParams).then((response) => {
+			this.setState({
+				posts: response,
+				refreshing: false
+			});
+		}).catch((error) => {
+			console.log(error)
+		})
+
+		// Get favourites from backend
+		Amplify.API.get('getPosts', "", getFavouritesParams).then((response) => {
+			this.setState({
+				favourites: response,
+				refreshing: false
+			});
+		}).catch((error) => {
+			console.log(error)
+		})
+
 	}
-	else {
-	    return (
-		<View style={styles.favorites}>
-		    <Text style={{color: "white", fontSize: 40}}>Favorites</Text>
-		</View>
-	    )
+	componentDidMount() {
+		if (this.state.posts.length === 0 || this.state.favourites.length === 0) {
+			this.refresh()
+		}
 	}
-    }
-	 
-    render() {
-	return (
-	    <View style={styles.view}>
-		<View style={{flexDirection: 'row'}}>
-		    <NewPostHeader/>
-		    <HeaderButtons updateIndex={this.updateIndex} selectedIndex={this.state.selectedIndex} />
-		</View>
-		{this.selectedScreen()}
-	    </View>
-	)
-    }
+
+	updateIndex(selectedIndex) {
+		this.setState({ selectedIndex })
+		console.log(this.state)
+	}
+
+	selectedScreen() {
+		// Top tab selected is "My Posts"
+		if (this.state.selectedIndex == 0) {
+			return (
+				<SafeAreaView style={styles.container}>
+					<FlatList
+						data={this.state.posts}
+						renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
+						keyExtractor={post => post.postID}
+						refreshControl={
+							<RefreshControl
+								refreshing={this.state.refreshing}
+								onRefresh={() => this.refresh()}
+								tintColor={"white"}
+							/>
+						}
+					/>
+				</SafeAreaView>)
+		}
+		// Top tab selected is "Favourites"
+		else {
+			return (
+				<SafeAreaView style={styles.container}>
+					<FlatList
+						data={this.state.favourites}
+						renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
+						keyExtractor={post => post.postID}
+						refreshControl={
+							<RefreshControl
+								refreshing={this.state.refreshing}
+								onRefresh={() => this.refresh()}
+								tintColor={"white"}
+							/>
+						}
+					/>
+				</SafeAreaView>
+			)
+		}
+	}
+
+	render() {
+		return (
+			<View style={styles.view}>
+				<View style={{ flexDirection: 'row', padding: 20 }}>
+					<HeaderButtons updateIndex={this.updateIndex} selectedIndex={this.state.selectedIndex} />
+					{/* <LogoutButton navigation={this.props.navigation} authSetState={this.props.route.params.authSetState} /> */}
+				</View>
+				{this.selectedScreen()}
+			</View>
+		)
+	}
 }
 
 const styles = StyleSheet.create({
