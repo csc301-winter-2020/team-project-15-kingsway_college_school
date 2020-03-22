@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { RefreshControl, SafeAreaView, View, FlatList, StyleSheet, Text, Button } from 'react-native';
+import { Alert, RefreshControl, SafeAreaView, View, FlatList, StyleSheet, Text, Button } from 'react-native';
 import { Icon, ButtonGroup } from 'react-native-elements';
 import Amplify from 'aws-amplify';
 import Post from './Post.js';
+import { Auth } from 'aws-amplify';
 
 
 const side_margins = 16
@@ -10,6 +11,7 @@ let screen = null;
 
 // New Post Header for the page
 class NewPostHeader extends Component {
+    
 	render() {
 		return (
 			<View style={styles.header}>
@@ -20,10 +22,39 @@ class NewPostHeader extends Component {
 }
 
 class LogoutButton extends Component {
+constructor() {
+	super();
+	this.logoutAlert = this.logoutAlert.bind(this)
+	this.logout = this.logout.bind(this)
+    }
+    logout() {
+	console.log("logout")
+	Auth.signOut().then(data => {
+	    console.log(data)
+	    this.props.navigation.popToTop();
+	}).catch(data => {
+	    console.log(data)
+	})
+	}
+        logoutAlert() {
+		Alert.alert(
+			'Logout?',
+			'Are you sure you want logout?',
+			[
+				{
+					text: 'Cancel',
+					onPress: () => console.log('Cancel Pressed'),
+					style: 'cancel',
+				},
+				{ text: 'OK', onPress: () => this.logout() },
+			],
+			{ cancelable: true },
+		);
+	}
 	render() {
 		return (
 			<View style={styles.logoutButtonView}>
-				<Button title="Logout" style={styles.logoutButton} color="#23275f" />
+				<Button title="Logout" style={styles.logoutButton} color="white" onPress={() => this.logoutAlert() } />
 			</View>
 		)
 	}
@@ -78,6 +109,8 @@ export default class ProfileScreen extends Component {
 
 	}
 	componentDidMount() {
+	    console.log("--------------------------")
+	    console.log(this.props)
 		if (this.state.posts.length === 0) {
 			this.refresh()
 		}
@@ -118,9 +151,9 @@ export default class ProfileScreen extends Component {
 	render() {
 		return (
 			<View style={styles.view}>
-				<View style={{ flexDirection: 'row' }}>
+				<View style={{ flexDirection: 'row' , padding: 20}}>
 					<HeaderButtons updateIndex={this.updateIndex} selectedIndex={this.state.selectedIndex} />
-					<LogoutButton />
+					<LogoutButton navigation={this.props.navigation} />
 				</View>
 				{this.selectedScreen()}
 			</View>
@@ -165,5 +198,6 @@ const styles = StyleSheet.create({
 		borderRadius: 50
 	},
 	logoutButton: {
+	    color: "red"
 	}
 });
