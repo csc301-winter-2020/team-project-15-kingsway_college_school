@@ -38,6 +38,22 @@ class Post extends React.Component {
 		this.setState({ modalVisible: false })
 	}
 
+	parseContent = (content) => {
+		const notTags = content.split(/#\w+/g)
+		const tags = content.match(/#\w+/g)
+
+		let output = []
+
+		for (let i = 0; i < notTags.length - 1; i++) {
+			output.push(notTags[i])
+			output.push(<span className="accent">{ tags[i] }</span>)
+		}
+
+		output.push(notTags[notTags.length - 1])
+
+		return output
+	}
+
 	render() {
 		const { post } = this.props;
 
@@ -75,7 +91,7 @@ class Post extends React.Component {
 			}
 
 			<div className="PostContent">
-				{ post.content }
+				{ this.parseContent(post.content) }
 			</div>
 			{post.images.length > 0 && <div className="PostImage">
 				<img src={ post.images[0] }/>
