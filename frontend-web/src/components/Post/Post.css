@@ -11,10 +11,12 @@
 
 .PostLocation {
 	font-weight: 500;
+	padding-bottom: 1vw;
 }
 
 .PostContent {
 	padding: 2vw;
+	padding-top: 1vw;
 }
 
 .PostImage {

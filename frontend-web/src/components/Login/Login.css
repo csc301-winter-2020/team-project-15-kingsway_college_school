@@ -1,0 +1,40 @@
+.Login {
+	width: 100vw;
+	height: 100vh;
+}
+
+.FormBox {
+	position: absolute;
+	top: 50vh;
+	left: 50vw;
+	padding: 50px;
+	border-radius: 25px;
+	transform: translate(-50%, -70%);
+}
+
+.LoginTitle {
+	font-weight: 700;
+	font-size: 2.5rem;
+	margin-bottom: 40px;
+	margin-left: 15px;
+}
+
+.LoginField {
+	width: 25vw;
+	min-width: 300px;
+	height: 60px;
+	margin-top: 20px;
+	background: #FCFCFF;
+	border-radius: 50px;
+}
+
+.LoginField > input {
+	outline: 0;
+	border-radius: 50px;
+	background: #FCFCFF;
+	border: 0;
+	width: calc(100% - 40px);
+	height: 100%;
+	padding: 0 20px 0 20px;
+	font-size: 1rem;
+}

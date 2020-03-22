@@ -40,3 +40,43 @@
 .hidden {
   display: none;
 }
+
+.dark-grey {
+  background: #110d41;
+}
+
+/* These names are hot garbage */
+.mid-mid-grey {
+  background: #36325E;
+}
+
+.mid-grey {
+  background: #23275f;
+}
+
+.light-grey {
+  background: #FCFCFF;
+}
+
+.dark-grey-text {
+  color: #212121;
+}
+
+.mid-grey-text {
+  color: #313131;
+}
+
+
+.light-grey-text {
+  color: #FCFCFF;
+}
+
+.accent {
+  color: #f39038;
+}
+
+.shadow {
+  -webkit-box-shadow: 2px 2px 10px 0px rgba(17,17,17,1);
+  -moz-box-shadow: 2px 2px 10px 0px rgba(17,17,17,1);
+  box-shadow: 2px 2px 10px 0px rgba(17,17,17,1);
+}

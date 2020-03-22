@@ -5,6 +5,8 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import './App.css';
 
 import HomePage from './components/HomePage/HomePage'
+import Login from './components/Login/Login'
+
 import globalStore from './Store.js'
 import Amplify from 'aws-amplify';
 import { observable } from "mobx";
@@ -14,6 +16,7 @@ let password = "bing0Bang@@"
 let email = "asdf@gmail.com"
 globalStore.user = observable.box(globalStore.user)
 globalStore.session = observable.box(globalStore.session)
+
 class App extends React.Component {
 	state = {
 		store: null
@@ -27,6 +30,7 @@ class App extends React.Component {
 		}
 
 	}
+	
 	async componentDidMount(){
 		Amplify.configure({
 			Auth: {
@@ -58,6 +62,7 @@ class App extends React.Component {
 				<BrowserRouter>
 					<Switch>
 						<Route exact path='/' render={() => (<HomePage store={ this.state.store } />)}/>
+						<Route exact path='/login' render={() => (<Login store={ this.state.store } />)}/>
 					</Switch>
 				</BrowserRouter>
 			</div>

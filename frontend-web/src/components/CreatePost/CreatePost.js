@@ -35,7 +35,7 @@ class CreatePost extends React.Component {
 			API: {
 				endpoints: [{
 					name: 'newPost',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/newPost',
+					endpoint: this.props.store.apiEndpoint + '/newPost',
 					service: 'api-gateway',
 					region: 'us-east-1'
 				}]
@@ -81,7 +81,7 @@ class CreatePost extends React.Component {
 	}
 
 	componentDidMount() {
-		navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
+		// navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
 	}
 
 	render() {
