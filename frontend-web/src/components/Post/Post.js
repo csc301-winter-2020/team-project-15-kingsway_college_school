@@ -27,7 +27,7 @@ class Post extends React.Component {
 			}
 		});
 
-		const reqParams = { queryStringParameters: { userID: 2, postID: this.props.post.postID } };
+		const reqParams = { queryStringParameters: { userID: this.props.store.userID, postID: this.props.post.postID } };
 
 		reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 

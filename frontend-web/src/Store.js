@@ -50,6 +50,7 @@ class Store extends React.Component {
 				this.user = user
 				Auth.userAttributes(user).then( (attributes) => {
 					// If we ever add more attributes this indice may need to be changed
+					console.log(attributes)
 					this.userID = attributes[3].Value
 				})
 				this.session = user.signInUserSession
