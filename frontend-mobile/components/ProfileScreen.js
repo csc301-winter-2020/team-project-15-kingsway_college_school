@@ -221,7 +221,8 @@ const styles = StyleSheet.create({
 		marginTop: side_margins / 2,
 		justifyContent: 'center',
 		marginRight: side_margins,
-		borderRadius: 50
+		borderRadius: 50,
+		backgroundColor: "#110d41"
 	},
 	logoutButton: {
 		color: "red"
