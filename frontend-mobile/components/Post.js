@@ -21,6 +21,7 @@ class PostMenu extends Component {
 		super();
 		this.deletePost = this.deletePost.bind(this)
 		this.deleteAlert = this.deleteAlert.bind(this)
+		this.favouritePost = this.favouritePost.bind(this)
 	}
 	deletePost() {
 		const reqParams = { queryStringParameters: { postID: this.props.postID } };
@@ -33,16 +34,18 @@ class PostMenu extends Component {
 	}
 
 	favouritePost() {
-		const userID = '2';
+		const userID = '2'; // TODO: this will have to be replaced with proper creds ID
 		const reqParams = { queryStringParameters: { postID: this.props.postID, userID: userID} };
 		Amplify.API.put('favouritePost', "", reqParams).then( (response) => {
 			this.setState({
 			posts: response,
 			refreshing: false
 			});
+		Alert.alert("Post saved to favourites!", "");
 		}).catch((error) => {
 			console.log(error)
 		})
+		this.hideMenu();
 	}
 
 	showMenu = () => {
@@ -70,6 +73,7 @@ class PostMenu extends Component {
 			],
 			{ cancelable: true },
 		);
+		this.hideMenu();
 	}
 	render() {
 		const userID = 2;
