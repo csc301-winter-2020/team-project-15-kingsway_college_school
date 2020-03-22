@@ -29,7 +29,7 @@ class Post extends React.Component {
 
 		const reqParams = { queryStringParameters: { userID: 2, postID: this.props.post.postID } };
 
-		reqParams["headers"] = {"Authorization" : session.idToken.jwtToken}
+		reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
 			this.props.store.updateFeeds();

@@ -50,7 +50,7 @@ class CreatePost extends React.Component {
 			reqParams.body['location'] = { name: this.state.locName, latitude: this.state.lat.toString(), longitude: this.state.long.toString() }
 		}
 
-		reqParams["headers"] = {"Authorization" : session.idToken.jwtToken}
+		reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 
 		Amplify.API.post('newPost', '', reqParams).then((response) => {
 			this.props.store.updateFeeds();
