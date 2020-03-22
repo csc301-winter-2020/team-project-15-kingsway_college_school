@@ -27,7 +27,7 @@ class Post extends React.Component {
 			}
 		});
 
-		const reqParams = { queryStringParameters: { userID: 2, postID: this.props.post.postID } };
+		const reqParams = { queryStringParameters: { userID: this.props.store.userID, postID: this.props.post.postID } };
 
 		reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 
@@ -103,7 +103,7 @@ class Post extends React.Component {
 				{ '' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear() }
 			</div>
 
-			{ this.props.store.currentView === 'My Posts' ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }
+			{ (this.props.store.currentView === 'My Posts' || this.props.store.admin) ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }
 
 			<Modal parent={ this } visible={ this.state.modalVisible } prompt="Are you sure you sure you want to delete this post?"
 				positiveButtonAction={ this.deletePost } negativeButtonAction={ () => { this.setState({ modalVisible: false }) } } 

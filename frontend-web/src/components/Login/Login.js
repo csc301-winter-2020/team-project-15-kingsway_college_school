@@ -37,8 +37,6 @@ class Login extends React.Component {
 
 		const signInSucceeded = await this.props.store.SignIn(this.state.username_input.value, this.state.password_input.value)
 
-		console.log(signInSucceeded)
-
 		this.setState({ signInFailed: !signInSucceeded })
 
 		if (signInSucceeded) {

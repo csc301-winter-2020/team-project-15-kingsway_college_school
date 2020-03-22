@@ -11,6 +11,7 @@ class Store extends React.Component {
 	user = null
 	session = null 
 	userID = null
+	admin = false
 	
 	search = (searchTerm) => {
 		console.error('[SEARCH NOT DEFINED]')
@@ -49,8 +50,13 @@ class Store extends React.Component {
 				// The user directly signs in
 				this.user = user
 				Auth.userAttributes(user).then( (attributes) => {
-					// If we ever add more attributes this indice may need to be changed
-					this.userID = attributes[3].Value
+					for (let i = 0; i < attributes.length; i++) {
+						if (attributes[i].Name === 'custom:admin') {
+							this.admin = attributes[i].Value.toLowerCase() === 'true'
+						} else if (attributes[i].Name === 'custom:userID') {
+							this.userID = attributes[i].Value
+						}
+					}
 				})
 				this.session = user.signInUserSession
 			}

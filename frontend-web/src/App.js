@@ -31,6 +31,7 @@ class App extends React.Component {
 				this.state.store.session = parsedSession
 				this.state.store.user = parsedSession.username
 				this.state.store.userID = parseInt(parsedSession.idToken.payload['custom:userID'])
+				this.state.store.admin = parsedSession.idToken.payload['custom:admin']
 			} else {
 				sessionStorage.removeItem('kcs_session')
 			}
