@@ -29,6 +29,11 @@ class App extends React.Component {
 			store: globalStore
 		}
 
+		const session = sessionStorage.getItem('kcs_session')
+		if (session) {
+			console.log(session)
+			this.state.store.session = JSON.parse(session)
+		}
 	}
 
 	render() {
