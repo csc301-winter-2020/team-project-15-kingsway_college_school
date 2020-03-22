@@ -15,12 +15,13 @@ class TopTags extends React.Component {
 			API: {
 				endpoints: [{
 					name: 'getPopularHashtags',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPopularHashtags',
+					endpoint: this.props.store.apiEndpoint + '/getPopularHashtags',
 					service: 'api-gateway',
 					region: 'us-east-1',
 				}]
 			}
 		});
+
 		await Amplify.API.get('getPopularHashtags', '', {headers : {Authorization : session.idToken.jwtToken}})
 		.then((response) => {
 			const tags = [];
@@ -37,19 +38,11 @@ class TopTags extends React.Component {
 		}).catch((error) => {
 			console.error(error);
 		});
+		
 		this.forceUpdate()
 	}
+
 	async componentDidMount() {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPopularHashtags',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPopularHashtags',
-					service: 'api-gateway',
-					region: 'us-east-1',
-				}]
-			}
-		});
 		// Janky solution for waiting until authenticated
 		setTimeout( () => {
 			this.callHashtagApi(this.props.store.session)

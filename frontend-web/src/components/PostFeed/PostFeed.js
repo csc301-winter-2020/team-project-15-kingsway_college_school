@@ -110,8 +110,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		setTimeout( () => {
 			this.callPostsApi(this.props.store.session, feedType, searchTerm)
 		}, 2000)
-
-			
 	}
 
 	search = (searchTerm) => {

@@ -3,7 +3,7 @@ import React from "react"
 import { Auth } from 'aws-amplify';
 
 class Store extends React.Component {
-	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev'
+	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod'
 
 	currentView = 'Home'
 
@@ -32,6 +32,7 @@ class Store extends React.Component {
 	updateFeeds = () => {
 		this.updateFeedCallback.forEach((f) => { f() });
 	}
+
 	SignIn = async (username, password) => {
 		try {
 			const user = await Auth.signIn(username, password);
@@ -47,6 +48,8 @@ class Store extends React.Component {
 				this.user = user
 				this.session = user.signInUserSession
 			}
+
+			return true
 		} catch (err) { 
 			console.log(err);
 			if (err.code === 'UserNotConfirmedException') {
@@ -64,10 +67,10 @@ class Store extends React.Component {
 			} else {
 				console.log(err);
 			}
+
+			return false
 		}
 	}
-
-
 }
 
 decorate(Store, {
