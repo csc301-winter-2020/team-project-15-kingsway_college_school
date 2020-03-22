@@ -36,9 +36,9 @@ class Store extends React.Component {
 		this.updateFeedCallback.forEach((f) => { f() });
 	}
 
-	SignIn = async (username, password) => {
+	SignIn = async (email, password) => {
 		try {
-			const user = await Auth.signIn(username, password);
+			const user = await Auth.signIn(email, password);
 			if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
 				const {requiredAttributes} = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
 				const loggedUser = await Auth.completeNewPassword(
