@@ -41,6 +41,10 @@
   display: none;
 }
 
+.error {
+  color: #FE8C57;
+}
+
 .dark-grey {
   background: #110d41;
 }

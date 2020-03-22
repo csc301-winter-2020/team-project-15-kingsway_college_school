@@ -20,14 +20,16 @@ class Post extends React.Component {
 			API: {
 				endpoints: [{
 					name: 'deletePost',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/deletePost',
+					endpoint: this.props.store.apiEndpoint + '/deletePost',
 					service: 'api-gateway',
 					region: 'us-east-1'
 				}]
 			}
 		});
 
-		const reqParams = { queryStringParameters: { userID: 2, postID: this.props.post.postID } };
+		const reqParams = { queryStringParameters: { userID: this.props.store.userID, postID: this.props.post.postID } };
+
+		reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
 			this.props.store.updateFeeds();
@@ -36,6 +38,22 @@ class Post extends React.Component {
 		});
 
 		this.setState({ modalVisible: false })
+	}
+
+	parseContent = (content) => {
+		const notTags = content.split(/#\w+/g)
+		const tags = content.match(/#\w+/g)
+
+		let output = []
+
+		for (let i = 0; i < notTags.length - 1; i++) {
+			output.push(notTags[i])
+			output.push(<span className="accent">{ tags[i] }</span>)
+		}
+
+		output.push(notTags[notTags.length - 1])
+
+		return output
 	}
 
 	render() {
@@ -75,7 +93,7 @@ class Post extends React.Component {
 			}
 
 			<div className="PostContent">
-				{ post.content }
+				{ this.parseContent(post.content) }
 			</div>
 			{post.images.length > 0 && <div className="PostImage">
 				<img src={ post.images[0] }/>

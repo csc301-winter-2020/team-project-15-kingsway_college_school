@@ -80,8 +80,10 @@ class HeaderButtons extends Component {
 }
 
 export default class ProfileScreen extends Component {
+
 	state = {
 		posts: [],
+		favourites: [],
 		selectedIndex: 0,
 		refreshing: true
 	}
@@ -94,11 +96,14 @@ export default class ProfileScreen extends Component {
 
 	refresh() {
 		this.state.posts = [];
+		this.state.favourites = [];
 
 		const userID = '2';
-		let getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
+		let getMyPostsParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
+		let getFavouritesParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
 
-		Amplify.API.get('getPosts', "", getParams).then((response) => {
+		// Get own posts from backend
+		Amplify.API.get('getPosts', "", getMyPostsParams).then((response) => {
 			this.setState({
 				posts: response,
 				refreshing: false
@@ -107,11 +112,19 @@ export default class ProfileScreen extends Component {
 			console.log(error)
 		})
 
+		// Get favourites from backend
+		Amplify.API.get('getPosts', "", getFavouritesParams).then((response) => {
+			this.setState({
+				favourites: response,
+				refreshing: false
+			});
+		}).catch((error) => {
+			console.log(error)
+		})
+
 	}
 	componentDidMount() {
-		console.log("--------------------------")
-		console.log(this.props)
-		if (this.state.posts.length === 0) {
+		if (this.state.posts.length === 0 || this.state.favourites.length === 0) {
 			this.refresh()
 		}
 	}
@@ -122,6 +135,7 @@ export default class ProfileScreen extends Component {
 	}
 
 	selectedScreen() {
+		// Top tab selected is "My Posts"
 		if (this.state.selectedIndex == 0) {
 			return (
 				<SafeAreaView style={styles.container}>
@@ -139,11 +153,23 @@ export default class ProfileScreen extends Component {
 					/>
 				</SafeAreaView>)
 		}
+		// Top tab selected is "Favourites"
 		else {
 			return (
-				<View style={styles.favorites}>
-					<Text style={{ color: "white", fontSize: 40 }}>Favorites</Text>
-				</View>
+				<SafeAreaView style={styles.container}>
+					<FlatList
+						data={this.state.favourites}
+						renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
+						keyExtractor={post => post.postID}
+						refreshControl={
+							<RefreshControl
+								refreshing={this.state.refreshing}
+								onRefresh={() => this.refresh()}
+								tintColor={"white"}
+							/>
+						}
+					/>
+				</SafeAreaView>
 			)
 		}
 	}
@@ -199,5 +225,13 @@ const styles = StyleSheet.create({
 	},
 	logoutButton: {
 		color: "red"
-	}
+	},
+	favourites: {
+		justifyContent: "center",
+		alignItems: "center"
+	},
+	container: {
+		flex: 1
+	},
+
 });
