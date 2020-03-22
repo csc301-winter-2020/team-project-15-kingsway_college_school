@@ -11,7 +11,7 @@ let screen = null;
 
 // New Post Header for the page
 class NewPostHeader extends Component {
-    
+
 	render() {
 		return (
 			<View style={styles.header}>
@@ -22,21 +22,21 @@ class NewPostHeader extends Component {
 }
 
 class LogoutButton extends Component {
-constructor() {
-	super();
-	this.logoutAlert = this.logoutAlert.bind(this)
-	this.logout = this.logout.bind(this)
-    }
-    logout() {
-	console.log("logout")
-	Auth.signOut().then(data => {
-	    console.log(data)
-	    this.props.navigation.popToTop();
-	}).catch(data => {
-	    console.log(data)
-	})
+	constructor() {
+		super();
+		this.logoutAlert = this.logoutAlert.bind(this)
+		this.logout = this.logout.bind(this)
 	}
-        logoutAlert() {
+	logout() {
+		console.log("logout")
+		Auth.signOut().then(data => {
+			console.log(data)
+			this.props.authSetState("signIn")
+		}).catch(data => {
+			console.log(data)
+		})
+	}
+	logoutAlert() {
 		Alert.alert(
 			'Logout?',
 			'Are you sure you want logout?',
@@ -54,7 +54,7 @@ constructor() {
 	render() {
 		return (
 			<View style={styles.logoutButtonView}>
-				<Button title="Logout" style={styles.logoutButton} color="white" onPress={() => this.logoutAlert() } />
+				<Button title="Logout" style={styles.logoutButton} color="white" onPress={() => this.logoutAlert()} />
 			</View>
 		)
 	}
@@ -109,8 +109,8 @@ export default class ProfileScreen extends Component {
 
 	}
 	componentDidMount() {
-	    console.log("--------------------------")
-	    console.log(this.props)
+		console.log("--------------------------")
+		console.log(this.props)
 		if (this.state.posts.length === 0) {
 			this.refresh()
 		}
@@ -151,9 +151,9 @@ export default class ProfileScreen extends Component {
 	render() {
 		return (
 			<View style={styles.view}>
-				<View style={{ flexDirection: 'row' , padding: 20}}>
+				<View style={{ flexDirection: 'row', padding: 20 }}>
 					<HeaderButtons updateIndex={this.updateIndex} selectedIndex={this.state.selectedIndex} />
-					<LogoutButton navigation={this.props.navigation} />
+					<LogoutButton navigation={this.props.navigation} authSetState={this.props.route.params.authSetState} />
 				</View>
 				{this.selectedScreen()}
 			</View>
@@ -198,6 +198,6 @@ const styles = StyleSheet.create({
 		borderRadius: 50
 	},
 	logoutButton: {
-	    color: "red"
+		color: "red"
 	}
 });
