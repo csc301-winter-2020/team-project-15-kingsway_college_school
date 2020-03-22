@@ -30,8 +30,19 @@ class PostMenu extends Component {
 		}).catch((error) => {
 			console.log(error);
 		});
+	}
 
-
+	favouritePost() {
+		const userID = '2';
+		const reqParams = { queryStringParameters: { postID: this.props.postID, userID: userID} };
+		Amplify.API.put('favouritePost', "", reqParams).then( (response) => {
+			this.setState({
+			posts: response,
+			refreshing: false
+			});
+		}).catch((error) => {
+			console.log(error)
+		})
 	}
 
 	showMenu = () => {
@@ -81,7 +92,7 @@ class PostMenu extends Component {
 					ref={this.setMenuRef}
 					button={<MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} onPress={this.showMenu} />}>
 
-					<MenuItem onPress={() => alert(`Save`)} customStyles={menuOptionStyle}> Favourite </MenuItem>
+					<MenuItem onPress={() => this.favouritePost()} customStyles={menuOptionStyle}> Favourite </MenuItem>
 					<MenuDivider />
 					<MenuItem onPress={() => this.deleteAlert()} disabled={!this.props.userID == userID}> Delete</MenuItem>
 				</Menu>
