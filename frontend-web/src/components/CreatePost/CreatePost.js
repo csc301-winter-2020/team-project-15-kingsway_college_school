@@ -44,7 +44,7 @@ class CreatePost extends React.Component {
 
 		const imageParam = this.state.attachment ? [ this.state.attachment ] : [];
 
-		const reqParams = { body: { userID: 2, content: this.state.postData, images: imageParam } };
+		const reqParams = { body: { userID: parseInt(this.props.store.userID), content: this.state.postData, images: imageParam } };
 
 		if (this.state.locName && this.state.lat && this.state.long) {
 			reqParams.body['location'] = { name: this.state.locName, latitude: this.state.lat.toString(), longitude: this.state.long.toString() }

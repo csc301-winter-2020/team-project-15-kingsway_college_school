@@ -28,7 +28,8 @@ const PostFeed = observer(class PostFeed extends React.Component {
 
 		let getParams = {};
 
-		const userID = '2';
+		const userID = this.props.store.userID;
+
 		if (feedType === 'Home') {
 			if (searchTerm) {
 				getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
@@ -52,7 +53,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 				response = [];
 			}
 
-			if(response.length != 0){
+			if (response.length != 0) {
 				response.forEach((post, outerIndex) => {
 					post.images.map( async (imageKey, innerIndex) => {
 						let imageKeyUrl;
@@ -68,8 +69,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 							Bucket: 'kcpostimages', // your bucket name,
 							Key: imageKey, // path to the object you're looking for
 						}
-	
-	
+
 						await s3.getObject(getParams, (err, data) => {
 							// Handle any error and exit
 							if (err){
@@ -87,6 +87,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 							this.forceUpdate()
 						});
 					})
+
 					posts.push({
 						postID: post.postID,
 						userID: post.userID,

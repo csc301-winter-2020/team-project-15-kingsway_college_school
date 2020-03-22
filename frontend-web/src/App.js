@@ -8,7 +8,7 @@ import HomePage from './components/HomePage/HomePage'
 import Login from './components/Login/Login'
 
 import globalStore from './Store.js'
-import Amplify from 'aws-amplify';
+import Amplify from 'aws-amplify'
 
 class App extends React.Component {
 	state = {
@@ -30,6 +30,7 @@ class App extends React.Component {
 				// if you have authenticated in past hour
 				this.state.store.session = parsedSession
 				this.state.store.user = parsedSession.username
+				this.state.store.userID = parseInt(parsedSession.idToken.payload['custom:userID'])
 			} else {
 				sessionStorage.removeItem('kcs_session')
 			}

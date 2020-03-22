@@ -6,9 +6,11 @@ class Store extends React.Component {
 	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod'
 
 	currentView = 'Home'
-	user = null;
-	session = null; 
-	userID = null;
+
+	user = null
+	session = null 
+	userID = null
+	
 	search = (searchTerm) => {
 		console.error('[SEARCH NOT DEFINED]')
 	}
@@ -48,7 +50,6 @@ class Store extends React.Component {
 				Auth.userAttributes(user).then( (attributes) => {
 					// If we ever add more attributes this indice may need to be changed
 					this.userID = attributes[3].Value
-					console.log(this.userID)
 				})
 				this.session = user.signInUserSession
 			}
