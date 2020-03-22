@@ -48,7 +48,7 @@ class Post extends React.Component {
 
 		for (let i = 0; i < notTags.length - 1; i++) {
 			output.push(notTags[i])
-			output.push(<span className="accent">{ tags[i] }</span>)
+			output.push(<span key={i} className="accent">{ tags[i] }</span>)
 		}
 
 		output.push(notTags[notTags.length - 1])
