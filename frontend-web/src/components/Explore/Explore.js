@@ -4,7 +4,7 @@ import './Explore.css';
 import Amplify from 'aws-amplify';
 import Post from '../Post/Post'
 import Loader from '../Loader/Loader'
-import icecream from '../../images/icecream.png';
+import marker from '../../images/location.png';
 
 class Explore extends React.Component {
 	state = {
@@ -127,7 +127,7 @@ class Explore extends React.Component {
 			// 	}
 			// );
 
-			map.loadImage(icecream, (error, image) => {
+			map.loadImage(marker, (error, image) => {
 				if (error) throw error;
 				map.addImage('post-icon', image);
 			});
