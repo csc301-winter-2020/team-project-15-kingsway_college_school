@@ -19,7 +19,7 @@ class Explore extends React.Component {
 			API: {
 				endpoints: [{
 					name: 'getPosts',
-					endpoint: this.props.store.apiEndpoint + '/getPosts', //change to get locations with new API
+					endpoint: this.props.store.apiEndpoint + '/getPosts',
 					service: 'api-gateway',
 					region: 'us-east-1'
 				}]
@@ -27,6 +27,8 @@ class Explore extends React.Component {
 		});
 
 		let getParams = {};
+
+		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 
 		Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = [];
@@ -90,6 +92,7 @@ class Explore extends React.Component {
 
 		let getParams = {};
 		getParams = { queryStringParameters: { searchType: 'POST', searchParameter: postID } }
+		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 
 		Amplify.API.get('getPosts', '', getParams).then((response) => {
 			let selectedPost = undefined;
