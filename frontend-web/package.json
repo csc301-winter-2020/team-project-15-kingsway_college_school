@@ -10,6 +10,7 @@
     "aws-amplify-react": "^3.1.7",
     "aws-sdk": "^2.635.0",
     "font-awesome": "^4.7.0",
+    "maki": "^2.1.0",
     "mapbox-gl": "^1.8.1",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
