@@ -35,7 +35,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 				getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
 			}
 		} else if (feedType === 'My Posts') {
-			getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
+			getParams = { queryStringParameters: { searchType: 'OWN'} };
 		} else if (feedType === 'Favourites') {
 			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
 		}
