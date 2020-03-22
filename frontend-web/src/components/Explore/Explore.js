@@ -14,14 +14,12 @@ class Explore extends React.Component {
 		selectedPost: undefined
 	}
 
-	// saved_features = [{"type":"Feature","properties":{"description":"24","icon":"theatre"},"geometry":{"type":"Point","coordinates":[-79.3976539,43.6591399]}}];
-
 	getAllPosts = (mapboxgl, map) => {
 		Amplify.configure({
 			API: {
 				endpoints: [{
 					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPosts',
+					endpoint: this.props.store.apiEndpoint + '/getPosts', //change to get locations with new API
 					service: 'api-gateway',
 					region: 'us-east-1'
 				}]
@@ -83,7 +81,7 @@ class Explore extends React.Component {
 			API: {
 				endpoints: [{
 					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPosts',
+					endpoint: this.props.store.apiEndpoint + '/getPosts',
 					service: 'api-gateway',
 					region: 'us-east-1'
 				}]
