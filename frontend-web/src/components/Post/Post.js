@@ -20,7 +20,7 @@ class Post extends React.Component {
 			API: {
 				endpoints: [{
 					name: 'deletePost',
-					endpoint: this.props.store + '/deletePost',
+					endpoint: this.props.store.apiEndpoint + '/deletePost',
 					service: 'api-gateway',
 					region: 'us-east-1'
 				}]

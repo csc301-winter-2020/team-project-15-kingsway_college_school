@@ -19,7 +19,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			API: {
 				endpoints: [{
 					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
+					endpoint: this.props.store.apiEndpoint + '/getPosts',
 					service: 'api-gateway',
 					region: 'us-east-1'
 				}]
