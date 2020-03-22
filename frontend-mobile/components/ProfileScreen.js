@@ -54,7 +54,7 @@ class LogoutButton extends Component {
 	render() {
 		return (
 			<View style={styles.logoutButtonView}>
-				<Button title="Logout" style={styles.logoutButton} color="white" onPress={() => this.logoutAlert()} />
+				<Button title="Logout" style={styles.logoutButton} onPress={() => this.logoutAlert()} />
 			</View>
 		)
 	}
