@@ -9,13 +9,6 @@ import Login from './components/Login/Login'
 
 import globalStore from './Store.js'
 import Amplify from 'aws-amplify';
-import { observable } from "mobx";
-
-// let username = "devin"
-// let password = "bing0Bang@@"
-// let email = "asdf@gmail.com"
-// globalStore.user = observable.box(globalStore.user)
-// globalStore.session = observable.box(globalStore.session)
 
 class App extends React.Component {
 	state = {
@@ -31,8 +24,15 @@ class App extends React.Component {
 
 		const session = sessionStorage.getItem('kcs_session')
 		if (session) {
-			console.log(session)
-			this.state.store.session = JSON.parse(session)
+			const parsedSession = JSON.parse(session)
+			const now = new Date()
+			if (now.setHours(now.getHours() - 1) < new Date(parsedSession.idToken.payload.auth_time * 1000)) {
+				// if you have authenticated in past hour
+				this.state.store.session = parsedSession
+				this.state.store.user = parsedSession.username
+			} else {
+				sessionStorage.removeItem('kcs_session')
+			}
 		}
 	}
 
