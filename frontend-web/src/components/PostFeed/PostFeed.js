@@ -88,14 +88,20 @@ const PostFeed = observer(class PostFeed extends React.Component {
 						});
 					})
 
-					posts.push({
+					const new_post = {
 						postID: post.postID,
 						userID: post.userID,
 						location: post.location,
 						content: post.content,
 						images: post.images,
-						uploadTime: post.timeUploaded,
-					});
+						uploadTime: post.timeUploaded
+					}
+
+					if (post.email) {
+						new_post['email'] = post.email
+					}
+
+					posts.push(new_post);
 				});
 			}
 

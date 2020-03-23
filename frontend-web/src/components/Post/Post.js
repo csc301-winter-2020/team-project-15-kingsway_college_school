@@ -103,6 +103,8 @@ class Post extends React.Component {
 				{ '' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear() }
 			</div>
 
+			{ post.email ? <div className="PostEmail">Uploaded by: { post.email }</div> : '' }
+
 			{ (this.props.store.currentView === 'My Posts' || this.props.store.admin) ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }
 
 			<Modal parent={ this } visible={ this.state.modalVisible } prompt="Are you sure you sure you want to delete this post?"
