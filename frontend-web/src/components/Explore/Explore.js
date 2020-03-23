@@ -44,7 +44,7 @@ class Explore extends React.Component {
 					features.push({
 						'type': 'Feature',
 						'properties': {
-							'description': (post.secondaryKey).toString(),
+							'description': (post.postID).toString(),
 							'icon': 'theatre'
 						},
 						'geometry': {
@@ -231,7 +231,7 @@ class Explore extends React.Component {
 		// this.getAllPosts(mapboxgl, map);
 
 		// Get all the locations and plot on the map 
-		this.getAllLocations();
+		this.getAllLocations(mapboxgl, map);
 	}
 
 	render() {
