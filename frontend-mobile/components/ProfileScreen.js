@@ -85,7 +85,8 @@ export default class ProfileScreen extends Component {
 		posts: [],
 		favourites: [],
 		selectedIndex: 0,
-		refreshing: true
+		refreshing: true,
+	    userId: null
 	}
 	constructor() {
 		super()
@@ -98,9 +99,8 @@ export default class ProfileScreen extends Component {
 		this.state.posts = [];
 		this.state.favourites = [];
 
-		const userID = '2';
-		let getMyPostsParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
-		let getFavouritesParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
+		let getMyPostsParams = { queryStringParameters: { searchType: 'OWN'} };
+		let getFavouritesParams = { queryStringParameters: { searchType: 'FAV' } };
 
 		// Get own posts from backend
 		Amplify.API.get('getPosts', "", getMyPostsParams).then((response) => {
@@ -113,8 +113,7 @@ export default class ProfileScreen extends Component {
 		})
 
 		// Get favourites from backend
-		Amplify.API.get('getPosts', "", getFavouritesParams).then((response) => {
-			this.setState({
+		Amplify.API.get('getPosts', "", getFavouritesParams).then((response) => {this.setState({
 				favourites: response,
 				refreshing: false
 			});
@@ -124,6 +123,11 @@ export default class ProfileScreen extends Component {
 
 	}
 	componentDidMount() {
+	    Auth.currentAuthenticatedUser().then(user => {
+		console.log(user.attributes["custom:userID"])
+		this.setState({userId: user.attributes["custom:userID"]})
+	    })
+
 		if (this.state.posts.length === 0 || this.state.favourites.length === 0) {
 			this.refresh()
 		}
