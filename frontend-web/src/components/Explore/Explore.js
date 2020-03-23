@@ -14,7 +14,7 @@ class Explore extends React.Component {
 		selectedPost: undefined
 	}
 
-	getAllLocations = () => {
+	getAllLocations = (mapboxgl, map) => {
 		Amplify.configure({
 			API: {
 				endpoints: [{
@@ -31,15 +31,36 @@ class Explore extends React.Component {
 		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 
 		Amplify.API.get('getLocations', '', getParams).then((response) => {
-			const posts = [];
 			const features = [];
 
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
 
-			console.log(response);
+			response.forEach((post) => {
 
+
+				if (post.detailedLocation.latitude && post.detailedLocation.longitude) {
+					features.push({
+						'type': 'Feature',
+						'properties': {
+							'description': (post.secondaryKey).toString(),
+							'icon': 'theatre'
+						},
+						'geometry': {
+							'type': 'Point',
+							'coordinates': [parseFloat(post.detailedLocation.longitude), parseFloat(post.detailedLocation.latitude)]
+						}
+					});
+				}
+			});
+
+			this.setState({ features: features });
+
+			console.log(JSON.stringify(this.state.features));
+
+			// Plot features on map
+			this.addFeatures(mapboxgl, map, this.state.features);
 		}).catch((error) => {
 			console.log(error);
 		});
@@ -228,9 +249,9 @@ class Explore extends React.Component {
 		map.scrollZoom.disable();
 
 		// Get all the posts and plot on the map 
-		this.getAllPosts(mapboxgl, map);
+		// this.getAllPosts(mapboxgl, map);
 
-		// Get all the locations
+		// Get all the locations and plot on the map 
 		this.getAllLocations();
 	}
 
