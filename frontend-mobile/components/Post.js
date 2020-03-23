@@ -21,7 +21,6 @@ class PostMenu extends Component {
 		super();
 		this.deletePost = this.deletePost.bind(this)
 		this.deleteAlert = this.deleteAlert.bind(this)
-		this.favouritePost = this.favouritePost.bind(this)
 	}
 	deletePost() {
 		const reqParams = { queryStringParameters: { postID: this.props.postID } };
@@ -31,18 +30,8 @@ class PostMenu extends Component {
 		}).catch((error) => {
 			console.log(error);
 		});
-	}
 
-	favouritePost() {
-		const userID = '2'; // TODO: this will have to be replaced with proper creds ID
-		const reqParams = { queryStringParameters: { postID: this.props.postID, userID: userID} };
-		Amplify.API.put('favouritePost', '', reqParams).then( (response) => {
-			Alert.alert("Post saved to favourites!");
-			this.props.refresh();
-			this.hideMenu();
-		}).catch((error) => {
-			console.log(error)
-		})
+
 	}
 
 	showMenu = () => {
@@ -70,7 +59,6 @@ class PostMenu extends Component {
 			],
 			{ cancelable: true },
 		);
-		this.hideMenu();
 	}
 	render() {
 		const userID = 2;
@@ -93,7 +81,7 @@ class PostMenu extends Component {
 					ref={this.setMenuRef}
 					button={<MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} onPress={this.showMenu} />}>
 
-					<MenuItem onPress={() => this.favouritePost()} customStyles={menuOptionStyle}> Favourite </MenuItem>
+					<MenuItem onPress={() => alert(`Save`)} customStyles={menuOptionStyle}> Favourite </MenuItem>
 					<MenuDivider />
 					<MenuItem onPress={() => this.deleteAlert()} disabled={!this.props.userID == userID}> Delete</MenuItem>
 				</Menu>
@@ -135,14 +123,13 @@ export default class Post extends Component {
 				</View>
 			)
 		}
-		let time = new Date(0)
-		time.setUTCSeconds(this.props.post.timeUploaded)
+		let time = new Date(this.props.post.timeUploaded * 1000);
 		return (
 			<View style={styles.post}>
 				<View style={styles.header}>
 					<View style={styles.headerLeft}>
 						{this.locationHeader}
-						<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + (time.getDay() + 1) + ', ' + time.getFullYear()}</Text>
+						<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear()}</Text>
 					</View>
 					<View styles={styles.headerRight}>
 						<PostMenu userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />

@@ -16,18 +16,10 @@ class Post extends React.Component {
 	}
 
 	deletePost = () => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'deletePost',
-					endpoint: this.props.store + '/deletePost',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
 
-		const reqParams = { queryStringParameters: { userID: 2, postID: this.props.post.postID } };
+		const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
+
+		reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
 			this.props.store.updateFeeds();
@@ -46,7 +38,7 @@ class Post extends React.Component {
 
 		for (let i = 0; i < notTags.length - 1; i++) {
 			output.push(notTags[i])
-			output.push(<span className="accent">{ tags[i] }</span>)
+			output.push(<span key={i} className="accent">{ tags[i] }</span>)
 		}
 
 		output.push(notTags[notTags.length - 1])

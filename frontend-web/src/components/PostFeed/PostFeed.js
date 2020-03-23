@@ -15,16 +15,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	}
 
 	callPostsApi = async (session, feedType, searchTerm) => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		})
 
 		let getParams = {};
 
@@ -35,17 +25,21 @@ const PostFeed = observer(class PostFeed extends React.Component {
 				getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
 			}
 		} else if (feedType === 'My Posts') {
-			getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
+			getParams = { queryStringParameters: { searchType: 'OWN'} };
 		} else if (feedType === 'Favourites') {
-			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
+			getParams = { queryStringParameters: { searchType: 'FAV'} };
 		}
 
 		getParams["headers"] = {"Authorization" : session.idToken.jwtToken}
 		let currCreds
 		Auth.currentCredentials().then(response => {
 					currCreds = response
+					console.log(currCreds)
+
+		}).catch((err) => {
+			console.log('error on current credentials call')
+			console.log(err)
 		})
-		
 		await Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = [];
 

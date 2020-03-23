@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, Image, KeyboardAvoidingView } from 'react-native';
+import { Text, View, StyleSheet, Button, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -42,17 +42,6 @@ Amplify.configure({
 			{
 				name: 'newPost',
 				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/newPost',
-				service: 'api-gateway',
-				region: 'us-east-1',
-				custom_header: async () => {
-					//return { Authorization : 'token' } 
-					// Alternatively, with Cognito User Pools use this:
-					return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
-				}
-			},
-			{
-				name: 'favouritePost',
-				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/favouritePost',
 				service: 'api-gateway',
 				region: 'us-east-1',
 				custom_header: async () => {
@@ -117,12 +106,14 @@ class Authentication extends Component {
 	constructor() {
 		super();
 		this.signIn = this.signIn.bind(this);
+		this.authSetState = this.authSetState.bind(this);
 		this.state = {
 			authState: 'loading',
 			authData: null,
 			authError: null,
 			currUser: "",
 			currPass: "",
+			alertText: "",
 		}
 	}
 
@@ -136,6 +127,9 @@ class Authentication extends Component {
 			console.log(e);
 			this.setState({ authState: 'signIn' });
 		});
+	}
+	authSetState(newState) {
+		this.setState({ authState: newState, alertText: "" });
 	}
 	async signIn(username, password) {
 		try {
@@ -185,6 +179,7 @@ class Authentication extends Component {
 		} catch (err) {
 			console.log(err);
 			console.log('that was error');
+			this.setState({ alertText: err.message })
 			if (err.code === 'UserNotConfirmedException') {
 				// The error happens if the user didn't finish the confirmation step when signing up
 				// In this case you need to resend the code and confirm the user
@@ -199,28 +194,37 @@ class Authentication extends Component {
 				// The error happens when the supplied username/email does not exist in the Cognito user pool
 			} else {
 				console.log(err);
+
+
 			}
 		}
 	}
 	render() {
-		console.log(this.state)
 
 		if (this.state.authState === "signedIn") {
 			return (
-				<App />
+				<App authSetState={this.authSetState} />
 			)
 		}
 		else {
-			return (<View style={styles.signIn}>
-				<Image source={require("./assets/logo.png")} style={styles.signInImage} />
-				<View style={styles.signInForm}>
-					<TextInput style={styles.signInInput} onChangeText={(currUser) => this.setState({ currUser })} placeholder="Username" />
-					<TextInput style={styles.signInInput} onChangeText={(currPass) => this.setState({ currPass })} placeholder="Password" />
-					<View style={styles.signInButton}>
-						<Button style={{ color: "red" }} title="Sign In" onPress={() => this.signIn(this.state.currUser, this.state.currPass)} />
-					</View>
-				</View>
-			</View>
+			return (
+				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+
+					<KeyboardAvoidingView style={styles.signIn} behavior="padding">
+
+						<Image source={require("./assets/logo.png")} style={styles.signInImage} />
+						<View style={styles.signInForm}>
+							<Text style={styles.alertText}>{this.state.alertText}</Text>
+							<TextInput style={styles.signInInput} onChangeText={(currUser) => this.setState({ currUser })} placeholder="Username" />
+							<TextInput style={styles.signInInput} onChangeText={(currPass) => this.setState({ currPass })} placeholder="Password" secureTextEntry={true} />
+
+							<View style={styles.signInButton}>
+								<Button title="Sign In" onPress={() => this.signIn(this.state.currUser, this.state.currPass)} />
+							</View>
+						</View>
+					</KeyboardAvoidingView >
+				</TouchableWithoutFeedback>
+
 			)
 		}
 
@@ -280,6 +284,7 @@ function MyTabs(props) {
 			<Tab.Screen
 				name="Profile"
 				component={ProfileScreen}
+				initialParams={{ authSetState: props.authSetState }}
 				options={{
 					tabBarLabel: 'Profile',
 					tabBarIcon: ({ color, size }) => (
@@ -291,12 +296,12 @@ function MyTabs(props) {
 	);
 }
 
-function App() {
+function App(props) {
 	return (
 		<View style={styles.view}>
 			<NavigationContainer style={styles.bar}>
 				<MenuProvider>
-					<MyTabs />
+					<MyTabs authSetState={props.authSetState} />
 				</MenuProvider>
 			</NavigationContainer>
 		</View>
@@ -334,11 +339,20 @@ const styles = StyleSheet.create({
 		height: null,
 		width: null,
 		resizeMode: "contain",
-		margin: 50
+		marginHorizontal: 50,
+		marginTop: 20
 	},
 	signInButton: {
 		marginHorizontal: 20,
 		marginVertical: 10,
 		borderRadius: 5,
+	},
+	alertText: {
+		color: "red",
+		fontSize: 15,
+		justifyContent: 'center',
+		alignContent: "center",
+		alignItems: "center",
+		textAlign: "center"
 	}
 });

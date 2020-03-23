@@ -4,7 +4,7 @@ import './Explore.css';
 import Amplify from 'aws-amplify';
 import Post from '../Post/Post'
 import Loader from '../Loader/Loader'
-import icecream from '../../images/icecream.png';
+import marker from '../../images/location.png';
 
 class Explore extends React.Component {
 	state = {
@@ -14,22 +14,53 @@ class Explore extends React.Component {
 		selectedPost: undefined
 	}
 
-	// saved_features = [{"type":"Feature","properties":{"description":"24","icon":"theatre"},"geometry":{"type":"Point","coordinates":[-79.3976539,43.6591399]}}];
-
-	getAllPosts = (mapboxgl, map) => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPosts',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
+	getAllLocations = (mapboxgl, map) => {
 
 		let getParams = {};
 
+		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
+
+		Amplify.API.get('getLocations', '', getParams).then((response) => {
+			const features = [];
+
+			if (Object.entries(response).length === 0 && response.constructor === Object) {
+				response = [];
+			}
+
+			response.forEach((post) => {
+
+
+				if (post.detailedLocation.latitude && post.detailedLocation.longitude) {
+					features.push({
+						'type': 'Feature',
+						'properties': {
+							'description': (post.postID).toString(),
+							'icon': 'theatre'
+						},
+						'geometry': {
+							'type': 'Point',
+							'coordinates': [parseFloat(post.detailedLocation.longitude), parseFloat(post.detailedLocation.latitude)]
+						}
+					});
+				}
+			});
+
+			this.setState({ features: features });
+
+			console.log(JSON.stringify(this.state.features));
+
+			// Plot features on map
+			this.addFeatures(mapboxgl, map, this.state.features);
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
+
+	getAllPosts = (mapboxgl, map) => {
+		
+		let getParams = {};
+
+		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 		Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = [];
 			const features = [];
@@ -79,19 +110,9 @@ class Explore extends React.Component {
 		console.log(postID);
 		this.setState({ loading: true });
 
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPosts',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
-
 		let getParams = {};
 		getParams = { queryStringParameters: { searchType: 'POST', searchParameter: postID } }
+		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 
 		Amplify.API.get('getPosts', '', getParams).then((response) => {
 			let selectedPost = undefined;
@@ -99,6 +120,8 @@ class Explore extends React.Component {
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
+
+			console.log(response)
 
 			response.forEach((post) => {
 				selectedPost = {
@@ -129,7 +152,7 @@ class Explore extends React.Component {
 			// 	}
 			// );
 
-			map.loadImage(icecream, (error, image) => {
+			map.loadImage(marker, (error, image) => {
 				if (error) throw error;
 				map.addImage('post-icon', image);
 			});
@@ -196,7 +219,10 @@ class Explore extends React.Component {
 		map.scrollZoom.disable();
 
 		// Get all the posts and plot on the map 
-		this.getAllPosts(mapboxgl, map);
+		// this.getAllPosts(mapboxgl, map);
+
+		// Get all the locations and plot on the map 
+		this.getAllLocations(mapboxgl, map);
 	}
 
 	render() {

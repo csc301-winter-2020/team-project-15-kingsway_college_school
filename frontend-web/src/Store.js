@@ -4,6 +4,7 @@ import { Auth } from 'aws-amplify';
 
 class Store extends React.Component {
 	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod'
+	devApiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev'
 
 	currentView = 'Home'
 
@@ -49,6 +50,7 @@ class Store extends React.Component {
 				this.user = user
 				Auth.userAttributes(user).then( (attributes) => {
 					// If we ever add more attributes this indice may need to be changed
+					console.log(attributes)
 					this.userID = attributes[3].Value
 				})
 				this.session = user.signInUserSession
