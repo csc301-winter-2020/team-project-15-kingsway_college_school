@@ -41,9 +41,23 @@ class PostMenu extends Component {
 			this.props.refresh();
 			this.hideMenu();
 		}).catch((error) => {
+			console.log(error)
 			Alert.alert("REQUEST FAILED");
 			this.hideMenu();
+		})
+	}
+
+	unfavouritePost() {
+		const reqParams = { queryStringParameters: { postID: this.props.postID} };
+		Amplify.API.put('unfavouritePost', '', reqParams).then( (response) => {
+			console.log(response);
+			Alert.alert("Post removed.");
+			this.props.refresh();
+			this.hideMenu();
+		}).catch((error) => {
 			console.log(error)
+			Alert.alert("REQUEST FAILED");
+			this.hideMenu();
 		})
 	}
 
@@ -58,6 +72,7 @@ class PostMenu extends Component {
 	hideMenu = () => {
 		this._menu.hide();
 	};
+
 	deleteAlert() {
 		Alert.alert(
 			'Delete post?',
@@ -74,6 +89,24 @@ class PostMenu extends Component {
 		);
 		this.hideMenu();
 	}
+
+	unfavouriteAlert() {
+		Alert.alert(
+			'Remove from favourites?',
+			'Are you sure you want to remove this post from your favourites?',
+			[
+				{
+					text: 'Cancel',
+					onPress: () => console.log('Cancel Pressed'),
+					style: 'cancel',
+				},
+				{ text: 'OK', onPress: () => this.unfavouritePost() },
+			],
+			{ cancelable: true },
+		);
+		this.hideMenu();
+	}
+
 	render() {
 		const userID = 2;
 		const menuOptionStyle = {
@@ -89,10 +122,10 @@ class PostMenu extends Component {
 			}
 		}
 
-		// Only show the "favourite" option when looking at posts in feeds other than Favourites feed
-		let favouriteOption = <MenuItem onPress={() => this.favouritePost()} customStyles={menuOptionStyle}> Favourite </MenuItem>;
+		// Change "Favourite" option to "Remove from favourites" when looking at Favourites screen
+		let favouriteOption = <MenuItem onPress={() => this.favouritePost()} customStyles={menuOptionStyle}>Favourite</MenuItem>;
 		if (this.props.alreadyFavourite) {
-			favouriteOption = <></>;
+			favouriteOption = <MenuItem onPress={() => this.unfavouriteAlert()} customStyles={menuOptionStyle}>Remove from favourites</MenuItem>;
 		}
 
 		return (

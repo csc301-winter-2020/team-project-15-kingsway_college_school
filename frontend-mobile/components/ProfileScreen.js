@@ -113,7 +113,8 @@ export default class ProfileScreen extends Component {
 		})
 
 		// Get favourites from backend
-		Amplify.API.get('getPosts', "", getFavouritesParams).then((response) => {this.setState({
+		Amplify.API.get('getPosts', "", getFavouritesParams).then((response) => {
+			this.setState({
 				favourites: response,
 				refreshing: false
 			});
