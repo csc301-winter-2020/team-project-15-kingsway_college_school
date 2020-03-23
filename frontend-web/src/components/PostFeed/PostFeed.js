@@ -15,16 +15,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	}
 
 	callPostsApi = async (session, feedType, searchTerm) => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: this.props.store.apiEndpoint + '/getPosts',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		})
 
 		let getParams = {};
 
@@ -49,8 +39,12 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		let currCreds
 		Auth.currentCredentials().then(response => {
 					currCreds = response
+					console.log(currCreds)
+
+		}).catch((err) => {
+			console.log('error on current credentials call')
+			console.log(err)
 		})
-		
 		await Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = [];
 

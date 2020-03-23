@@ -16,16 +16,6 @@ class Post extends React.Component {
 	}
 
 	deletePost = () => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'deletePost',
-					endpoint: this.props.store.apiEndpoint + '/deletePost',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
 
 		const reqParams = { queryStringParameters: { userID: this.props.store.userID, postID: this.props.post.postID } };
 
@@ -48,7 +38,7 @@ class Post extends React.Component {
 
 		for (let i = 0; i < notTags.length - 1; i++) {
 			output.push(notTags[i])
-			output.push(<span className="accent">{ tags[i] }</span>)
+			output.push(<span key={i} className="accent">{ tags[i] }</span>)
 		}
 
 		output.push(notTags[notTags.length - 1])
