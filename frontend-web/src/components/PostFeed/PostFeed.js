@@ -30,7 +30,12 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
 		}
 
-		getParams["headers"] = {"Authorization" : session.idToken.jwtToken}
+		try {
+			getParams["headers"] = {"Authorization" : session.idToken.jwtToken}
+		} catch {
+			return
+		}
+		
 		let currCreds
 		Auth.currentCredentials().then(response => {
 					currCreds = response

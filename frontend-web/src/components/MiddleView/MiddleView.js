@@ -2,6 +2,7 @@ import React from 'react';
 import './MiddleView.css';
 
 import PostFeed from '../PostFeed/PostFeed'
+import SearchUser from '../SearchUser/SearchUser'
 import CreatePost from '../CreatePost/CreatePost'
 import Explore from '../Explore/Explore'
 
@@ -14,6 +15,9 @@ class MiddleView extends React.Component {
 		switch(currentView) {
 			case 'My Posts':
 				this.setState({ tab: <PostFeed store={ this.props.store } /> });
+				return;
+			case 'Search User':
+				this.setState({ tab: <SearchUser store={ this.props.store } /> });
 				return;
 			case 'Explore':
 				this.setState({ tab: <Explore store={ this.props.store } /> });
