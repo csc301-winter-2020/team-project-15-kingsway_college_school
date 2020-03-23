@@ -48,7 +48,7 @@ class Store extends React.Component {
 			} else {
 				// The user directly signs in
 				this.user = user
-				Auth.userAttributes(user).then( (attributes) => {
+				await Auth.userAttributes(user).then( (attributes) => {
 					for (let i = 0; i < attributes.length; i++) {
 						if (attributes[i].Name === 'custom:admin') {
 							this.admin = attributes[i].Value.toLowerCase() === 'true'
