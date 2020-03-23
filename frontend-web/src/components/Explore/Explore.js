@@ -14,7 +14,7 @@ class Explore extends React.Component {
 		selectedPost: undefined
 	}
 
-	getAllLocations = () => {
+	getAllLocations = (mapboxgl, map) => {
 
 		let getParams = {};
 
