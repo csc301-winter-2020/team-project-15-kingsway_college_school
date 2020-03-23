@@ -27,7 +27,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		} else if (feedType === 'My Posts') {
 			getParams = { queryStringParameters: { searchType: 'OWN'} };
 		} else if (feedType === 'Favourites') {
-			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
+			getParams = { queryStringParameters: { searchType: 'FAV'} };
 		}
 
 		getParams["headers"] = {"Authorization" : session.idToken.jwtToken}
