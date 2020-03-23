@@ -90,6 +90,7 @@ decorate(Store, {
 	user: observable,
 	session: observable,
 	userID: observable,
+	admin: observable,
 	updateFeeds: action,
 	setCurrentView: action,
 	changeTab: action,

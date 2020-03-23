@@ -123,14 +123,13 @@ export default class Post extends Component {
 				</View>
 			)
 		}
-		let time = new Date(0)
-		time.setUTCSeconds(this.props.post.timeUploaded)
+		let time = new Date(this.props.post.timeUploaded * 1000);
 		return (
 			<View style={styles.post}>
 				<View style={styles.header}>
 					<View style={styles.headerLeft}>
 						{this.locationHeader}
-						<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + (time.getDay() + 1) + ', ' + time.getFullYear()}</Text>
+						<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear()}</Text>
 					</View>
 					<View styles={styles.headerRight}>
 						<PostMenu userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />

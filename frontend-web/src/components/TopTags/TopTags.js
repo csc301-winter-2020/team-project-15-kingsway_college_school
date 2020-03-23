@@ -11,16 +11,6 @@ class TopTags extends React.Component {
 	}
 
 	callHashtagApi = async (session) => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPopularHashtags',
-					endpoint: this.props.store.apiEndpoint + '/getPopularHashtags',
-					service: 'api-gateway',
-					region: 'us-east-1',
-				}]
-			}
-		});
 
 		await Amplify.API.get('getPopularHashtags', '', {headers : {Authorization : session.idToken.jwtToken}})
 		.then((response) => {
