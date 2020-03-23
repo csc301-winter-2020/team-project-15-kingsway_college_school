@@ -46,6 +46,7 @@ class TabMenu extends React.Component {
 		<div className="TabMenu dark-grey light-grey-text">
 			<h1>
 				KCShare
+				{ this.props.store.admin ? <span className="accent"><br/>ADMIN</span> : '' }
 			</h1>
 			
 			{

@@ -7,7 +7,7 @@ class Loader extends React.Component {
 
 	render() {
 		return (
-		<div className="Loader">
+		<div className={ 'Loader ' + (this.props.short ? 'short' : '') }>
 			<div className="lds-ripple"><div></div><div></div></div>
 		</div>
 	)}

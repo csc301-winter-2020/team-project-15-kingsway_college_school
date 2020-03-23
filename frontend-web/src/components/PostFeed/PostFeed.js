@@ -35,7 +35,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 				getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
 			}
 		} else if (feedType === 'My Posts') {
-			getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
+			getParams = { queryStringParameters: { searchType: 'OWN' } };
 		} else if (feedType === 'Favourites') {
 			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
 		}
@@ -107,6 +107,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	}
 
 	getPosts = async (feedType, searchTerm) => {
+		this.setState({ hasPosts: false });
 		// Janky solution for waiting until authenticated		
 		setTimeout( () => {
 			this.callPostsApi(this.props.store.session, feedType, searchTerm)
@@ -122,8 +123,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	}
 
 	componentDidMount() {
-		this.setState({ hasPosts: false });
-
 		const feedType = this.props.store.currentView;
 
 		this.getPosts(feedType);
@@ -136,7 +135,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	render() {
 		return (
 		<div className="PostFeed light-grey-text">
-			{ this.state.hasPosts ? '' : <Loader /> }
+			{ this.state.hasPosts ? '' : <Loader short={ this.state.posts.length != 0 } /> }
 			{
 				this.state.posts.map((post) => (
 					<Post store={ this.props.store } key={ uid(post.postID) } post={ post } />
