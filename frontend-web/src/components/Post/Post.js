@@ -17,7 +17,7 @@ class Post extends React.Component {
 
 	deletePost = () => {
 
-		const reqParams = { queryStringParameters: { userID: this.props.store.userID, postID: this.props.post.postID } };
+		const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
 
 		reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 
