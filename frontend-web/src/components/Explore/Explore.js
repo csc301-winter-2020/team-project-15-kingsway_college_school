@@ -14,6 +14,37 @@ class Explore extends React.Component {
 		selectedPost: undefined
 	}
 
+	getAllLocations = () => {
+		Amplify.configure({
+			API: {
+				endpoints: [{
+					name: 'getLocations',
+					endpoint: this.props.store.devApiEndpoint + '/getLocations',
+					service: 'api-gateway',
+					region: 'us-east-1'
+				}]
+			}
+		});
+
+		let getParams = {};
+
+		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
+
+		Amplify.API.get('getLocations', '', getParams).then((response) => {
+			const posts = [];
+			const features = [];
+
+			if (Object.entries(response).length === 0 && response.constructor === Object) {
+				response = [];
+			}
+
+			console.log(response);
+
+		}).catch((error) => {
+			console.log(error);
+		});
+	}
+
 	getAllPosts = (mapboxgl, map) => {
 		Amplify.configure({
 			API: {
@@ -198,6 +229,9 @@ class Explore extends React.Component {
 
 		// Get all the posts and plot on the map 
 		this.getAllPosts(mapboxgl, map);
+
+		// Get all the locations
+		this.getAllLocations();
 	}
 
 	render() {
