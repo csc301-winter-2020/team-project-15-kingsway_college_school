@@ -35,8 +35,49 @@ class App extends React.Component {
 				sessionStorage.removeItem('kcs_session')
 			}
 		}
+		this.initBackendConfiguration()
 	}
 
+	initBackendConfiguration = () => {
+		Amplify.configure({
+			API: {
+				endpoints: [
+					{
+						name: 'getPosts',
+						endpoint: this.state.store.apiEndpoint + '/getPosts',
+						service: 'api-gateway',
+						region: 'us-east-1'
+					},
+					{
+						name: 'deletePost',
+						endpoint: this.state.store.apiEndpoint + '/deletePost',
+						service: 'api-gateway',
+						region: 'us-east-1'
+					},
+					{
+						name: 'newPost',
+						endpoint: this.state.store.apiEndpoint + '/newPost',
+						service: 'api-gateway',
+						region: 'us-east-1'
+					},
+					{
+						name: 'getPopularHashtags',
+						endpoint: this.state.store.apiEndpoint + '/getPopularHashtags',
+						service: 'api-gateway',
+						region: 'us-east-1',
+					}
+				]
+			},
+			Auth: {
+				region: 'us-east-1',
+				userPoolId: 'us-east-1_jXw5z0sO3',
+				userPoolWebClientId: '2be70uebsba896oah66e7gduua',
+				identityPoolId: 'us-east-1:b2f0fb38-17fc-43a6-98db-6c372e572f0e',
+				mandatorySignIn: true,
+				authenticationFlowType: 'USER_PASSWORD_AUTH',
+			}
+		});
+	}
 	render() {
 		return (
 			<div>

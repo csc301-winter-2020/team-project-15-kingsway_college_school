@@ -15,16 +15,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	}
 
 	callPostsApi = async (session, feedType, searchTerm) => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: this.props.store.apiEndpoint + '/getPosts',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		})
 
 		let getParams = {};
 
@@ -40,12 +30,19 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
 		}
 
+		console.log('before calling curr creds')
+		console.log(Amplify._config)
 		getParams["headers"] = {"Authorization" : session.idToken.jwtToken}
 		let currCreds
 		Auth.currentCredentials().then(response => {
 					currCreds = response
+					console.log(currCreds)
+
+		}).catch((err) => {
+			console.log('err on curr creds')
+			console.log(err)
 		})
-		
+		console.log('ran past creds')
 		await Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = [];
 

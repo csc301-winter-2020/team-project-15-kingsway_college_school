@@ -67,17 +67,7 @@ class Explore extends React.Component {
 	}
 
 	getAllPosts = (mapboxgl, map) => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: this.props.store.apiEndpoint + '/getPosts',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
-
+		
 		let getParams = {};
 
 		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
@@ -130,17 +120,6 @@ class Explore extends React.Component {
 	getSelectedPost = (postID) => {
 		console.log(postID);
 		this.setState({ loading: true });
-
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: this.props.store.apiEndpoint + '/getPosts',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
 
 		let getParams = {};
 		getParams = { queryStringParameters: { searchType: 'POST', searchParameter: postID } }

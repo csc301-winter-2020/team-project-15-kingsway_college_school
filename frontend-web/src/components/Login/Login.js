@@ -14,26 +14,7 @@ class Login extends React.Component {
 	handleSubmit = async (e) => {
 		e.preventDefault()
 
-		Amplify.configure({
-			Auth: {
 		
-				// REQUIRED - Amazon Cognito Region
-				region: 'us-east-1',
-		
-				// OPTIONAL - Amazon Cognito User Pool ID
-				userPoolId: 'us-east-1_jXw5z0sO3',
-		
-				// OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-				userPoolWebClientId: '2be70uebsba896oah66e7gduua',
-				identityPoolId: 'us-east-1:b2f0fb38-17fc-43a6-98db-6c372e572f0e',
-		
-				// OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
-				mandatorySignIn: true,
-		
-				// OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
-				authenticationFlowType: 'USER_PASSWORD_AUTH',
-			}
-		});
 
 		const signInSucceeded = await this.props.store.SignIn(this.state.username_input.value, this.state.password_input.value)
 
