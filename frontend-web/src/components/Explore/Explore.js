@@ -113,13 +113,15 @@ class Explore extends React.Component {
 		let getParams = {};
 		getParams = { queryStringParameters: { searchType: 'POST', searchParameter: postID } }
 		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
-		console.log(Amplify._config)
+
 		Amplify.API.get('getPosts', '', getParams).then((response) => {
 			let selectedPost = undefined;
 
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
+
+			console.log(response)
 
 			response.forEach((post) => {
 				selectedPost = {
