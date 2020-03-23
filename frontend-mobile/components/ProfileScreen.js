@@ -139,6 +139,9 @@ export default class ProfileScreen extends Component {
 	}
 
 	selectedScreen() {
+		/* NOTE: Currently do not allow favouriting of My Posts or already favourited posts.
+		** Change by removing prop 'alreadyFavourite'. */
+
 		// Top tab selected is "My Posts"
 		if (this.state.selectedIndex == 0) {
 			return (
@@ -163,7 +166,7 @@ export default class ProfileScreen extends Component {
 				<SafeAreaView style={styles.container}>
 					<FlatList
 						data={this.state.favourites}
-						renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
+						renderItem={({ item }) => <Post alreadyFavourite={true} post={item} refresh={() => this.refresh()} />}
 						keyExtractor={post => post.postID}
 						refreshControl={
 							<RefreshControl

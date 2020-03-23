@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Alert, Image, Text, View, StyleSheet } from "react-native"
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import Amplify from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 // import {
 //     Menu,
 //     MenuOptions,
@@ -9,7 +10,6 @@ import Amplify from 'aws-amplify';
 //     MenuTrigger,
 // } from 'react-native-popup-menu';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
-
 
 class MenuIcon extends Component {
 	render() {
@@ -22,6 +22,7 @@ class PostMenu extends Component {
 		this.deletePost = this.deletePost.bind(this)
 		this.deleteAlert = this.deleteAlert.bind(this)
 	}
+
 	deletePost() {
 		const reqParams = { queryStringParameters: { postID: this.props.postID } };
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
@@ -30,8 +31,20 @@ class PostMenu extends Component {
 		}).catch((error) => {
 			console.log(error);
 		});
+	}
 
-
+	favouritePost() {
+		const reqParams = { queryStringParameters: { postID: this.props.postID} };
+		Amplify.API.put('favouritePost', '', reqParams).then( (response) => {
+			console.log(response);
+			Alert.alert("Post saved to favourites!");
+			this.props.refresh();
+			this.hideMenu();
+		}).catch((error) => {
+			Alert.alert("REQUEST FAILED");
+			this.hideMenu();
+			console.log(error)
+		})
 	}
 
 	showMenu = () => {
@@ -59,6 +72,7 @@ class PostMenu extends Component {
 			],
 			{ cancelable: true },
 		);
+		this.hideMenu();
 	}
 	render() {
 		const userID = 2;
@@ -75,13 +89,19 @@ class PostMenu extends Component {
 			}
 		}
 
+		// Only show the "favourite" option when looking at posts in feeds other than Favourites feed
+		let favouriteOption = <MenuItem onPress={() => this.favouritePost()} customStyles={menuOptionStyle}> Favourite </MenuItem>;
+		if (this.props.alreadyFavourite) {
+			favouriteOption = <></>;
+		}
+
 		return (
 			<View style={{ borderRadius: 10 }}>
 				<Menu
 					ref={this.setMenuRef}
 					button={<MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} onPress={this.showMenu} />}>
 
-					<MenuItem onPress={() => alert(`Save`)} customStyles={menuOptionStyle}> Favourite </MenuItem>
+					{favouriteOption}
 					<MenuDivider />
 					<MenuItem onPress={() => this.deleteAlert()} disabled={!this.props.userID == userID}> Delete</MenuItem>
 				</Menu>
@@ -132,7 +152,7 @@ export default class Post extends Component {
 						<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear()}</Text>
 					</View>
 					<View styles={styles.headerRight}>
-						<PostMenu userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
+						<PostMenu alreadyFavourite={this.props.alreadyFavourite} userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
 					</View>
 				</View>
 				<View styles={{ flex: 1 }}>
