@@ -31,17 +31,6 @@ class CreatePost extends React.Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'newPost',
-					endpoint: this.props.store.apiEndpoint + '/newPost',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
-
 		const imageParam = this.state.attachment ? [ this.state.attachment ] : [];
 
 		const reqParams = { body: { userID: parseInt(this.props.store.userID), content: this.state.postData, images: imageParam } };

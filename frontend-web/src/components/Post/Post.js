@@ -16,16 +16,6 @@ class Post extends React.Component {
 	}
 
 	deletePost = () => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'deletePost',
-					endpoint: this.props.store.apiEndpoint + '/deletePost',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
 
 		const reqParams = { queryStringParameters: { userID: this.props.store.userID, postID: this.props.post.postID } };
 
