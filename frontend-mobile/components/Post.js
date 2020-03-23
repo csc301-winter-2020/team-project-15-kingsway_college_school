@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import { Alert, Image, Text, View, StyleSheet } from "react-native"
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import Amplify from 'aws-amplify';
-// import {
-//     Menu,
-//     MenuOptions,
-//     MenuOption,
-//     MenuTrigger,
-// } from 'react-native-popup-menu';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
+import ExploreScreen from './ExploreScreen.js'
+
 
 
 class MenuIcon extends Component {
@@ -60,6 +56,8 @@ class PostMenu extends Component {
 			{ cancelable: true },
 		);
 	}
+
+	
 	render() {
 		const userID = 2;
 		const menuOptionStyle = {
@@ -89,10 +87,32 @@ class PostMenu extends Component {
 		)
 	}
 }
+
 export default class Post extends Component {
 	locationHeader = null;
 	dateHeader = null;
 	image = null;
+
+	searchWithTag = (tagText) => {
+		<ExploreScreen> </ExploreScreen>
+	}
+
+	parseContent = (content) => {
+		const notTags = content.split(/#\w+/g)
+		const tags = content.match(/#\w+/g)
+
+		let output = []
+
+		for (let i = 0; i < notTags.length - 1; i++) {
+			output.push(notTags[i])
+			output.push(<Text style={{color: "orange"}} onPress={() => this.searchWithTag(tags[i])}>{ tags[i]}</Text>)
+		}
+
+		output.push(notTags[notTags.length - 1])
+
+		return output
+	}
+
 	render() {
 		const month = {
 			0: 'January',
@@ -137,7 +157,7 @@ export default class Post extends Component {
 					</View>
 				</View>
 				<View styles={{ flex: 1 }}>
-					<Text style={styles.content}>{this.props.post.content}</Text>
+					<Text style={styles.content}> {this.parseContent(this.props.post.content)}</Text>
 				</View>
 				{this.image}
 			</View>

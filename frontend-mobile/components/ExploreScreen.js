@@ -24,6 +24,7 @@ class ExploreTags extends Component {
 
     }
 }
+
 class ExploreSearch extends Component {
   state = {
     text: '',

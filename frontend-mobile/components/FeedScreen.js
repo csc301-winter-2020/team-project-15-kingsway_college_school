@@ -22,8 +22,9 @@ class FeedHeader extends Component {
 						containerStyle={styles.searchBarContainer}
 						inputStyle={styles.searchBarInput}
 						inputContainerStyle={styles.searchBarInputContainer}
-						placeholder={"Search..."}
+						placeholder={"Search"}
 						onFocus={() => this.props.navigation.push("Explore")}
+						platform={"ios"}
 					/>
 				</View>
 			</View>
@@ -66,6 +67,7 @@ class Feed extends Component {
 		}
 
 	}
+
 	render() {
 		return (
 			<View style={styles.view}>
@@ -88,10 +90,10 @@ class Feed extends Component {
 		)
 	}
 }
+
 const Stack = createStackNavigator();
 
 export default class FeedScreen extends Component {
-
 
 	render() {
 
