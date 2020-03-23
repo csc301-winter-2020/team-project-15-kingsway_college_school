@@ -30,8 +30,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
 		}
 
-		console.log('before calling curr creds')
-		console.log(Amplify._config)
 		getParams["headers"] = {"Authorization" : session.idToken.jwtToken}
 		let currCreds
 		Auth.currentCredentials().then(response => {
@@ -39,10 +37,9 @@ const PostFeed = observer(class PostFeed extends React.Component {
 					console.log(currCreds)
 
 		}).catch((err) => {
-			console.log('err on curr creds')
+			console.log('error on current credentials call')
 			console.log(err)
 		})
-		console.log('ran past creds')
 		await Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = [];
 

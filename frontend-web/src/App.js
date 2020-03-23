@@ -44,7 +44,7 @@ class App extends React.Component {
 				endpoints: [
 					{
 						name: 'getPosts',
-						endpoint: this.state.store.apiEndpoint + '/getPosts',
+						endpoint: this.state.store.devApiEndpoint + '/getPosts',
 						service: 'api-gateway',
 						region: 'us-east-1'
 					},
@@ -65,6 +65,12 @@ class App extends React.Component {
 						endpoint: this.state.store.apiEndpoint + '/getPopularHashtags',
 						service: 'api-gateway',
 						region: 'us-east-1',
+					},
+					{
+						name: 'getLocations',
+						endpoint: this.state.store.devApiEndpoint + '/getLocations',
+						service: 'api-gateway',
+						region: 'us-east-1'
 					}
 				]
 			},

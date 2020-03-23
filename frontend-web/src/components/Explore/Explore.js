@@ -14,17 +14,7 @@ class Explore extends React.Component {
 		selectedPost: undefined
 	}
 
-	getAllLocations = (mapboxgl, map) => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getLocations',
-					endpoint: this.props.store.apiEndpoint + '/getLocations',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
+	getAllLocations = () => {
 
 		let getParams = {};
 
@@ -71,7 +61,6 @@ class Explore extends React.Component {
 		let getParams = {};
 
 		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
-
 		Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = [];
 			const features = [];
@@ -124,7 +113,7 @@ class Explore extends React.Component {
 		let getParams = {};
 		getParams = { queryStringParameters: { searchType: 'POST', searchParameter: postID } }
 		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
-
+		console.log(Amplify._config)
 		Amplify.API.get('getPosts', '', getParams).then((response) => {
 			let selectedPost = undefined;
 
