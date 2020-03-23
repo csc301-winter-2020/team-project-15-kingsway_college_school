@@ -19,7 +19,7 @@ class Explore extends React.Component {
 			API: {
 				endpoints: [{
 					name: 'getLocations',
-					endpoint: this.props.store.devApiEndpoint + '/getLocations',
+					endpoint: this.props.store.apiEndpoint + '/getLocations',
 					service: 'api-gateway',
 					region: 'us-east-1'
 				}]

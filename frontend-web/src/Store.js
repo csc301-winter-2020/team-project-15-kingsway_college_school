@@ -3,8 +3,8 @@ import React from "react"
 import { Auth } from 'aws-amplify';
 
 class Store extends React.Component {
-	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod'
-	devApiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev'
+	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev'
+	//prodApiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod'
 
 	currentView = 'Home'
 
