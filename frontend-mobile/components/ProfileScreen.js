@@ -140,9 +140,6 @@ export default class ProfileScreen extends Component {
 	}
 
 	selectedScreen() {
-		/* NOTE: Currently do not allow favouriting of My Posts or already favourited posts.
-		** Change by removing prop 'alreadyFavourite'. */
-
 		// Top tab selected is "My Posts"
 		if (this.state.selectedIndex == 0) {
 			return (
