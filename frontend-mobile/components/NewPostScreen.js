@@ -31,7 +31,6 @@ class NewPostBody extends Component {
 	}
 	state = {
 		text: '',
-		//image: 'file:///data/user/0/host.exp.exponent/cache/ExperienceData/%2540anonymous%252FKCShare-ec3dbb19-618e-4e08-bdc7-32f8400d4d4a/ImagePicker/d5f0dbf7-fbe7-4acb-a9cc-d0edfafa2e74.jpg'
 		image: null
 	}
 
@@ -64,14 +63,13 @@ class NewPostBody extends Component {
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.All,
 			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1
+			quality: 1,
+			base64: true
+
 		});
 
-		console.log(result);
-
 		if (!result.cancelled) {
-			this.setState({ image: result.uri });
+			this.setState({ image: "data:image/jpg;base64," + result.base64 });
 		}
 	}
 
@@ -82,7 +80,9 @@ class NewPostBody extends Component {
 	submitPost() {
 		console.log(this.state.text)
 		console.log("Submitting Post");
-		const reqParams = { body: { content: this.state.text } };
+		const imageParam = this.state.image ? [this.state.image] : [];
+
+		const reqParams = { body: { content: this.state.text, images: imageParam } };
 
 
 		Amplify.API.post('newPost', '', reqParams).then((response) => {
@@ -104,7 +104,10 @@ class NewPostBody extends Component {
 
 	render() {
 		console.log("State:")
-		console.log(this.state)
+		if (this.state.image != null) {
+			console.log(this.state.image.substring(0, 20))
+
+		}
 		let image = null;
 		if (this.state.image != null) {
 			image = <Image style={styles.image} source={{ uri: this.state.image }} />
