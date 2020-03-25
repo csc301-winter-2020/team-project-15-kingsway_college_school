@@ -44,7 +44,7 @@ class Feed extends Component {
 	refresh() {
 		this.setState({ refreshing: true })
 
-		Amplify.API.get('getPosts', "").then((response) => {
+		Amplify.API.get('getPosts', "", {}).then((response) => {
 			this.setState({
 				posts: response,
 				refreshing: false
@@ -56,11 +56,7 @@ class Feed extends Component {
 
 	}
 	componentDidMount() {
-		Auth.currentAuthenticatedUser().then((response) => {
-			console.log(response);
-		}).catch((error) => {
-			console.log(error);
-		})
+
 		if (this.state.posts.length === 0) {
 			this.refresh()
 		}
