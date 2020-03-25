@@ -2,13 +2,9 @@ import React, { Component } from 'react';
 import { Alert, Image, Text, View, StyleSheet } from "react-native"
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import Amplify from 'aws-amplify';
-// import {
-//     Menu,
-//     MenuOptions,
-//     MenuOption,
-//     MenuTrigger,
-// } from 'react-native-popup-menu';
+import { Auth, Storage } from 'aws-amplify';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
+import { S3Image } from 'aws-amplify-react-native';
 
 
 class MenuIcon extends Component {
@@ -90,10 +86,48 @@ class PostMenu extends Component {
 	}
 }
 export default class Post extends Component {
+
+	state = {
+		image: null
+	}
 	locationHeader = null;
 	dateHeader = null;
-	image = null;
+	async componentDidMount() {
+
+		console.log("hey")
+		if (this.props.post.images.length > 0) {
+			let imageBase64;
+			// await Storage.get(imageKey, { download: true }).then(result =>  console.log(result))
+			let aws = require("aws-sdk")
+			let currCreds = await Auth.currentCredentials();
+			aws.config.update({ region: 'us-east-1', credentials: currCreds });
+			const s3 = new aws.S3(); // Pass in opts to S3 if necessary
+			let getParams = {
+				Bucket: 'kcpostimages', // your bucket name,
+				Key: this.props.post.images[0], // path to the object you're looking for
+			}
+
+			await s3.getObject(getParams, (err, data) => {
+				// Handle any error and exit
+				if (err) {
+					console.log(err)
+					return err;
+				}
+				// No error happened
+				// Convert Body from a Buffer to a String
+				let objectData = data.Body.toString('utf-8'); // Use the encoding necessary
+				imageBase64 = objectData
+				this.setState({ image: imageBase64 });
+
+
+			});
+		}
+
+
+
+	}
 	render() {
+
 		const month = {
 			0: 'January',
 			1: 'February',
@@ -114,11 +148,12 @@ export default class Post extends Component {
 			)
 		}
 		if (this.props.post.images.length > 0) {
+
 			this.image = (
-				<View style={{ alignItems: 'center', paddingTop: 20 }}>
+				<View style={{ alignItems: 'center', paddingTop: 20, flex: 1 }}>
 					<Image
-						style={{ width: 300, height: 300 }}
-						source={{ uri: this.props.post.images[0] }}
+						style={{ width: 300, height: 300, resizeMode: "contain" }}
+						source={{ uri: this.state.image }}
 					/>
 				</View>
 			)
