@@ -5,6 +5,7 @@ import { Icon } from 'react-native-elements';
 import Amplify from 'aws-amplify';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
 
 const side_margins = 16
 const Tab = createBottomTabNavigator();
