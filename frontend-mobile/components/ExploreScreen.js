@@ -3,21 +3,41 @@ import { SafeAreaView, View, FlatList, StyleSheet, Text, TextInput, TouchableOpa
 import Amplify from 'aws-amplify';
 import { SearchBar } from 'react-native-elements';
 import Tag from './Tag.js';
-
-// Delete these imports if unused
-import { createStackNavigator } from '@react-navigation/stack';
-import Constants from 'expo-constants';
+import Post from './Post.js';
 
 
-class ExploreHeader extends Component {
+class ExploreTags extends Component {
+  render() {
+	  return (
+	    <View>
+        <View>
+            <Text style={styles.headerText}>Top Tags</Text>
+        </View>
+	      <SafeAreaView style={styles.hashtagsContainer}>
+	      <FlatList
+              data={this.props.hashtags}
+              renderItem={({ item }) => <Tag tag={item} search={(searchTerm) => this.props.search(searchTerm) } />}
+		    />
+		    </SafeAreaView>
+	    </View>
+	)
+
+    }
+}
+class ExploreSearch extends Component {
   state = {
-    text: ''
+    text: '',
   };
   
   searching (text) {
     this.setState(text);
-    // doSomeDelay();
-    // startSearching();
+    if (text.text) {
+      // doSomeDelay();
+      this.props.search(text.text);
+    }
+    else {
+      this.props.setFlag();
+    }
   }
 
   render() {
@@ -34,18 +54,69 @@ class ExploreHeader extends Component {
           />
         </View>
 
-        <View>
-		      <Text style={styles.headerText}>Top Tags</Text>
-		    </View>
-      </View>
+     </View>
     )
+  }
+}
+
+class ExploreSearchResults extends Component {
+  posts = [];
+  
+  constructor() {
+    super();
+  }
+
+  render() {
+    this.posts = this.props.posts;
+	  return (
+	    <SafeAreaView style={styles.container}>
+		  <FlatList
+		    data={this.posts}
+		    renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
+		    // refreshControl={
+        // <RefreshControl
+        // colors={["#fcfcff"]}
+        //       refreshing={this.state.refreshing }
+        //       onRefresh={() => this.refresh() }
+        //       tintColor={"white"}
+        // />
+		    // }
+		    keyExtractor={post => post.postID}
+		  />
+		  </SafeAreaView>
+	  )
   }
 }
 
 export default class ExploreScreen extends Component {
   state = {
     hashtags: [],
+    showSearch: false,
+    posts: []
   };
+
+  constructor() {
+    super();
+    this.search = this.search.bind(this);
+    this.setShowSearchFalse.bind(this);
+  }
+
+  setShowSearchFalse () {
+    this.setState({showSearch: false});
+  }
+  
+  search(searchTerm) {
+    this.setState({showSearch: true});
+    console.log("Searching for:", searchTerm)
+    let getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
+
+    Amplify.API.get('getPosts', "", getParams).then( (response) => {
+        this.setState({posts: response});
+        console.log(this.state.posts);
+    }).catch((error) => {
+        console.log(error)
+    })
+  }
   
   componentDidMount() {
     if (this.state.hashtags.length === 0) {
@@ -59,16 +130,14 @@ export default class ExploreScreen extends Component {
   }
 
   render() {
+    let currentView = <ExploreTags hashtags={this.state.hashtags} search={(searchTerm) => this.search(searchTerm)}/>
+    if (this.state.showSearch) {
+	    currentView = <ExploreSearchResults posts={this.state.posts}/>
+    }
     return (
       <View style={styles.view}>
-        <ExploreHeader  />
-
-        <SafeAreaView style={styles.hashtagsContainer}>
-          <FlatList
-            data={this.state.hashtags}
-            renderItem={({ item }) => <Tag tag={item} />}
-          />
-		    </SafeAreaView>
+	      <ExploreSearch search={this.search} setFlag={() => this.setShowSearchFalse()}/>
+	      {currentView}
         <Tag />
       </View>
     );
@@ -87,7 +156,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: "#110d41",
     paddingTop: 20,
-    paddingBottom: 10
+    paddingBottom: 10,
+    borderBottomWidth: 0
   },
   exploreBarInputContainer: {
     padding: 5,

@@ -11,14 +11,21 @@
 
 .PostLocation {
 	font-weight: 500;
+	padding-bottom: 1vw;
 }
 
 .PostContent {
 	padding: 2vw;
+	padding-top: 1vw;
 }
 
 .PostImage {
 	padding-bottom: 2vw;
+}
+
+.PostImage > img {
+	width: 100%;
+	border-radius: 20px;
 }
 
 .PostUploadTime {

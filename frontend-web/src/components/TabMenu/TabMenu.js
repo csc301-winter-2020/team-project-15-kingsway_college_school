@@ -1,6 +1,7 @@
 import React from 'react';
 import { uid } from "react-uid";
 import './TabMenu.css';
+import { withRouter } from "react-router-dom";
 
 class TabMenu extends React.Component {
 	state = {
@@ -10,20 +11,37 @@ class TabMenu extends React.Component {
 			// 'Favourites',
 			// 'Settings',
 			'My Posts',
-			'Explore'
+			'Explore',
+			'Sign Out'
 		]
+	}
+
+	changeToHome = () => {
+		this.setState({ selected: 'Home' });
+
+		this.props.store.setCurrentView('Home')
 	}
 
 	tabClicked = (tab) => {
 		tab = tab.target.innerText
+
+		if (tab === 'Sign Out') {
+			sessionStorage.removeItem('kcs_session')
+			this.props.store.session = null
+			this.props.history.push('/')
+			return
+		}
 
 		this.setState({ selected: tab });
 
 		this.props.store.setCurrentView(tab)
 	}
 
-	render() {
+	componentDidMount() {
+		this.props.store.changeTab = this.changeToHome;
+	}
 
+	render() {
 		return (
 		<div className="TabMenu dark-grey light-grey-text">
 			<h1>
@@ -41,4 +59,4 @@ class TabMenu extends React.Component {
 	)}
 };
 
-export default TabMenu;
+export default withRouter(TabMenu);

@@ -1,0 +1,63 @@
+import React from 'react';
+import './Login.css';
+
+import Amplify from 'aws-amplify';
+import { withRouter } from "react-router-dom";
+
+class Login extends React.Component {
+	state = {
+		username_input: undefined,
+		password_input: undefined,
+		signInFailed: undefined
+	}
+
+	handleSubmit = async (e) => {
+		e.preventDefault()
+
+		
+
+		const signInSucceeded = await this.props.store.SignIn(this.state.username_input.value, this.state.password_input.value)
+
+		console.log(signInSucceeded)
+
+		this.setState({ signInFailed: !signInSucceeded })
+
+		if (signInSucceeded) {
+			sessionStorage.setItem('kcs_session', JSON.stringify(this.props.store.session))
+			this.props.history.push('/')
+		}
+	}
+
+	render() {
+		return (
+		<form onSubmit={ this.handleSubmit }>
+			<div className="Login dark-grey light-grey-text">
+				<div className="FormBox mid-grey shadow">
+					<div className="LoginTitle">Login</div>
+					<div className={ 'LoginFailed ' + (this.state.signInFailed ? 'error' : 'hidden') }>
+						Username or password was incorrect. Please try again.
+					</div>
+					<div className="LoginUsername">
+						<div className="LoginSubtitle">
+							Username
+						</div>
+						<div className="LoginField shadow">
+							<input ref={ (input) => this.state.username_input = input } type="text" placeholder=""/>
+						</div>
+					</div>
+					<div className="LoginPassword">
+						<div className="LoginSubtitle">
+							Password
+						</div>
+						<div className="LoginField shadow">
+							<input ref={ (input) => this.state.password_input = input } type="password" placeholder=""/>
+						</div>
+					</div>
+					<input type="submit" className="LoginSubmit mid-mid-grey light-grey-text shadow"/>
+				</div>
+			</div>
+		</form>
+	)}
+};
+
+export default withRouter(Login);

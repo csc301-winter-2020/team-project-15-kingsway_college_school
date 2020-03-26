@@ -16,21 +16,13 @@ class Post extends React.Component {
 	}
 
 	deletePost = () => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'deletePost',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/deletePost',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
 
-		const reqParams = { queryStringParameters: { userID: 2, postID: this.props.post.postID } };
+		const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
+
+		reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
-			console.log(response)
+			this.props.store.updateFeeds();
 		}).catch((error) => {
 			console.log(error);
 		});
@@ -38,11 +30,32 @@ class Post extends React.Component {
 		this.setState({ modalVisible: false })
 	}
 
+	parseContent = (content) => {
+		const notTags = content.split(/#\w+/g)
+		const tags = content.match(/#\w+/g)
+
+		let output = []
+
+		for (let i = 0; i < notTags.length - 1; i++) {
+			output.push(notTags[i])
+			output.push(<span key={i} className="accent">{ tags[i] }</span>)
+		}
+
+		output.push(notTags[notTags.length - 1])
+
+		return output
+	}
+
 	render() {
 		const { post } = this.props;
 
-		let time = new Date(0);
-		time.setUTCSeconds(post.uploadTime);
+		if(post === undefined){
+			return(
+			<div className="Post shadow mid-grey light-grey-text">Click a post on the map to see it! </div>
+			)
+		}
+
+		let time = new Date(post.uploadTime * 1000);
 
 		const month = {
 			0: 'January',
@@ -61,21 +74,23 @@ class Post extends React.Component {
 
 		return (
 		<div className="Post shadow mid-grey light-grey-text">
-			<div className="PostLocation">
-				<a className="accent fa fa-map-marker"></a>
-				&nbsp;&nbsp;
-				{ post.location }
-			</div>
+			{
+				post.location.name ? <div className="PostLocation">
+					<a className="accent fa fa-map-marker"></a>
+					&nbsp;&nbsp;
+					{ post.location.name }
+				</div> : ''
+			}
 
 			<div className="PostContent">
-				{ post.content }
+				{ this.parseContent(post.content) }
 			</div>
-			{post.images && <div className="PostImage">
+			{post.images.length > 0 && <div className="PostImage">
 				<img src={ post.images[0] }/>
 			</div>} 
 
 			<div className="PostUploadTime">
-				{ '' + month[time.getMonth()] + ' ' + (time.getDay() + 1) + ', ' + time.getFullYear() }
+				{ '' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear() }
 			</div>
 
 			{ this.props.store.currentView === 'My Posts' ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }

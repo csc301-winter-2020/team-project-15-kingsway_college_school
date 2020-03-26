@@ -10,19 +10,10 @@ class TopTags extends React.Component {
 		hashtags: []
 	}
 
-	componentDidMount() {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPopularHashtags',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPopularHashtags',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
+	callHashtagApi = async (session) => {
 
-		Amplify.API.get('getPopularHashtags', '', {}).then((response) => {
+		await Amplify.API.get('getPopularHashtags', '', {headers : {Authorization : session.idToken.jwtToken}})
+		.then((response) => {
 			const tags = [];
 
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
@@ -35,8 +26,17 @@ class TopTags extends React.Component {
 
 			this.setState({ hashtags: tags });
 		}).catch((error) => {
-			console.log(error);
+			console.error(error);
 		});
+		
+		this.forceUpdate()
+	}
+
+	async componentDidMount() {
+		// Janky solution for waiting until authenticated
+		setTimeout( () => {
+			this.callHashtagApi(this.props.store.session)
+		}, 2000)
 	}
 
 	render() {
@@ -50,13 +50,13 @@ class TopTags extends React.Component {
 
 			{
 				this.state.hashtags.map((hashtag) => (
-					<div key={ uid(hashtag) } onClick={ () => { this.props.store.search(hashtag) } } className="Hashtag accent">
+					<div key={ uid(hashtag) } onClick={ () => { this.props.store.search(hashtag); } } className="Hashtag accent">
 						{ hashtag }
 					</div>
 				))
 			}
 		</div>
 	)}
-};
+}
 
 export default TopTags;
