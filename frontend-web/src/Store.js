@@ -3,14 +3,14 @@ import React from "react"
 import { Auth } from 'aws-amplify';
 
 class Store extends React.Component {
-	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod'
-	devApiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev'
+	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev';
+	devApiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev';
 
-	currentView = 'Home'
+	currentView = 'Home';
 
-	user = null
-	session = null 
-	userID = null
+	user = null;
+	session = null;
+	userID = null;
 	
 	search = (searchTerm) => {
 		console.error('[SEARCH NOT DEFINED]')

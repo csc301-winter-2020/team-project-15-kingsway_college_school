@@ -28,6 +28,11 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			getParams = { queryStringParameters: { searchType: 'OWN'} };
 		} else if (feedType === 'Favourites') {
 			getParams = { queryStringParameters: { searchType: 'FAV'} };
+		} else if (feedType === "Explore"){
+			if (searchTerm) {
+				getParams = {queryStringParameters: {searchType: 'LOCATION', searchParameter: searchTerm}};
+				console.log(getParams)
+			}
 		}
 
 		getParams["headers"] = {"Authorization" : session.idToken.jwtToken}
@@ -46,7 +51,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
-
 			if (response.length != 0) {
 				response.forEach((post, outerIndex) => {
 					post.images.map( async (imageKey, innerIndex) => {
@@ -73,14 +77,15 @@ const PostFeed = observer(class PostFeed extends React.Component {
 							// No error happened
 							// Convert Body from a Buffer to a String
 							let objectData = data.Body.toString('utf-8'); // Use the encoding necessary
-							imageBase64 = objectData
+							imageBase64 = objectData;
 							this.setState({ hasPosts: false });
-
-							this.state.posts[outerIndex].images[innerIndex] = imageBase64
-							this.setState({ hasPosts: true });
-							this.forceUpdate()
+							if (this.state.posts[outerIndex]) {
+								this.state.posts[outerIndex].images[innerIndex] = imageBase64;
+								this.setState({hasPosts: true});
+								this.forceUpdate()
+							}
 						});
-					})
+					});
 
 					posts.push({
 						postID: post.postID,
