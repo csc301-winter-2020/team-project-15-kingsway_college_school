@@ -86,22 +86,20 @@ export default class ProfileScreen extends Component {
 		favourites: [],
 		selectedIndex: 0,
 		refreshing: true,
-	    userId: null
+		userId: null,
+		count: 0 // TODO: remove this when done debugging.
 	}
 	constructor() {
 		super()
 		this.updateIndex = this.updateIndex.bind(this)
 		this.selectedScreen = this.selectedScreen.bind(this)
-		this.refresh = this.refresh.bind(this)
+		this.refreshMyPosts = this.refreshMyPosts.bind(this)
+		this.refreshFavourites = this.refreshFavourites.bind(this)
 	}
 
-	refresh() {
+	refreshMyPosts() {
 		this.state.posts = [];
-		this.state.favourites = [];
-
 		let getMyPostsParams = { queryStringParameters: { searchType: 'OWN'} };
-		let getFavouritesParams = { queryStringParameters: { searchType: 'FAV' } };
-
 		// Get own posts from backend
 		Amplify.API.get('getPosts', "", getMyPostsParams).then((response) => {
 			this.setState({
@@ -111,7 +109,11 @@ export default class ProfileScreen extends Component {
 		}).catch((error) => {
 			console.log(error)
 		})
+	}
 
+	refreshFavourites() {
+		this.state.favourites = [];
+		let getFavouritesParams = { queryStringParameters: { searchType: 'FAV' } };
 		// Get favourites from backend
 		Amplify.API.get('getPosts', "", getFavouritesParams).then((response) => {
 			this.setState({
@@ -121,37 +123,40 @@ export default class ProfileScreen extends Component {
 		}).catch((error) => {
 			console.log(error)
 		})
-
 	}
+
 	componentDidMount() {
 	    Auth.currentAuthenticatedUser().then(user => {
 		console.log(user.attributes["custom:userID"])
 		this.setState({userId: user.attributes["custom:userID"]})
 	    })
 
-		if (this.state.posts.length === 0 || this.state.favourites.length === 0) {
-			this.refresh()
+		if (this.state.posts.length === 0) {
+			this.refreshMyPosts();
+		}
+		if (this.state.favourites.length === 0) {
+			this.refreshFavourites();
 		}
 	}
 
 	updateIndex(selectedIndex) {
 		this.setState({ selectedIndex })
-		console.log(this.state)
+		// console.log(this.state)
 	}
 
 	selectedScreen() {
 		// Top tab selected is "My Posts"
-		if (this.state.selectedIndex == 0) {
+		if (this.state.selectedIndex === 0) {
 			return (
 				<SafeAreaView style={styles.container}>
 					<FlatList
 						data={this.state.posts}
-						renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
+						renderItem={({ item }) => <Post post={item} refresh={() => this.refreshMyPosts()} />}
 						keyExtractor={post => post.postID}
 						refreshControl={
 							<RefreshControl
 								refreshing={this.state.refreshing}
-								onRefresh={() => this.refresh()}
+								onRefresh={() => this.refreshMyPosts()}
 								tintColor={"white"}
 							/>
 						}
@@ -164,12 +169,12 @@ export default class ProfileScreen extends Component {
 				<SafeAreaView style={styles.container}>
 					<FlatList
 						data={this.state.favourites}
-						renderItem={({ item }) => <Post alreadyFavourite={true} post={item} refresh={() => this.refresh()} />}
+						renderItem={({ item }) => <Post alreadyFavourite={true} post={item} refresh={() => this.refreshFavourites()} />}
 						keyExtractor={post => post.postID}
 						refreshControl={
 							<RefreshControl
 								refreshing={this.state.refreshing}
-								onRefresh={() => this.refresh()}
+								onRefresh={() => this.refreshFavourites()}
 								tintColor={"white"}
 							/>
 						}
@@ -180,6 +185,10 @@ export default class ProfileScreen extends Component {
 	}
 
 	render() {
+		// Debug only---------------
+		console.log("Called Render for ProfileScreen: " + this.state.count);
+		this.state.count++;
+		// -------------------------
 		return (
 			<View style={styles.view}>
 				<View style={{ flexDirection: 'row', padding: 20 }}>
