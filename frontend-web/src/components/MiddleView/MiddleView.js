@@ -15,6 +15,9 @@ class MiddleView extends React.Component {
 			case 'My Posts':
 				this.setState({ tab: <PostFeed store={ this.props.store } /> });
 				return;
+			case 'Favourites':
+				this.setState({ tab: <PostFeed store={ this.props.store } /> });
+				return;
 			case 'Explore':
 				this.setState({ tab: <Explore store={ this.props.store } /> });
 				return;

@@ -79,11 +79,12 @@ const PostFeed = observer(class PostFeed extends React.Component {
 							let objectData = data.Body.toString('utf-8'); // Use the encoding necessary
 							imageBase64 = objectData;
 							this.setState({ hasPosts: false });
-							if (this.state.posts[outerIndex]) {
-								this.state.posts[outerIndex].images[innerIndex] = imageBase64;
-								this.setState({hasPosts: true});
-								this.forceUpdate()
-							}
+							try {
+								this.state.posts[outerIndex].images[innerIndex] = imageBase64
+							} catch {}
+
+							this.setState({ hasPosts: true });
+							this.forceUpdate()
 						});
 					});
 
@@ -93,6 +94,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 						location: post.location,
 						content: post.content,
 						images: post.images,
+						favourited: post.favourited,
 						uploadTime: post.timeUploaded,
 					});
 				});
@@ -128,11 +130,11 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		this.getPosts(feedType);
 
 		this.props.store.search = this.search;
-
-		this.props.store.updateFeedCallback = [() => { this.getPosts(this.props.store.currentView) }];
 	}
 
 	render() {
+		this.props.store.updateFeedCallback = [ () => { this.setState({ posts: [], hasPosts: false }); this.getPosts(this.props.store.currentView) }];
+
 		return (
 		<div className="PostFeed light-grey-text">
 			{ this.state.hasPosts ? '' : <Loader /> }
