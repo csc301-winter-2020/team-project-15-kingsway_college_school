@@ -5,11 +5,10 @@ import Amplify from 'aws-amplify';
 import Post from './Post.js';
 import { Auth } from 'aws-amplify';
 
-
 const side_margins = 16
 let screen = null;
 
-// New Post Header for the page
+// New Post Header for the page (unused)
 class NewPostHeader extends Component {
 
 	render() {
@@ -86,8 +85,7 @@ export default class ProfileScreen extends Component {
 		favourites: [],
 		selectedIndex: 0,
 		refreshing: true,
-		userId: null,
-		count: 0 // TODO: remove this when done debugging.
+		userId: null
 	}
 	constructor() {
 		super()
@@ -126,6 +124,13 @@ export default class ProfileScreen extends Component {
 	}
 
 	componentDidMount() {
+		this.focusListener = this.props.navigation.addListener('focus', () => {
+			console.log("Called the focus listener\n");
+			this.refreshMyPosts();
+			this.refreshFavourites();
+			// (this.state.selectedIndex === 0) ? this.refreshMyPosts() : this.refreshFavourites();
+		});
+
 	    Auth.currentAuthenticatedUser().then(user => {
 		console.log(user.attributes["custom:userID"])
 		this.setState({userId: user.attributes["custom:userID"]})
@@ -145,50 +150,26 @@ export default class ProfileScreen extends Component {
 	}
 
 	selectedScreen() {
-		// Top tab selected is "My Posts"
-		if (this.state.selectedIndex === 0) {
-			return (
-				<SafeAreaView style={styles.container}>
-					<FlatList
-						data={this.state.posts}
-						renderItem={({ item }) => <Post post={item} refresh={() => this.refreshMyPosts()} />}
-						keyExtractor={post => post.postID}
-						refreshControl={
-							<RefreshControl
-								refreshing={this.state.refreshing}
-								onRefresh={() => this.refreshMyPosts()}
-								tintColor={"white"}
-							/>
-						}
-					/>
-				</SafeAreaView>)
-		}
-		// Top tab selected is "Favourites"
-		else {
-			return (
-				<SafeAreaView style={styles.container}>
-					<FlatList
-						data={this.state.favourites}
-						renderItem={({ item }) => <Post alreadyFavourite={true} post={item} refresh={() => this.refreshFavourites()} />}
-						keyExtractor={post => post.postID}
-						refreshControl={
-							<RefreshControl
-								refreshing={this.state.refreshing}
-								onRefresh={() => this.refreshFavourites()}
-								tintColor={"white"}
-							/>
-						}
-					/>
-				</SafeAreaView>
-			)
-		}
+		const index = this.state.selectedIndex;
+		return (
+			<SafeAreaView style={styles.container}>
+				<FlatList
+					data={index ? this.state.favourites : this.state.posts}
+					renderItem={({ item }) => <Post post={item} refresh={() => index ? this.refreshFavourites() : this.refreshMyPosts()} />}
+					keyExtractor={post => post.postID}
+					refreshControl={
+						<RefreshControl
+							refreshing={this.state.refreshing}
+							onRefresh={() => index ? this.refreshFavourites() : this.refreshMyPosts()}
+							tintColor={"white"}
+						/>
+					}
+				/>
+			</SafeAreaView>
+		)
 	}
 
 	render() {
-		// Debug only---------------
-		console.log("Called Render for ProfileScreen: " + this.state.count);
-		this.state.count++;
-		// -------------------------
 		return (
 			<View style={styles.view}>
 				<View style={{ flexDirection: 'row', padding: 20 }}>

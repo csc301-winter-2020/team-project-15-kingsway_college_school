@@ -184,7 +184,7 @@ export default class Post extends Component {
 						<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear()}</Text>
 					</View>
 					<View styles={styles.headerRight}>
-						<PostMenu alreadyFavourite={this.props.alreadyFavourite} userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
+						<PostMenu alreadyFavourite={this.props.post.favourited} userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
 					</View>
 				</View>
 				<View styles={{ flex: 1 }}>
