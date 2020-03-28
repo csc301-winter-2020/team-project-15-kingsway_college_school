@@ -105,10 +105,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	}
 
 	getPosts = async (feedType, searchTerm) => {
-		// Janky solution for waiting until authenticated		
-		setTimeout( () => {
-			this.callPostsApi(this.props.store.session, feedType, searchTerm)
-		}, 2000)
+		this.callPostsApi(this.props.store.session, feedType, searchTerm)
 	}
 
 	search = (searchTerm) => {
