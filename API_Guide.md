@@ -33,8 +33,8 @@ Note that users can only delete posts with their userID, unless they are an admi
 
 #### /getPopularHashtags
 Returns a JSON object containing a list of recently used hashtags. Currently
-this is total usages. Ordered using a formula Alex Cann used with inspiration
-from Reddit's scoring. Takes no parameters.
+this is total usages. Ordered using  [Exponential Rolling Average](https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average) using timestamps
+as values when calculating score. Takes no parameters.
 
 ##### Response JSON schema
 ```JSON
@@ -52,7 +52,7 @@ from Reddit's scoring. Takes no parameters.
   }
 }
 ```
-
+ 
 #### /newPost
 To make a newPost send the endpoint a JSON object matching the following schema. Some
 Notes on interpreting the schema are listed
@@ -153,10 +153,12 @@ posts.
 * ```?searchType=____&searchParameter=_____``` where the parameters are one of the following:
  * "TAG" and the name of a hashtag to get the most recent posts with the hashtag
  * "POST" and a postID to get a single post
+ * "OWN" to get the posts created by the currently authenticated user
  * "USER" and a userID to get the most recent posts by the user with userID
- * "FAV" and a userID to get the most recent posts favorited by the user with userID
- * "LOCATION" and a comma separated longitude latitude pair formatted as a string.
- * "EMAIL" and the email of the user in question
+ * "FAV" to get the most recent posts favorited by the currently authenticated user
+ * "LOCATION" and a comma separated longitude latitude pair formatted as a string. Must contain at-least 4 decimal places of precision.
+ * "EMAIL" and the email of the user whose posts should be retrieved
+ 
 * ```?searchType=____&searchParameter=_____&startID=____``` same as above
 but supply a postID to start paginating
 
