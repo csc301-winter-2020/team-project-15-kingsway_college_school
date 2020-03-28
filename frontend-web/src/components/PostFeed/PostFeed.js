@@ -30,6 +30,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			getParams = { queryStringParameters: { searchType: 'FAV' } };
 		} else if (feedType === 'Search User') {
 			getParams = { queryStringParameters: { searchType: 'EMAIL', searchParameter: searchTerm } };
+
 		}
 
 		try {
@@ -52,7 +53,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
-
 			if (response.length != 0) {
 				response.forEach((post, outerIndex) => {
 					post.images.map( async (imageKey, innerIndex) => {
@@ -79,9 +79,8 @@ const PostFeed = observer(class PostFeed extends React.Component {
 							// No error happened
 							// Convert Body from a Buffer to a String
 							let objectData = data.Body.toString('utf-8'); // Use the encoding necessary
-							imageBase64 = objectData
+							imageBase64 = objectData;
 							this.setState({ hasPosts: false });
-
 							try {
 								this.state.posts[outerIndex].images[innerIndex] = imageBase64
 							} catch {}
@@ -89,7 +88,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 							this.setState({ hasPosts: true });
 							this.forceUpdate()
 						});
-					})
+					});
 
 					const new_post = {
 						postID: post.postID,

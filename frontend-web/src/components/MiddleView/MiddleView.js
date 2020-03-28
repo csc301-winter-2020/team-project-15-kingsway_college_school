@@ -26,7 +26,7 @@ class MiddleView extends React.Component {
 				this.setState({ tab: <Explore store={ this.props.store } /> });
 				return;
 			default:
-				this.setState({ tab: <div><CreatePost store={ this.props.store } /><PostFeed store={ this.props.store } /></div> });
+				this.setState({ tab: <CreatePost store={ this.props.store } /> });
 				return;
 		}
 	}
