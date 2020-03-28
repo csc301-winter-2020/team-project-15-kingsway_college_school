@@ -39,7 +39,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		let currCreds
 		Auth.currentCredentials().then(response => {
 					currCreds = response
-					console.log(currCreds)
 
 		}).catch((err) => {
 			console.log('error on current credentials call')

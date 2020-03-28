@@ -11,25 +11,26 @@ class TopTags extends React.Component {
 	}
 
 	callHashtagApi = async (session) => {
+		try {
+			await Amplify.API.get('getPopularHashtags', '', {headers : {Authorization : session.idToken.jwtToken}})
+			.then((response) => {
+				const tags = [];
 
-		await Amplify.API.get('getPopularHashtags', '', {headers : {Authorization : session.idToken.jwtToken}})
-		.then((response) => {
-			const tags = [];
+				if (Object.entries(response).length === 0 && response.constructor === Object) {
+					response = [];
+				}
 
-			if (Object.entries(response).length === 0 && response.constructor === Object) {
-				response = [];
-			}
+				response.forEach((tag) => {
+					tags.push('#' + tag.hashtag);
+				});
 
-			response.forEach((tag) => {
-				tags.push('#' + tag.hashtag);
+				this.setState({ hashtags: tags });
+			}).catch((error) => {
+				console.error(error);
 			});
-
-			this.setState({ hashtags: tags });
-		}).catch((error) => {
-			console.error(error);
-		});
-		
-		this.forceUpdate()
+			
+			this.forceUpdate()
+		} catch {}
 	}
 
 	async componentDidMount() {
