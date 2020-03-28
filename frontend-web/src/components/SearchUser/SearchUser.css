@@ -1,3 +1,32 @@
 .SearchUser {
-	
+
+}
+
+.SearchUserHeader {
+	display: inline-block;
+	max-width: 50%;
+	margin-top: 30px;
+	margin-left: 7.5%;
+	font-weight: 700;
+	font-size: 1.5rem;
+}
+
+.SearchUserInputWrapper {
+	display: inline-block;
+	width: 50%;
+	height: 40px;
+	margin-top: 5px;
+	margin-left: 4%;
+	background: #FCFCFF;
+	border-radius: 24px;
+}
+
+.SearchUserInputWrapper > input {
+	outline: 0;
+	border-radius: 24px;
+	background: #FCFCFF;
+	border: 0;
+	width: calc(100% - 40px);
+	height: 100%;
+	padding: 0 20px 0 20px;
 }

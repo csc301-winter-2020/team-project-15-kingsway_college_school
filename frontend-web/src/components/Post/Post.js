@@ -16,6 +16,7 @@ class Post extends React.Component {
 	}
 
 	deletePost = () => {
+		this.props.enableLoader()
 
 		const reqParams = { queryStringParameters: { userID: this.props.store.userID, postID: this.props.post.postID } };
 

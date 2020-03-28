@@ -28,6 +28,8 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			getParams = { queryStringParameters: { searchType: 'OWN' } };
 		} else if (feedType === 'Favourites') {
 			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
+		} else if (feedType === 'Search User') {
+			getParams = { queryStringParameters: { searchType: 'EMAIL', searchParameter: searchTerm } };
 		}
 
 		try {
@@ -129,7 +131,15 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	componentDidMount() {
 		const feedType = this.props.store.currentView;
 
-		this.getPosts(feedType);
+		if (feedType === 'Search User') {
+			this.props.parent.searchUser = (email) => { console.log(email); this.getPosts(feedType, email) }
+		}
+
+		if (!this.props.preventDefaultLoad) {
+			this.getPosts(feedType);
+		} else {
+			this.setState({ hasPosts: true });
+		}
 
 		this.props.store.search = this.search;
 
@@ -142,7 +152,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			{ this.state.hasPosts ? '' : <Loader short={ this.state.posts.length != 0 } /> }
 			{
 				this.state.posts.map((post) => (
-					<Post store={ this.props.store } key={ uid(post.postID) } post={ post } />
+					<Post store={ this.props.store } key={ uid(post.postID) } post={ post } enableLoader={ () => { this.setState({ hasPosts: false }); } } />
 				))
 			}
 		</div>
