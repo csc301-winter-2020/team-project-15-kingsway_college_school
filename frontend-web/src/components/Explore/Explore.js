@@ -1,16 +1,14 @@
 import React from 'react';
-import { uid } from "react-uid";
 import './Explore.css';
 import Amplify from 'aws-amplify';
-import Post from '../Post/Post'
-import Loader from '../Loader/Loader'
 import marker from '../../images/location.png';
 import PostFeed from "../PostFeed/PostFeed";
 
 class Explore extends React.Component {
 	state = {
 		features: [],
-		loading: false
+		loading: false,
+		locationChosen: false
 	};
 
 	getAllLocations = (mapboxgl, map) => {
@@ -90,7 +88,6 @@ class Explore extends React.Component {
 			// When a click event occurs on a feature in the places layer, open a popup at the
 			// location of the feature, with description HTML from its properties.
 			map.on('click', 'places', (e) => {
-				let postID = e.features[0].properties.description;
 				let location = e.features[0].properties.location;
 				console.log(location);
 				this.props.store.search(location)
@@ -133,9 +130,11 @@ class Explore extends React.Component {
 
 	render() {
 		return (
+			
 			<div className="Explore dark-grey light-grey-text">
+				<h1 className="exploreTitle"> Click a location to see posts from that area! </h1>
 				<div id="map"></div>
-				<PostFeed store={ this.props.store } />
+				<PostFeed store={ this.props.store } preventDefaultLoad={true}/>
 			</div>
 		)
 	}
