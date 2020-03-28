@@ -204,9 +204,27 @@ but supply a postID to start paginating
       }
     }
   }
-}
 ```
 #### /getLocations
-___TODO___ Fill this in
-
-Just call it to get a list of locations formatted as strings
+Takes no parameters. Returns a list of locations with repeated locations omitted. In the following form:
+```json
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Get Locations Schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "latitude": {
+        "type": "string"
+      },
+      "longitude": {
+        "type": "string"
+      }
+    }
+  }
+}
+```
