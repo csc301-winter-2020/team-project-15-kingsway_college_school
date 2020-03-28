@@ -18,7 +18,7 @@ class Post extends React.Component {
 	deletePost = () => {
 		this.props.enableLoader()
 
-		const reqParams = { queryStringParameters: { userID: this.props.store.userID, postID: this.props.post.postID } };
+		const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
 
 		reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
 
@@ -29,6 +29,40 @@ class Post extends React.Component {
 		});
 
 		this.setState({ modalVisible: false })
+	}
+
+	favouritePost = () => {
+		if (this.props.post.favourited) {
+			this.props.post.favourited = false
+			this.forceUpdate()
+
+			const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
+
+			reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
+
+			Amplify.API.put('unfavouritePost', '', reqParams).then((response) => {
+				
+			}).catch((error) => {
+				console.log(error);
+				this.props.post.favourited = true
+				this.forceUpdate()
+			});
+		} else {
+			this.props.post.favourited = true
+			this.forceUpdate()
+
+			const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
+
+			reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
+
+			Amplify.API.put('favouritePost', '', reqParams).then((response) => {
+				
+			}).catch((error) => {
+				console.log(error);
+				this.props.post.favourited = false
+				this.forceUpdate()
+			});
+		}
 	}
 
 	parseContent = (content) => {
@@ -50,9 +84,9 @@ class Post extends React.Component {
 	render() {
 		const { post } = this.props;
 
-		if(post === undefined){
+		if (post === undefined) {
 			return(
-			<div className="Post shadow mid-grey light-grey-text">Click a post on the map to see it! </div>
+				<div className="Post shadow mid-grey light-grey-text">Click a post on the map to see it!</div>
 			)
 		}
 
@@ -97,6 +131,8 @@ class Post extends React.Component {
 			{ post.email ? <div className="PostEmail">Uploaded by: { post.email }</div> : '' }
 
 			{ (this.props.store.currentView === 'My Posts' || this.props.store.admin) ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }
+
+			<div className={ 'favourite-button fa ' + (post.favourited ? 'fa-star accent' : 'fa-star-o') } onClick={ this.favouritePost }></div>
 
 			<Modal parent={ this } visible={ this.state.modalVisible } prompt="Are you sure you sure you want to delete this post?"
 				positiveButtonAction={ this.deletePost } negativeButtonAction={ () => { this.setState({ modalVisible: false }) } } 

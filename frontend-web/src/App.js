@@ -62,6 +62,18 @@ class App extends React.Component {
 						region: 'us-east-1'
 					},
 					{
+						name: 'favouritePost',
+						endpoint: this.state.store.apiEndpoint + '/favouritePost',
+						service: 'api-gateway',
+						region: 'us-east-1'
+					},
+					{
+						name: 'unfavouritePost',
+						endpoint: this.state.store.apiEndpoint + '/unfavouritePost',
+						service: 'api-gateway',
+						region: 'us-east-1'
+					},
+					{
 						name: 'getPopularHashtags',
 						endpoint: this.state.store.apiEndpoint + '/getPopularHashtags',
 						service: 'api-gateway',
