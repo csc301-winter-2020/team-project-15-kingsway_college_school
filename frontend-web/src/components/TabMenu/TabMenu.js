@@ -8,7 +8,7 @@ class TabMenu extends React.Component {
 		selected: 'Home',
 		tabs: [
 			'Home',
-			// 'Favourites',
+			'Favourites',
 			// 'Settings',
 			'My Posts',
 			'Explore',
@@ -35,6 +35,7 @@ class TabMenu extends React.Component {
 		this.setState({ selected: tab });
 
 		this.props.store.setCurrentView(tab)
+		this.props.store.updateFeeds();
 	}
 
 	componentDidMount() {
