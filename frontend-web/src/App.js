@@ -29,8 +29,9 @@ class App extends React.Component {
 			if (now.setHours(now.getHours() - 1) < new Date(parsedSession.idToken.payload.auth_time * 1000)) {
 				// if you have authenticated in past hour
 				this.state.store.session = parsedSession
-				this.state.store.user = parsedSession.username
+				this.state.store.user = parsedSession.idToken.payload['email']
 				this.state.store.userID = parseInt(parsedSession.idToken.payload['custom:userID'])
+				this.state.store.admin = parsedSession.idToken.payload['custom:admin'].toLowerCase() === 'true'
 			} else {
 				sessionStorage.removeItem('kcs_session')
 			}

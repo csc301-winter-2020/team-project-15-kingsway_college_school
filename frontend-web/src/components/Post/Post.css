@@ -32,6 +32,11 @@
 	font-style: italic;
 }
 
+.PostEmail {
+	font-weight: 500;
+	margin-top: 20px;
+}
+
 .delete-button {
 	position: absolute;
 	top: 25px;

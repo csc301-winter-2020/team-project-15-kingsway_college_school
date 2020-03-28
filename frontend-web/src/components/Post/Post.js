@@ -16,6 +16,7 @@ class Post extends React.Component {
 	}
 
 	deletePost = () => {
+		this.props.enableLoader()
 
 		const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
 
@@ -127,7 +128,9 @@ class Post extends React.Component {
 				{ '' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear() }
 			</div>
 
-			{ this.props.store.currentView === 'My Posts' ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }
+			{ post.email ? <div className="PostEmail">Uploaded by: { post.email }</div> : '' }
+
+			{ (this.props.store.currentView === 'My Posts' || this.props.store.admin) ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }
 
 			<div className={ 'favourite-button fa ' + (post.favourited ? 'fa-star accent' : 'fa-star-o') } onClick={ this.favouritePost }></div>
 

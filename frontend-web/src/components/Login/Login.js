@@ -6,7 +6,7 @@ import { withRouter } from "react-router-dom";
 
 class Login extends React.Component {
 	state = {
-		username_input: undefined,
+		email_input: undefined,
 		password_input: undefined,
 		signInFailed: undefined
 	}
@@ -16,9 +16,7 @@ class Login extends React.Component {
 
 		
 
-		const signInSucceeded = await this.props.store.SignIn(this.state.username_input.value, this.state.password_input.value)
-
-		console.log(signInSucceeded)
+		const signInSucceeded = await this.props.store.SignIn(this.state.email_input.value, this.state.password_input.value)
 
 		this.setState({ signInFailed: !signInSucceeded })
 
@@ -35,14 +33,14 @@ class Login extends React.Component {
 				<div className="FormBox mid-grey shadow">
 					<div className="LoginTitle">Login</div>
 					<div className={ 'LoginFailed ' + (this.state.signInFailed ? 'error' : 'hidden') }>
-						Username or password was incorrect. Please try again.
+						Email or password was incorrect. Please try again.
 					</div>
-					<div className="LoginUsername">
+					<div className="LoginEmail">
 						<div className="LoginSubtitle">
-							Username
+							Email
 						</div>
 						<div className="LoginField shadow">
-							<input ref={ (input) => this.state.username_input = input } type="text" placeholder=""/>
+							<input ref={ (input) => this.state.email_input = input } type="text" placeholder=""/>
 						</div>
 					</div>
 					<div className="LoginPassword">
