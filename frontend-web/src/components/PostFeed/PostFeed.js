@@ -97,7 +97,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 						location: post.location,
 						content: post.content,
 						images: post.images,
-            favourited: post.favourited,
+            			favourited: post.favourited,
 						uploadTime: post.timeUploaded
 					}
 
@@ -118,10 +118,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 
 	getPosts = async (feedType, searchTerm) => {
 		this.setState({ hasPosts: false });
-		// Janky solution for waiting until authenticated		
-		setTimeout( () => {
-			this.callPostsApi(this.props.store.session, feedType, searchTerm)
-		}, 2000)
+		this.callPostsApi(this.props.store.session, feedType, searchTerm)
 	}
 
 	search = (searchTerm) => {
