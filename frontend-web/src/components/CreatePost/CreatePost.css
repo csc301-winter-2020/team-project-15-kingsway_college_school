@@ -21,7 +21,7 @@
 	height: calc(100% - 4vh);
 	padding: 2vh;
 	resize: none;
-	font-family: Raleway;
+	font-family: Raleway, sans-serif;
 	font-size: 1.2rem;
 }
 
@@ -42,7 +42,7 @@
 	margin-top: 10px;
 	margin-left: 20px;
 	border-radius: 20px;
-	font-family: Raleway;
+	font-family: Raleway, sans-serif;
 	cursor: pointer;
 	font-size: 1.3rem;
 }
