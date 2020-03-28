@@ -156,6 +156,7 @@ posts.
  * "USER" and a userID to get the most recent posts by the user with userID
  * "FAV" and a userID to get the most recent posts favorited by the user with userID
  * "LOCATION" and a comma separated longitude latitude pair formatted as a string.
+ * "EMAIL" and the email of the user in question
 * ```?searchType=____&searchParameter=_____&startID=____``` same as above
 but supply a postID to start paginating
 
