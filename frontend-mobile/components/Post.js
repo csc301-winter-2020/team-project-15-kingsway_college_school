@@ -50,7 +50,7 @@ class PostMenu extends Component {
 		const reqParams = { queryStringParameters: { postID: this.props.postID} };
 		Amplify.API.put('unfavouritePost', '', reqParams).then( (response) => {
 			console.log(response);
-			Alert.alert("Post removed.");
+			Alert.alert("Post removed from favourites.");
 			this.props.refresh();
 			this.hideMenu();
 		}).catch((error) => {
@@ -132,7 +132,6 @@ class PostMenu extends Component {
 				<Menu
 					ref={this.setMenuRef}
 					button={<MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} onPress={this.showMenu} />}>
-
 					{favouriteOption}
 					<MenuDivider />
 					<MenuItem onPress={() => this.deleteAlert()} disabled={!this.props.userID == userID}> Delete</MenuItem>
@@ -176,6 +175,16 @@ export default class Post extends Component {
 			)
 		}
 		let time = new Date(this.props.post.timeUploaded * 1000);
+
+		let favIcon = <></>
+		if (this.props.post.favourited) {
+			favIcon = <Text style={styles.filledStar}>★</Text>;
+		}
+		// Note: This can be used if we want Favourite and Delete to be 2 separate UI items instead of the drawer menu.
+		// else {
+		// 	favIcon = <Text style={styles.emptyStar}>☆</Text>;
+		// }
+
 		return (
 			<View style={styles.post}>
 				<View style={styles.header}>
@@ -191,6 +200,7 @@ export default class Post extends Component {
 					<Text style={styles.content}>{this.props.post.content}</Text>
 				</View>
 				{this.image}
+				{favIcon}
 			</View>
 		)
 	}
@@ -227,6 +237,16 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontStyle: 'italic',
 		paddingRight: 10
+	},
+	emptyStar: {
+		fontSize: 15,
+		color: '#fcfcff',
+		textAlign: "right"
+	},
+	filledStar: {
+		fontSize: 15,
+		color: '#FB9B38',
+		textAlign: "right"
 	},
 	date: {
 		fontSize: 15,
