@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Importing react-router-dom to use the React Router
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch, BrowserRouter, useLocation } from 'react-router-dom';
 import './App.css';
 
 import HomePage from './components/HomePage/HomePage'
@@ -10,6 +10,12 @@ import Login from './components/Login/Login'
 import globalStore from './Store.js'
 import Amplify from 'aws-amplify'
 import Permalink from "./components/Permalink/Permalink"
+
+// A custom hook that builds on useLocation to parse
+// the query string for you.
+function useQuery() {
+	return new URLSearchParams(useLocation().search);
+  }
 
 class App extends React.Component {
 	state = {
@@ -104,7 +110,7 @@ class App extends React.Component {
 				<BrowserRouter>
 					<Switch>
 						<Route exact path='/' render={() => (this.state.store.session ? <HomePage store={ this.state.store } /> : <Login store={ this.state.store } />)}/>
-						<Route exact path='/permalink' render={() => (this.state.store.session ? <Permalink store={ this.state.store }/> : <Login store={ this.state.store } />)}/>
+						<Route exact path='/permalink' render={() => (this.state.store.session ? <Permalink store={ this.state.store } post={100} /> : <Login store={ this.state.store } />)}/>
 					</Switch>
 				</BrowserRouter>
 			</div>

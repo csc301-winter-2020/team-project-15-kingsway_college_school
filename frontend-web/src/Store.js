@@ -6,6 +6,7 @@ class Store extends React.Component {
 	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod'
 	devApiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev'
 	currentView = 'Home'
+	permalinkPostID = 'none'
 
 	user = null
 	session = null 
@@ -87,6 +88,7 @@ class Store extends React.Component {
 
 decorate(Store, {
 	currentView: observable,
+	permalinkPostID: observable,
 	updateFeedCallback: observable,
 	user: observable,
 	session: observable,
