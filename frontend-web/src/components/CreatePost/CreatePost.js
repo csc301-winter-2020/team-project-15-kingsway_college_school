@@ -47,7 +47,7 @@ class CreatePost extends React.Component {
 			console.log(error);
 		});
 
-		this.setState({ modalVisible: false })
+		this.setState({ postData: '', attachment: undefined })
 		e.target.reset();
 	}
 

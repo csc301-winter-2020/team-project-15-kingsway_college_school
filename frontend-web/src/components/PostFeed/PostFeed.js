@@ -25,16 +25,23 @@ const PostFeed = observer(class PostFeed extends React.Component {
 				getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
 			}
 		} else if (feedType === 'My Posts') {
-			getParams = { queryStringParameters: { searchType: 'OWN'} };
+			getParams = { queryStringParameters: { searchType: 'OWN' } };
 		} else if (feedType === 'Favourites') {
-			getParams = { queryStringParameters: { searchType: 'FAV'} };
+			getParams = { queryStringParameters: { searchType: 'FAV' } };
+		} else if (feedType === 'Search User') {
+			getParams = { queryStringParameters: { searchType: 'EMAIL', searchParameter: searchTerm } };
+
 		}
 
-		getParams["headers"] = {"Authorization" : session.idToken.jwtToken}
+		try {
+			getParams["headers"] = {"Authorization" : session.idToken.jwtToken}
+		} catch {
+			return
+		}
+
 		let currCreds
 		Auth.currentCredentials().then(response => {
 					currCreds = response
-					console.log(currCreds)
 
 		}).catch((err) => {
 			console.log('error on current credentials call')
@@ -46,7 +53,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
-
 			if (response.length != 0) {
 				response.forEach((post, outerIndex) => {
 					post.images.map( async (imageKey, innerIndex) => {
@@ -73,9 +79,8 @@ const PostFeed = observer(class PostFeed extends React.Component {
 							// No error happened
 							// Convert Body from a Buffer to a String
 							let objectData = data.Body.toString('utf-8'); // Use the encoding necessary
-							imageBase64 = objectData
+							imageBase64 = objectData;
 							this.setState({ hasPosts: false });
-
 							try {
 								this.state.posts[outerIndex].images[innerIndex] = imageBase64
 							} catch {}
@@ -83,17 +88,23 @@ const PostFeed = observer(class PostFeed extends React.Component {
 							this.setState({ hasPosts: true });
 							this.forceUpdate()
 						});
-					})
+					});
 
-					posts.push({
+					const new_post = {
 						postID: post.postID,
 						userID: post.userID,
 						location: post.location,
 						content: post.content,
 						images: post.images,
-						favourited: post.favourited,
-						uploadTime: post.timeUploaded,
-					});
+            			favourited: post.favourited,
+						uploadTime: post.timeUploaded
+					}
+
+					if (post.email) {
+						new_post['email'] = post.email
+					}
+
+					posts.push(new_post);
 				});
 			}
 
@@ -105,6 +116,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	}
 
 	getPosts = async (feedType, searchTerm) => {
+		this.setState({ hasPosts: false });
 		this.callPostsApi(this.props.store.session, feedType, searchTerm)
 	}
 
@@ -117,11 +129,17 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	}
 
 	componentDidMount() {
-		this.setState({ hasPosts: false });
-
 		const feedType = this.props.store.currentView;
 
-		this.getPosts(feedType);
+		if (feedType === 'Search User') {
+			this.props.parent.searchUser = (email) => { console.log(email); this.getPosts(feedType, email) }
+		}
+
+		if (!this.props.preventDefaultLoad) {
+			this.getPosts(feedType);
+		} else {
+			this.setState({ hasPosts: true });
+		}
 
 		this.props.store.search = this.search;
 	}
@@ -131,10 +149,10 @@ const PostFeed = observer(class PostFeed extends React.Component {
 
 		return (
 		<div className="PostFeed light-grey-text">
-			{ this.state.hasPosts ? '' : <Loader /> }
+			{ this.state.hasPosts ? '' : <Loader short={ this.state.posts.length != 0 } /> }
 			{
 				this.state.posts.map((post) => (
-					<Post store={ this.props.store } key={ uid(post.postID) } post={ post } />
+					<Post store={ this.props.store } key={ uid(post.postID) } post={ post } enableLoader={ () => { this.setState({ hasPosts: false }); } } />
 				))
 			}
 		</div>

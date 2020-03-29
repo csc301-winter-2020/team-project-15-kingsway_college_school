@@ -10,9 +10,14 @@
 
 #map {
 	height: 60%;
-	margin: 2vw 4vw 2vw 4vw;
+	margin: 1vw 4vw 2vw 4vw;
 	background-color: powderblue;
 	border-radius: 30px;
+  }
+
+
+.exploreTitle {
+	margin-left: 5vw;
 	margin-top: 5%;
   }
 
