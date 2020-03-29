@@ -4,12 +4,10 @@ import { Icon, ButtonGroup } from 'react-native-elements';
 import Amplify from 'aws-amplify';
 import Post from './Post.js';
 import { Auth } from 'aws-amplify';
-
-
 const side_margins = 16
 let screen = null;
 
-// New Post Header for the page
+// New Post Header for the page (unused)
 class NewPostHeader extends Component {
 
 	render() {
@@ -86,22 +84,19 @@ export default class ProfileScreen extends Component {
 		favourites: [],
 		selectedIndex: 0,
 		refreshing: true,
-	    userId: null
+		userId: null
 	}
 	constructor() {
 		super()
 		this.updateIndex = this.updateIndex.bind(this)
 		this.selectedScreen = this.selectedScreen.bind(this)
-		this.refresh = this.refresh.bind(this)
+		this.refreshMyPosts = this.refreshMyPosts.bind(this)
+		this.refreshFavourites = this.refreshFavourites.bind(this)
 	}
 
-	refresh() {
+	refreshMyPosts() {
 		this.state.posts = [];
-		this.state.favourites = [];
-
 		let getMyPostsParams = { queryStringParameters: { searchType: 'OWN'} };
-		let getFavouritesParams = { queryStringParameters: { searchType: 'FAV' } };
-
 		// Get own posts from backend
 		Amplify.API.get('getPosts', "", getMyPostsParams).then((response) => {
 			this.setState({
@@ -111,70 +106,70 @@ export default class ProfileScreen extends Component {
 		}).catch((error) => {
 			console.log(error)
 		})
+	}
 
+	refreshFavourites() {
+		this.state.favourites = [];
+		let getFavouritesParams = { queryStringParameters: { searchType: 'FAV' } };
 		// Get favourites from backend
-		Amplify.API.get('getPosts', "", getFavouritesParams).then((response) => {this.setState({
+		Amplify.API.get('getPosts', "", getFavouritesParams).then((response) => {
+			this.setState({
 				favourites: response,
 				refreshing: false
 			});
 		}).catch((error) => {
 			console.log(error)
 		})
-
 	}
+
 	componentDidMount() {
+		this.focusListener = this.props.navigation.addListener('focus', () => {
+			console.log("Called the focus listener\n");
+			this.refreshMyPosts();
+			this.refreshFavourites();
+			// (this.state.selectedIndex === 0) ? this.refreshMyPosts() : this.refreshFavourites();
+		});
+
 	    Auth.currentAuthenticatedUser().then(user => {
 		console.log(user.attributes["custom:userID"])
 		this.setState({userId: user.attributes["custom:userID"]})
 	    })
 
-		if (this.state.posts.length === 0 || this.state.favourites.length === 0) {
-			this.refresh()
+		if (this.state.posts.length === 0) {
+			this.refreshMyPosts();
+		}
+		if (this.state.favourites.length === 0) {
+			this.refreshFavourites();
 		}
 	}
 
 	updateIndex(selectedIndex) {
 		this.setState({ selectedIndex })
+		// console.log(this.state)
 	}
 
 	selectedScreen() {
-		// Top tab selected is "My Posts"
-		if (this.state.selectedIndex == 0) {
-			return (
-				<SafeAreaView style={styles.container}>
-					<FlatList
-						data={this.state.posts}
-						renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
-						keyExtractor={post => post.postID}
-						refreshControl={
-							<RefreshControl
-								refreshing={this.state.refreshing}
-								onRefresh={() => this.refresh()}
-								tintColor={"white"}
-							/>
-						}
-					/>
-				</SafeAreaView>)
-		}
-		// Top tab selected is "Favourites"
-		else {
-			return (
-				<SafeAreaView style={styles.container}>
-					<FlatList
-						data={this.state.favourites}
-						renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
-						keyExtractor={post => post.postID}
-						refreshControl={
-							<RefreshControl
-								refreshing={this.state.refreshing}
-								onRefresh={() => this.refresh()}
-								tintColor={"white"}
-							/>
-						}
-					/>
-				</SafeAreaView>
-			)
-		}
+		const index = this.state.selectedIndex;
+		return (
+			<SafeAreaView style={styles.container}>
+				<FlatList
+					data={index ? this.state.favourites : this.state.posts}
+					renderItem={({ item }) => <Post post={item} refresh={() => {
+							this.refreshFavourites();
+							this.refreshMyPosts(); }
+						} />
+					}
+					keyExtractor={post => post.postID}
+					refreshControl={
+						<RefreshControl
+							refreshing={this.state.refreshing}
+							onRefresh={() => index ? this.refreshFavourites() : this.refreshMyPosts()}
+							tintColor={"white"}
+						/>
+					}
+				/>
+			</SafeAreaView>
+		)
 	}
 
 	render() {
