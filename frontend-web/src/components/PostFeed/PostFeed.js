@@ -28,7 +28,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			getParams = { queryStringParameters: { searchType: 'OWN' } };
 		} else if (feedType === 'Favourites') {
 			getParams = { queryStringParameters: { searchType: 'FAV' } };
-		} else if (feedType === 'Permalink') {\
+		} else if (feedType === 'Permalink') {
 			getParams = { queryStringParameters: { searchType: 'POST', searchParameter: searchTerm } };
 		} else if (feedType === 'Search User') {
 			getParams = { queryStringParameters: { searchType: 'EMAIL', searchParameter: searchTerm } };
