@@ -105,9 +105,9 @@ class CreatePost extends React.Component {
 	}
 	
 	render() {
-		const queryParams = {
-			country: 'us'
-		}
+		// const queryParams = {
+		// 	country: 'us'
+		// }
 
 		return (
 		<form onSubmit={ this.handleSubmit }>
@@ -118,7 +118,6 @@ class CreatePost extends React.Component {
 			<div className="CreatePostButtons">
 			<div className="PickLocation"><Geocoder
 						mapboxApiAccessToken={this.mapAccess} onSelected={this.onSelected} hideOnSelect={true}
-						queryParams={queryParams}
 					/>
 					</div>
 				<input id="fileUpload" type="file" name="file" className="hidden" onChange={ this.fileUploaded }/>

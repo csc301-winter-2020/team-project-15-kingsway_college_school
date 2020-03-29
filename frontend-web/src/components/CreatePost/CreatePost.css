@@ -53,3 +53,16 @@
 	font-size: 2rem;
 	cursor: pointer;
 }
+
+.PickLocation {
+	vertical-align: middle;
+	display: inline-block;
+	font-size: 1rem;
+	margin-right: 2vw;
+}
+
+input {
+	background: orange;
+	font-size: 1.5rem;
+	height: 2vw;
+}

@@ -128,7 +128,7 @@ class Post extends React.Component {
 				post.location.name ? <div className="PostLocation">
 					<a className="accent fa fa-map-marker"></a>
 					&nbsp;&nbsp;
-					{ post.location.name }
+					{ post.location.name.split(",")[0] }
 				</div> : ''
 			}
 
