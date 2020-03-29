@@ -93,8 +93,6 @@ export default class Post extends Component {
 	locationHeader = null;
 	dateHeader = null;
 	async componentDidMount() {
-
-		console.log("hey")
 		if (this.props.post.images.length > 0) {
 			let imageBase64;
 			// await Storage.get(imageKey, { download: true }).then(result =>  console.log(result))

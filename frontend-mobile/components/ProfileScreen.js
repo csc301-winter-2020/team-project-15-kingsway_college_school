@@ -135,7 +135,6 @@ export default class ProfileScreen extends Component {
 
 	updateIndex(selectedIndex) {
 		this.setState({ selectedIndex })
-		console.log(this.state)
 	}
 
 	selectedScreen() {

@@ -23,7 +23,7 @@ class Permalink extends React.Component {
 		// console.log(this.props.location)
 		// console.log(this.props.location.search)
 		let postID = new URLSearchParams(this.props.location.search).get("post")
-		console.log(postID)
+		//console.log(postID)
 		postID === null ? this.props.store.permalinkPostID = 0 : this.props.store.permalinkPostID = postID
 
 		return (

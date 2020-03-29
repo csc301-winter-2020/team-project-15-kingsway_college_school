@@ -107,12 +107,10 @@ export default class ExploreScreen extends Component {
   
   search(searchTerm) {
     this.setState({showSearch: true});
-    console.log("Searching for:", searchTerm)
     let getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
 
     Amplify.API.get('getPosts', "", getParams).then( (response) => {
         this.setState({posts: response});
-        console.log(this.state.posts);
     }).catch((error) => {
         console.log(error)
     })
