@@ -94,7 +94,6 @@ export default class Post extends Component {
 	dateHeader = null;
 	async componentDidMount() {
 
-		console.log("hey")
 		if (this.props.post.images.length > 0) {
 			let imageBase64;
 			// await Storage.get(imageKey, { download: true }).then(result =>  console.log(result))
@@ -142,7 +141,7 @@ export default class Post extends Component {
 			10: 'November',
 			11: 'December'
 		}
-		if (this.props.post.location.name) {
+		if (this.props.post.location && this.props.post.location.name) {
 			this.locationHeader = (
 				<Text style={styles.locationText}>@{this.props.post.location.name.split(',')[0]}</Text>
 			)
