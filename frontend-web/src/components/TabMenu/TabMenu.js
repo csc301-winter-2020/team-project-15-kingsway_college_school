@@ -22,10 +22,10 @@ class TabMenu extends React.Component {
 		]
 	}
 
-	changeToHome = () => {
+	changeToHome = (searchTerm) => {
 		this.setState({ selected: 'Home' });
 
-		this.props.store.setCurrentView('Home')
+		this.props.store.setCurrentView('Home', searchTerm)
 	}
 
 	tabClicked = (tab) => {

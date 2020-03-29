@@ -20,9 +20,9 @@ class Store extends React.Component {
 		console.error('[CHANGE TAB NOT DEFINED]')
 	}
 
-	setCurrentView = (tab) => {
+	setCurrentView = (tab, loadPosts) => {
 		this.currentView = tab
-		this.refreshCurrentView(tab)
+		this.refreshCurrentView(tab, loadPosts)
 	}
 
 	refreshCurrentView = () => {

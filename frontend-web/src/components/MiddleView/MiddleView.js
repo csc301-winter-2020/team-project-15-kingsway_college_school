@@ -12,7 +12,7 @@ class MiddleView extends React.Component {
 		div: undefined
 	}
 
-	currentViewSwitch = (currentView) => {
+	currentViewSwitch = (currentView, term) => {
 		switch(currentView) {
 			case 'My Posts':
 				this.setState({ tab: <PostFeed store={ this.props.store } /> });
@@ -27,7 +27,7 @@ class MiddleView extends React.Component {
 				this.setState({ tab: <Explore store={ this.props.store } /> });
 				return;
 			default:
-				this.setState({ tab: <div><CreatePost store={ this.props.store } /><PostFeed store={ this.props.store } /></div> });
+				this.setState({ tab: <div><CreatePost store={ this.props.store } /><PostFeed store={ this.props.store } searchTerm={ term }/></div> });
 				return;
 		}
 	}

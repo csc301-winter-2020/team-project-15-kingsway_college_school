@@ -20,7 +20,8 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		let getParams = { queryStringParameters: {} };
 
 		const userID = this.props.store.userID;
-
+		console.log(feedType);
+		console.log(searchTerm);
 		if (feedType === 'Home') {
 			if (searchTerm) {
 				getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
@@ -140,23 +141,24 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		this.setState({ hasPosts: false, posts: [], lastSearched: searchTerm });
 
 		const feedType = this.props.store.currentView;
-
 		this.getPosts(feedType, searchTerm);
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		const feedType = this.props.store.currentView;
 
 		if (feedType === 'Search User') {
 			this.props.parent.searchUser = (email) => { console.log(email); this.getPosts(feedType, email) }
 		}
-
 		if (!this.props.preventDefaultLoad) {
-			this.getPosts(feedType);
+			if(this.props.searchTerm){
+				this.search(this.props.searchTerm);
+			}else{
+				this.getPosts(feedType);
+			}
 		} else {
-			this.setState({ hasPosts: true });
+			this.setState({ hasPosts: true});
 		}
-
 		this.props.store.search = this.search;
 	}
 
