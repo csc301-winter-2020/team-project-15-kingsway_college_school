@@ -123,7 +123,7 @@ class Post extends React.Component {
 		}
 
 		return (
-		<div className="Post shadow mid-grey light-grey-text">
+		<div className="Post rounded shadow mid-grey light-grey-text">
 			{
 				post.location.name ? <div className="PostLocation">
 					<a className="accent fa fa-map-marker"></a>
@@ -136,7 +136,7 @@ class Post extends React.Component {
 				{ this.parseContent(post.content) }
 			</div>
 			{post.images.length > 0 && <div className="PostImage">
-				<img src={ post.images[0] }/>
+				<img className="rounded" src={ post.images[0] }/>
 			</div>} 
 
 			<textarea
@@ -159,7 +159,7 @@ class Post extends React.Component {
 
 			<Modal parent={ this } visible={ this.state.modalVisible } prompt="Are you sure you sure you want to delete this post?"
 				positiveButtonAction={ this.deletePost } negativeButtonAction={ () => { this.setState({ modalVisible: false }) } } 
-				positiveButtonText="Delete" negativeButtonText="Cancel"/>
+				positiveButtonText="Delete Post" negativeButtonText="Cancel"/>
 		</div>
 	)}
 };

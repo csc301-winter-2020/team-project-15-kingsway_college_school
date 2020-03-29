@@ -48,7 +48,7 @@ class TopTags extends React.Component {
 
 			{
 				this.state.hashtags.map((hashtag) => (
-					<div key={ uid(hashtag) } onClick={ () => { this.props.store.trySearch(hashtag); } } className="Hashtag accent">
+					<div key={ uid(hashtag) } onClick={ () => { this.props.store.trySearch(hashtag); } } className="Hashtag accent rounded-15">
 						{ hashtag }
 					</div>
 				))
