@@ -26,7 +26,7 @@ class Post extends React.Component {
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
 			this.props.store.updateFeeds();
 		}).catch((error) => {
-			console.log(error);
+			console.error(error);
 		});
 
 		this.setState({ modalVisible: false })
@@ -54,7 +54,7 @@ class Post extends React.Component {
 			Amplify.API.put('unfavouritePost', '', reqParams).then((response) => {
 				
 			}).catch((error) => {
-				console.log(error);
+				console.error(error);
 				this.props.post.favourited = true
 				this.forceUpdate()
 			});
@@ -73,7 +73,7 @@ class Post extends React.Component {
 			Amplify.API.put('favouritePost', '', reqParams).then((response) => {
 				
 			}).catch((error) => {
-				console.log(error);
+				console.error(error);
 				this.props.post.favourited = false
 				this.forceUpdate()
 			});
@@ -88,7 +88,7 @@ class Post extends React.Component {
 
 		for (let i = 0; i < notTags.length - 1; i++) {
 			output.push(notTags[i])
-			output.push(<span key={i} className="accent">{ tags[i] }</span>)
+			output.push(<span key={i} className="content-hashtag accent" onClick={ () => { this.props.store.trySearch(tags[i]) } }>{ tags[i] }</span>)
 		}
 
 		output.push(notTags[notTags.length - 1])

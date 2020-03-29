@@ -55,6 +55,10 @@
 	cursor: pointer;
 }
 
+.content-hashtag {
+	cursor: pointer;
+}
+
 .permalinkMessageOn {
 	position: absolute;
 	bottom: 25px;
@@ -63,6 +67,7 @@
 	font-size: 1rem;
 	cursor: pointer;
 }
+  
 .permalinkMessageOff {
 	position: absolute;
 	bottom: 25px;
@@ -71,7 +76,6 @@
 	font-size: 0rem;
 	cursor: pointer;
 }
-
 
 .permalinkCopy {
 	height: 0px;
