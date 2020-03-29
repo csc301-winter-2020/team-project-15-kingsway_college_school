@@ -6,10 +6,16 @@ import { withRouter } from "react-router-dom";
 class TabMenu extends React.Component {
 	state = {
 		selected: 'Home',
-		tabs: [
+		tabs: this.props.store.admin ? [
 			'Home',
-			// 'Favourites',
-			// 'Settings',
+      'Favourites',
+			'My Posts',
+			'Search User',
+			'Explore',
+			'Sign Out'
+		] : [
+			'Home',
+			'Favourites',
 			'My Posts',
 			'Explore',
 			'Sign Out'
@@ -35,9 +41,11 @@ class TabMenu extends React.Component {
 		this.setState({ selected: tab });
 
 		this.props.store.setCurrentView(tab)
+		this.props.store.updateFeeds();
 	}
 
 	componentDidMount() {
+
 		this.props.store.changeTab = this.changeToHome;
 	}
 
@@ -46,6 +54,7 @@ class TabMenu extends React.Component {
 		<div className="TabMenu dark-grey light-grey-text">
 			<h1>
 				KCShare
+				{ this.props.store.admin ? <span className="accent"><br/>ADMIN</span> : '' }
 			</h1>
 			
 			{

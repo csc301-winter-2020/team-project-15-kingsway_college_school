@@ -1,181 +1,102 @@
 import React from 'react';
-import { uid } from "react-uid";
 import './Explore.css';
 import Amplify from 'aws-amplify';
-import Post from '../Post/Post'
-import Loader from '../Loader/Loader'
-import icecream from '../../images/icecream.png';
+import marker from '../../images/location.png';
+import PostFeed from "../PostFeed/PostFeed";
 
 class Explore extends React.Component {
 	state = {
-		posts: [],
 		features: [],
 		loading: false,
-		selectedPost: undefined
-	}
+		locationChosen: false
+	};
 
-	// saved_features = [{"type":"Feature","properties":{"description":"24","icon":"theatre"},"geometry":{"type":"Point","coordinates":[-79.3976539,43.6591399]}}];
-
-	getAllPosts = (mapboxgl, map) => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPosts',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
+	getAllLocations = (mapboxgl, map) => {
 
 		let getParams = {};
-
-		Amplify.API.get('getPosts', '', getParams).then((response) => {
-			const posts = [];
+		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken};
+		Amplify.API.get('getLocations', '', getParams).then((response) => {
 			const features = [];
 
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
-
-			response.forEach((post) => {
-				posts.push({
-					postID: post.postID,
-					userID: post.userID,
-					location: post.location,
-					content: post.content,
-					images: post.images,
-					uploadTime: post.timeUploaded,
+			//console.log(JSON.stringify(response));
+			response.forEach((location) => {
+				features.push({
+					'type': 'Feature',
+					'properties': {
+						'location': location.latitude + "," + location.longitude,
+						'name': location.name.split(",")[0],
+						'icon': 'theatre'
+					},
+					'geometry': {
+						'type': 'Point',
+						'coordinates': [parseFloat(location.longitude), parseFloat(location.latitude)]
+					}
 				});
-
-				if (post.location.latitude && post.location.longitude) {
-					features.push({
-						'type': 'Feature',
-						'properties': {
-							'description': (post.postID).toString(),
-							'icon': 'theatre'
-						},
-						'geometry': {
-							'type': 'Point',
-							'coordinates': [parseFloat(post.location.longitude), parseFloat(post.location.latitude)]
-						}
-					});
-				}
 			});
-
-			this.setState({ posts: posts });
 			this.setState({ features: features });
-
 			console.log(JSON.stringify(this.state.features));
 
 			// Plot features on map
-			this.addFeatures(mapboxgl, map, this.state.features);
+			this.addFeatures(mapboxgl, map, features);
 		}).catch((error) => {
 			console.log(error);
 		});
-	}
-
-	getSelectedPost = (postID) => {
-		console.log(postID);
-		this.setState({ loading: true });
-
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPosts',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
-
-		let getParams = {};
-		getParams = { queryStringParameters: { searchType: 'POST', searchParameter: postID } }
-
-		Amplify.API.get('getPosts', '', getParams).then((response) => {
-			let selectedPost = undefined;
-
-			if (Object.entries(response).length === 0 && response.constructor === Object) {
-				response = [];
-			}
-
-			response.forEach((post) => {
-				selectedPost = {
-					postID: post.postID,
-					userID: post.userID,
-					location: post.location,
-					content: post.content,
-					images: post.images,
-					uploadTime: post.timeUploaded,
-				};
-			});
-
-			console.log(selectedPost)
-			this.setState({ loading: false });
-			this.setState({ selectedPost: selectedPost });
-		}).catch((error) => {
-			console.log(error);
-		});
-	}
+	};
 
 	addFeatures(mapboxgl, map, features) {
-		map.on('load', () => {
-			// map.loadImage(
-			// 	'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Cat_silhouette.svg/400px-Cat_silhouette.svg.png',
-			// 	function (error, image) {
-			// 		if (error) throw error;
-			// 		map.addImage('cat', image);
-			// 	}
-			// );
 
-			map.loadImage(icecream, (error, image) => {
-				if (error) throw error;
-				map.addImage('post-icon', image);
-			});
+		map.loadImage(marker, (error, image) => {
+			if (error) throw error;
+			map.addImage('post-icon', image);
+		});
 
-			map.addSource('places', {
-				'type': 'geojson',
-				'data': {
-					'type': 'FeatureCollection',
-					'features': features
-				}
-			});
-			// Add a layer showing the places.
-			map.addLayer({
-				'id': 'places',
-				'type': 'symbol',
-				'source': 'places',
-				'layout': {
-					// 'icon-image': '{icon}-15',
-					'icon-image': 'post-icon',
-					'icon-allow-overlap': true,
-					'icon-size': 0.3
-				},
-				"paint": {
-					"icon-color": "#539038",
-					// "text-color":"#9fcb3b",
-					// "text-size":12
-				}
-			});
+		map.addSource('places', {
+			'type': 'geojson',
+			'data': {
+				'type': 'FeatureCollection',
+				'features': features
+			}
+		});
+		// Add a layer showing the places.
+		map.addLayer({
+			'id': 'places-labels',
+			'type': 'symbol',
+			'source': 'places',
+			'layout': {
+				'text-field': ['get', 'name'],
+				'text-variable-anchor': ['top'],
+				'text-radial-offset': 1.0,
+				'text-justify': 'auto',
+				'icon-image': 'post-icon',
+				'icon-allow-overlap': true,
+				'icon-size': 0.3
+			},
+			"paint": {
+				"icon-color": "#539038",
+				// "text-color":"#9fcb3b",
+				// "text-size":12
+			}
+		});
 
-			// When a click event occurs on a feature in the places layer, open a popup at the
-			// location of the feature, with description HTML from its properties.
-			map.on('click', 'places', (e) => {
-				let postID = e.features[0].properties.description;
-				console.log(postID)
-				this.getSelectedPost(parseInt(postID));
-			});
+		// When a click event occurs on a feature in the places layer, open a popup at the
+		// location of the feature, with description HTML from its properties.
+		map.on('click', 'places-labels', (e) => {
+			let location = e.features[0].properties.location;
+			console.log(location);
+			this.props.store.search(location)
+		});
 
-			// Change the cursor to a pointer when the mouse is over the places layer.
-			map.on('mouseenter', 'places', function () {
-				map.getCanvas().style.cursor = 'pointer';
-			});
+		// Change the cursor to a pointer when the mouse is over the places layer.
+		map.on('mouseenter', 'places-labels', function () {
+			map.getCanvas().style.cursor = 'pointer';
+		});
 
-			// Change it back to a pointer when it leaves.
-			map.on('mouseleave', 'places', function () {
-				map.getCanvas().style.cursor = '';
-			});
+		// Change it back to a pointer when it leaves.
+		map.on('mouseleave', 'places-labels', function () {
+			map.getCanvas().style.cursor = '';
 		});
 	}
 
@@ -196,18 +117,22 @@ class Explore extends React.Component {
 		map.scrollZoom.disable();
 
 		// Get all the posts and plot on the map 
-		this.getAllPosts(mapboxgl, map);
+		// this.getAllPosts(mapboxgl, map);
+
+		// Get all the locations and plot on the map
+		map.on('load', () => {this.getAllLocations(mapboxgl, map)})
 	}
 
 	render() {
-
 		return (
+			
 			<div className="Explore dark-grey light-grey-text">
+				<h1 className="exploreTitle"> Click a location to see posts from that area! </h1>
 				<div id="map"></div>
-				{this.state.loading ? <Loader /> : <Post store={this.props.store} post={this.state.selectedPost} />}
+				<PostFeed store={ this.props.store } preventDefaultLoad={true}/>
 			</div>
 		)
 	}
-};
+}
 
 export default Explore;

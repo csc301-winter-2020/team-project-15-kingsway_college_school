@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, Button, Image, KeyboardAvoidingView } from 'react-native';
+import { Text, View, StyleSheet, Button, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -18,7 +18,7 @@ Amplify.configure({
 		endpoints: [
 			{
 				name: 'getPosts',
-				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
+				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPosts',
 				service: 'api-gateway',
 				region: 'us-east-1',
 				custom_header: async () => {
@@ -29,7 +29,7 @@ Amplify.configure({
 			},
 			{
 				name: 'getPopularHashtags',
-				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPopularHashtags',
+				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPopularHashtags',
 				service: 'api-gateway',
 				region: 'us-east-1',
 				custom_header: async () => {
@@ -41,7 +41,29 @@ Amplify.configure({
 
 			{
 				name: 'newPost',
-				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/newPost',
+				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/newPost',
+				service: 'api-gateway',
+				region: 'us-east-1',
+				custom_header: async () => {
+					//return { Authorization : 'token' } 
+					// Alternatively, with Cognito User Pools use this:
+					return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+				}
+			},
+			{
+				name: 'favouritePost',
+				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/favouritePost',
+				service: 'api-gateway',
+				region: 'us-east-1',
+				custom_header: async () => {
+					//return { Authorization : 'token' } 
+					// Alternatively, with Cognito User Pools use this:
+					return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+				}
+			},
+			{
+				name: 'unfavouritePost',
+				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/unfavouritePost',
 				service: 'api-gateway',
 				region: 'us-east-1',
 				custom_header: async () => {
@@ -52,7 +74,7 @@ Amplify.configure({
 			},
 			{
 				name: 'deletePost',
-				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/deletePost',
+				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/deletePost',
 				service: 'api-gateway',
 				region: 'us-east-1'
 			}]
@@ -70,35 +92,16 @@ Amplify.configure({
 
 		// OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
 		mandatorySignIn: true,
-
-		// OPTIONAL - Configuration for cookie storage
-		// Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
-		// cookieStorage: {
-		// // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-		//     domain: 'kcsshare.auth.us-east-1.amazoncognito.com',
-		// // OPTIONAL - Cookie path
-		//     path: '/',
-		// // OPTIONAL - Cookie expiration in days
-		//     expires: 365,
-		// // OPTIONAL - Cookie secure flag
-		// // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
-		//     secure: true
-		// },
-
-		// OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
 		authenticationFlowType: 'USER_PASSWORD_AUTH',
+		identityPoolId: 'us-east-1:b2f0fb38-17fc-43a6-98db-6c372e572f0e',
 
-		// OPTIONAL - Manually set key value pairs that can be passed to Cognito Lambda Triggers
-		// clientMetadata: { myCustomKey: 'myCustomValue' },
-
-		// OPTIONAL - Hosted UI configuration
-		// oauth: {
-		//     domain: 'your_cognito_domain',
-		//     scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
-		//     redirectSignIn: 'http://localhost:3000/',
-		//     redirectSignOut: 'http://localhost:3000/',
-		//     responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
-		// }
+	},
+	Storage: {
+		AWSS3: {
+			bucket: 'kcpostimages', //REQUIRED -  Amazon S3 bucket
+			region: 'us-east-1', //OPTIONAL -  Amazon service region
+			identityPoolId: 'us-east-1:b2f0fb38-17fc-43a6-98db-6c372e572f0e',
+		}
 	}
 });
 
@@ -106,31 +109,33 @@ class Authentication extends Component {
 	constructor() {
 		super();
 		this.signIn = this.signIn.bind(this);
+		this.authSetState = this.authSetState.bind(this);
 		this.state = {
 			authState: 'loading',
 			authData: null,
 			authError: null,
 			currUser: "",
 			currPass: "",
+			alertText: "",
 		}
 	}
 
 	componentDidMount() {
-		console.log('on component mount');
 		// check the current user when the App component is loaded
 		Auth.currentAuthenticatedUser().then(user => {
-			console.log(user);
 			this.setState({ authState: 'signedIn' });
 		}).catch(e => {
 			console.log(e);
 			this.setState({ authState: 'signIn' });
 		});
 	}
+	authSetState(newState) {
+		this.setState({ authState: newState, alertText: "" });
+	}
 	async signIn(username, password) {
 		try {
 
 			const user = await Auth.signIn(username, password);
-			console.log(user)
 			if (user.challengeName === 'SMS_MFA' ||
 				user.challengeName === 'SOFTWARE_TOKEN_MFA') {
 				// You need to get the code from the UI inputs
@@ -148,7 +153,6 @@ class Authentication extends Component {
 				// and then trigger the following function with a button click
 				// For example, the email and phone_number are required attributes
 				// const {username, email, phone_number} = getInfoFromUserInput();
-				console.log('in new pass req');
 				// password = "bing0Bang@@"
 				const loggedUser = await Auth.completeNewPassword(
 					user,              // the Cognito User Object
@@ -167,13 +171,12 @@ class Authentication extends Component {
 				Auth.setupTOTP(user);
 			} else {
 				// The user directly signs in
-				console.log(user);
 				console.log('success');
 				this.setState({ authState: 'signedIn' });
 			}
 		} catch (err) {
 			console.log(err);
-			console.log('that was error');
+			this.setState({ alertText: err.message })
 			if (err.code === 'UserNotConfirmedException') {
 				// The error happens if the user didn't finish the confirmation step when signing up
 				// In this case you need to resend the code and confirm the user
@@ -188,28 +191,37 @@ class Authentication extends Component {
 				// The error happens when the supplied username/email does not exist in the Cognito user pool
 			} else {
 				console.log(err);
+
+
 			}
 		}
 	}
 	render() {
-		console.log(this.state)
 
 		if (this.state.authState === "signedIn") {
 			return (
-				<App />
+				<App authSetState={this.authSetState} />
 			)
 		}
 		else {
-			return (<View style={styles.signIn}>
-				<Image source={require("./assets/logo.png")} style={styles.signInImage} />
-				<View style={styles.signInForm}>
-					<TextInput style={styles.signInInput} onChangeText={(currUser) => this.setState({ currUser })} placeholder="Username" />
-					<TextInput style={styles.signInInput} onChangeText={(currPass) => this.setState({ currPass })} placeholder="Password" />
-					<View style={styles.signInButton}>
-						<Button style={{ color: "red" }} title="Sign In" onPress={() => this.signIn(this.state.currUser, this.state.currPass)} />
-					</View>
-				</View>
-			</View>
+			return (
+				<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+
+					<KeyboardAvoidingView style={styles.signIn} behavior="padding">
+
+						<Image source={require("./assets/logo.png")} style={styles.signInImage} />
+						<View style={styles.signInForm}>
+							<Text style={styles.alertText}>{this.state.alertText}</Text>
+							<TextInput style={styles.signInInput} onChangeText={(currUser) => this.setState({ currUser })} placeholder="Username" />
+							<TextInput style={styles.signInInput} onChangeText={(currPass) => this.setState({ currPass })} placeholder="Password" secureTextEntry={true} />
+
+							<View style={styles.signInButton}>
+								<Button title="Sign In" onPress={() => this.signIn(this.state.currUser, this.state.currPass)} />
+							</View>
+						</View>
+					</KeyboardAvoidingView >
+				</TouchableWithoutFeedback>
+
 			)
 		}
 
@@ -269,6 +281,7 @@ function MyTabs(props) {
 			<Tab.Screen
 				name="Profile"
 				component={ProfileScreen}
+				initialParams={{ authSetState: props.authSetState }}
 				options={{
 					tabBarLabel: 'Profile',
 					tabBarIcon: ({ color, size }) => (
@@ -280,12 +293,12 @@ function MyTabs(props) {
 	);
 }
 
-function App() {
+function App(props) {
 	return (
 		<View style={styles.view}>
 			<NavigationContainer style={styles.bar}>
 				<MenuProvider>
-					<MyTabs />
+					<MyTabs authSetState={props.authSetState} />
 				</MenuProvider>
 			</NavigationContainer>
 		</View>
@@ -323,11 +336,20 @@ const styles = StyleSheet.create({
 		height: null,
 		width: null,
 		resizeMode: "contain",
-		margin: 50
+		marginHorizontal: 50,
+		marginTop: 20
 	},
 	signInButton: {
 		marginHorizontal: 20,
 		marginVertical: 10,
 		borderRadius: 5,
+	},
+	alertText: {
+		color: "red",
+		fontSize: 15,
+		justifyContent: 'center',
+		alignContent: "center",
+		alignItems: "center",
+		textAlign: "center"
 	}
 });

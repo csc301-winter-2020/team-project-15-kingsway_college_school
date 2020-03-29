@@ -15,16 +15,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	}
 
 	callPostsApi = async (session, feedType, searchTerm) => {
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'getPosts',
-					endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		})
 
 		let getParams = {};
 
@@ -35,24 +25,37 @@ const PostFeed = observer(class PostFeed extends React.Component {
 				getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
 			}
 		} else if (feedType === 'My Posts') {
-			getParams = { queryStringParameters: { searchType: 'USER', searchParameter: userID } };
+			getParams = { queryStringParameters: { searchType: 'OWN' } };
 		} else if (feedType === 'Favourites') {
-			getParams = { queryStringParameters: { searchType: 'FAV', searchParameter: userID } };
+			getParams = { queryStringParameters: { searchType: 'FAV' } };
+		} else if (feedType === 'Permalink') {
+			getParams = { queryStringParameters: { searchType: 'POST', searchParameter: searchTerm } };
+		} else if (feedType === 'Search User') {
+			getParams = { queryStringParameters: { searchType: 'EMAIL', searchParameter: searchTerm } };
+		} else if (feedType === 'Explore') {
+			getParams = { queryStringParameters: { searchType: 'LOCATION', searchParameter: searchTerm } };
 		}
 
-		getParams["headers"] = {"Authorization" : session.idToken.jwtToken}
+		try {
+			getParams["headers"] = {"Authorization" : session.idToken.jwtToken}
+		} catch {
+			return
+		}
+		
 		let currCreds
 		Auth.currentCredentials().then(response => {
 					currCreds = response
+
+		}).catch((err) => {
+			console.log('error on current credentials call')
+			console.log(err)
 		})
-		
 		await Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = [];
 
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
-
 			if (response.length != 0) {
 				response.forEach((post, outerIndex) => {
 					post.images.map( async (imageKey, innerIndex) => {
@@ -79,23 +82,38 @@ const PostFeed = observer(class PostFeed extends React.Component {
 							// No error happened
 							// Convert Body from a Buffer to a String
 							let objectData = data.Body.toString('utf-8'); // Use the encoding necessary
-							imageBase64 = objectData
+							imageBase64 = objectData;
 							this.setState({ hasPosts: false });
+							try {
+								this.state.posts[outerIndex].images[innerIndex] = imageBase64
+							} catch {}
 
-							this.state.posts[outerIndex].images[innerIndex] = imageBase64
 							this.setState({ hasPosts: true });
 							this.forceUpdate()
 						});
-					})
+					});
 
-					posts.push({
+					const new_post = {
 						postID: post.postID,
 						userID: post.userID,
 						location: post.location,
 						content: post.content,
 						images: post.images,
-						uploadTime: post.timeUploaded,
-					});
+            			favourited: post.favourited,
+						uploadTime: post.timeUploaded
+					}
+
+					if (post.email) {
+						new_post['email'] = post.email
+					}
+
+					if (post.location) {
+						new_post['location'] = post.location
+					} else {
+						new_post['location'] = {}
+					}
+
+					posts.push(new_post);
 				});
 			}
 
@@ -107,10 +125,8 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	}
 
 	getPosts = async (feedType, searchTerm) => {
-		// Janky solution for waiting until authenticated		
-		setTimeout( () => {
-			this.callPostsApi(this.props.store.session, feedType, searchTerm)
-		}, 2000)
+		this.setState({ hasPosts: false });
+		this.callPostsApi(this.props.store.session, feedType, searchTerm)
 	}
 
 	search = (searchTerm) => {
@@ -122,24 +138,32 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	}
 
 	componentDidMount() {
-		this.setState({ hasPosts: false });
-
 		const feedType = this.props.store.currentView;
 
-		this.getPosts(feedType);
+		if (feedType === 'Search User') {
+			this.props.parent.searchUser = (email) => { console.log(email); this.getPosts(feedType, email) }
+		} else if (feedType === 'Permalink') {
+			this.getPosts(feedType, this.props.store.permalinkPostID) 
+		}
+
+		if (!this.props.preventDefaultLoad) {
+			this.getPosts(feedType);
+		} else {
+			this.setState({ hasPosts: true });
+		}
 
 		this.props.store.search = this.search;
-
-		this.props.store.updateFeedCallback = [() => { this.getPosts(this.props.store.currentView) }];
 	}
 
 	render() {
+		this.props.store.updateFeedCallback = [ () => { this.setState({ posts: [], hasPosts: false }); this.getPosts(this.props.store.currentView) }];
+
 		return (
 		<div className="PostFeed light-grey-text">
-			{ this.state.hasPosts ? '' : <Loader /> }
+			{ this.state.hasPosts ? '' : <Loader short={ this.state.posts.length != 0 } /> }
 			{
 				this.state.posts.map((post) => (
-					<Post store={ this.props.store } key={ uid(post.postID) } post={ post } />
+					<Post store={ this.props.store } key={ uid(post.postID) } post={ post } enableLoader={ () => { this.setState({ hasPosts: false }); } } />
 				))
 			}
 		</div>

@@ -31,17 +31,6 @@ class CreatePost extends React.Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 
-		Amplify.configure({
-			API: {
-				endpoints: [{
-					name: 'newPost',
-					endpoint: this.props.store.apiEndpoint + '/newPost',
-					service: 'api-gateway',
-					region: 'us-east-1'
-				}]
-			}
-		});
-
 		const imageParam = this.state.attachment ? [ this.state.attachment ] : [];
 
 		const reqParams = { body: { userID: parseInt(this.props.store.userID), content: this.state.postData, images: imageParam } };
@@ -50,13 +39,15 @@ class CreatePost extends React.Component {
 			reqParams.body['location'] = { name: this.state.locName, latitude: this.state.lat.toString(), longitude: this.state.long.toString() }
 		}
 
+		reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
+
 		Amplify.API.post('newPost', '', reqParams).then((response) => {
 			this.props.store.updateFeeds();
 		}).catch((error) => {
 			console.log(error);
 		});
 
-		this.setState({ modalVisible: false })
+		this.setState({ postData: '', attachment: undefined })
 		e.target.reset();
 	}
 
@@ -68,6 +59,7 @@ class CreatePost extends React.Component {
 
 		xhr.onload = () => {
 			try {
+				console.log(JSON.parse(xhr.responseText).features);
 				let full_name = JSON.parse(xhr.responseText).features[0].place_name;
 
 				this.setState({ locName: full_name })

@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { Alert, Image, Text, View, StyleSheet } from "react-native"
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import Amplify from 'aws-amplify';
+import { Auth, Storage } from 'aws-amplify';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
-import ExploreScreen from './ExploreScreen.js'
-
-
+import { S3Image } from 'aws-amplify-react-native';
 
 class MenuIcon extends Component {
 	render() {
@@ -18,16 +17,45 @@ class PostMenu extends Component {
 		this.deletePost = this.deletePost.bind(this)
 		this.deleteAlert = this.deleteAlert.bind(this)
 	}
+
 	deletePost() {
+
 		const reqParams = { queryStringParameters: { postID: this.props.postID } };
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
-			Alert.alert("Post deleted", ":)")
+		        this.hideMenu();
 			this.props.refresh();
+			Alert.alert("Post deleted", ":)")
 		}).catch((error) => {
 			console.log(error);
 		});
+	}
 
+	favouritePost() {
+		const reqParams = { queryStringParameters: { postID: this.props.postID} };
+		Amplify.API.put('favouritePost', '', reqParams).then( (response) => {
+			this.props.refresh();
+			this.hideMenu();
+			//Alert.alert("Post saved to favourites!");
+		}).catch((error) => {
+			console.log(error)
+			this.hideMenu();
+			//Alert.alert("REQUEST FAILED");
+		})
+	}
 
+	unfavouritePost() {
+
+		const reqParams = { queryStringParameters: { postID: this.props.postID} };
+		Amplify.API.put('unfavouritePost', '', reqParams).then( (response) => {
+			console.log(response);
+			this.props.refresh();
+			this.hideMenu();
+			//Alert.alert("Post removed from favourites.");
+		}).catch((error) => {
+			console.log(error)
+			this.hideMenu();
+			//Alert.alert("REQUEST FAILED");
+		})
 	}
 
 	showMenu = () => {
@@ -41,6 +69,7 @@ class PostMenu extends Component {
 	hideMenu = () => {
 		this._menu.hide();
 	};
+
 	deleteAlert() {
 		Alert.alert(
 			'Delete post?',
@@ -57,7 +86,23 @@ class PostMenu extends Component {
 		);
 	}
 
-	
+	unfavouriteAlert() {
+		Alert.alert(
+			'Remove from favourites?',
+			'Are you sure you want to remove this post from your favourites?',
+			[
+				{
+					text: 'Cancel',
+					onPress: () => console.log('Cancel Pressed'),
+					style: 'cancel',
+				},
+				{ text: 'OK', onPress: () => this.unfavouritePost() },
+			],
+			{ cancelable: true },
+		);
+		
+	}
+
 	render() {
 		const userID = 2;
 		const menuOptionStyle = {
@@ -73,13 +118,18 @@ class PostMenu extends Component {
 			}
 		}
 
+		// Change "Favourite" option to "Remove from favourites" when looking at Favourites screen
+		let favouriteOption = <MenuItem onPress={() => this.favouritePost()} customStyles={menuOptionStyle}>Favourite</MenuItem>;
+		if (this.props.alreadyFavourite) {
+			favouriteOption = <MenuItem onPress={() => this.unfavouriteAlert()} customStyles={menuOptionStyle}>Remove from favourites</MenuItem>;
+		}
+
 		return (
 			<View style={{ borderRadius: 10 }}>
 				<Menu
 					ref={this.setMenuRef}
 					button={<MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} onPress={this.showMenu} />}>
-
-					<MenuItem onPress={() => alert(`Save`)} customStyles={menuOptionStyle}> Favourite </MenuItem>
+					{favouriteOption}
 					<MenuDivider />
 					<MenuItem onPress={() => this.deleteAlert()} disabled={!this.props.userID == userID}> Delete</MenuItem>
 				</Menu>
@@ -89,6 +139,10 @@ class PostMenu extends Component {
 }
 
 export default class Post extends Component {
+
+	state = {
+		image: null
+	}
 	locationHeader = null;
 	dateHeader = null;
 	image = null;
@@ -113,7 +167,40 @@ export default class Post extends Component {
 		return output
 	}
 
+	async componentDidMount() {
+		if (this.props.post.images.length > 0) {
+			let imageBase64;
+			// await Storage.get(imageKey, { download: true }).then(result =>  console.log(result))
+			let aws = require("aws-sdk")
+			let currCreds = await Auth.currentCredentials();
+			aws.config.update({ region: 'us-east-1', credentials: currCreds });
+			const s3 = new aws.S3(); // Pass in opts to S3 if necessary
+			let getParams = {
+				Bucket: 'kcpostimages', // your bucket name,
+				Key: this.props.post.images[0], // path to the object you're looking for
+			}
+
+			await s3.getObject(getParams, (err, data) => {
+				// Handle any error and exit
+				if (err) {
+					console.log(err)
+					return err;
+				}
+				// No error happened
+				// Convert Body from a Buffer to a String
+				let objectData = data.Body.toString('utf-8'); // Use the encoding necessary
+				imageBase64 = objectData
+				this.setState({ image: imageBase64 });
+
+
+			});
+		}
+
+
+
+	}
 	render() {
+
 		const month = {
 			0: 'January',
 			1: 'February',
@@ -128,38 +215,49 @@ export default class Post extends Component {
 			10: 'November',
 			11: 'December'
 		}
-		if (this.props.post.location.name) {
+		if (this.props.post.location && this.props.post.location.name) {
 			this.locationHeader = (
 				<Text style={styles.locationText}>@{this.props.post.location.name.split(',')[0]}</Text>
 			)
 		}
 		if (this.props.post.images.length > 0) {
+
 			this.image = (
-				<View style={{ alignItems: 'center', paddingTop: 20 }}>
+				<View style={{ alignItems: 'center', paddingTop: 20, flex: 1 }}>
 					<Image
-						style={{ width: 300, height: 300 }}
-						source={{ uri: this.props.post.images[0] }}
+						style={{ width: 300, height: 300, resizeMode: "contain" }}
+						source={this.state.image ? { uri: this.state.image } : null}
 					/>
 				</View>
 			)
 		}
-		let time = new Date(0)
-		time.setUTCSeconds(this.props.post.timeUploaded)
+		let time = new Date(this.props.post.timeUploaded * 1000);
+
+		let favIcon = <></>
+		if (this.props.post.favourited) {
+			favIcon = <Text style={styles.filledStar}>★</Text>;
+		}
+		// Note: This can be used if we want Favourite and Delete to be 2 separate UI items instead of the drawer menu.
+		// else {
+		// 	favIcon = <Text style={styles.emptyStar}>☆</Text>;
+		// }
+
 		return (
 			<View style={styles.post}>
 				<View style={styles.header}>
 					<View style={styles.headerLeft}>
 						{this.locationHeader}
-						<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + (time.getDay() + 1) + ', ' + time.getFullYear()}</Text>
+						<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear()}</Text>
 					</View>
 					<View styles={styles.headerRight}>
-						<PostMenu userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
+						<PostMenu alreadyFavourite={this.props.post.favourited} userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
 					</View>
 				</View>
 				<View styles={{ flex: 1 }}>
 					<Text style={styles.content}> {this.parseContent(this.props.post.content)}</Text>
 				</View>
 				{this.image}
+				{favIcon}
 			</View>
 		)
 	}
@@ -196,6 +294,16 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontStyle: 'italic',
 		paddingRight: 10
+	},
+	emptyStar: {
+		fontSize: 15,
+		color: '#fcfcff',
+		textAlign: "right"
+	},
+	filledStar: {
+		fontSize: 15,
+		color: '#FB9B38',
+		textAlign: "right"
 	},
 	date: {
 		fontSize: 15,
