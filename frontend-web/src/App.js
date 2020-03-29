@@ -104,13 +104,16 @@ class App extends React.Component {
 			}
 		});
 	}
+	
 	render() {
+		let location = useLocation();
+		console.log(location.pathname);
 		return (
 			<div>
 				<BrowserRouter>
 					<Switch>
-						<Route exact path='/' render={() => (this.state.store.session ? <HomePage store={ this.state.store } /> : <Login store={ this.state.store } />)}/>
-						<Route exact path='/permalink' render={() => (this.state.store.session ? <Permalink store={ this.state.store } post={100} /> : <Login store={ this.state.store } />)}/>
+						<Route exact path='/' render={() => (this.state.store.session ? <HomePage store={ this.state.store } /> : <Login store={ this.state.store } destination='/'/>)}/>
+						<Route exact path='/permalink' render={() => (this.state.store.session ? <Permalink store={ this.state.store } /> : <Login store={ this.state.store } destination={"/"+this.props.location.search}/>)}/>
 					</Switch>
 				</BrowserRouter>
 			</div>

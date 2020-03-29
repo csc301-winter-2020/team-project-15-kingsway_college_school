@@ -51,6 +51,9 @@ class Post extends React.Component {
 			this.props.post.favourited = true
 			this.forceUpdate()
 
+			console.log("permalink required " + this.props.post.postID)
+			console.log("http://localhost:3000/permalink?post=" + this.props.post.postID)
+
 			const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
 
 			reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
