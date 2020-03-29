@@ -3,6 +3,11 @@
 	padding: 1vw 2vw 0vw 2vw;
 }
 
+.CreatePost:hover .CreatePostButtons{
+	opacity: 100;
+}
+
+
 .TextAreaContainer {
 	height: 15vh;
 	background: #FCFCFF;
@@ -26,6 +31,8 @@
 	max-width: 65%;
 	height: 8.5vh;
 	margin-right: 4vw;
+    opacity: 0;
+    transition: opacity 2s;
 }
 
 .PreviewImage {
@@ -51,11 +58,23 @@
 	font-size: 1rem;
 }
 
+.ShareButton:hover {
+	background-color: lightslategray;
+}
+
 .AttachPicture {
 	vertical-align: middle;
+	horiz-align: center;
 	display: inline-block;
 	font-size: 2rem;
 	cursor: pointer;
+	border-radius: 20px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+.AttachPicture:hover {
+	background: #36325E;
 }
 
 .Pin {
@@ -95,9 +114,9 @@
 }
 
 .react-geocoder-results {
-	
+
 }
 
 .react-geocoder-item {
-	
+
 }
