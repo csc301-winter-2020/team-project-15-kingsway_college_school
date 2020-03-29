@@ -203,7 +203,7 @@ export default class Post extends Component {
 				<View style={{ alignItems: 'center', paddingTop: 20, flex: 1 }}>
 					<Image
 						style={{ width: 300, height: 300, resizeMode: "contain" }}
-						source={{ uri: this.state.image }}
+						source={this.state.image ? { uri: this.state.image } : null}
 					/>
 				</View>
 			)
