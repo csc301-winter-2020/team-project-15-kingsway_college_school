@@ -24,10 +24,12 @@ class PostMenu extends Component {
 	}
 
 	deletePost() {
+
 		const reqParams = { queryStringParameters: { postID: this.props.postID } };
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
-			Alert.alert("Post deleted", ":)")
+		        this.hideMenu();
 			this.props.refresh();
+			Alert.alert("Post deleted", ":)")
 		}).catch((error) => {
 			console.log(error);
 		});
@@ -36,27 +38,28 @@ class PostMenu extends Component {
 	favouritePost() {
 		const reqParams = { queryStringParameters: { postID: this.props.postID} };
 		Amplify.API.put('favouritePost', '', reqParams).then( (response) => {
-			Alert.alert("Post saved to favourites!");
 			this.props.refresh();
 			this.hideMenu();
+			//Alert.alert("Post saved to favourites!");
 		}).catch((error) => {
 			console.log(error)
-			Alert.alert("REQUEST FAILED");
 			this.hideMenu();
+			//Alert.alert("REQUEST FAILED");
 		})
 	}
 
 	unfavouritePost() {
+
 		const reqParams = { queryStringParameters: { postID: this.props.postID} };
 		Amplify.API.put('unfavouritePost', '', reqParams).then( (response) => {
 			console.log(response);
-			Alert.alert("Post removed from favourites.");
 			this.props.refresh();
 			this.hideMenu();
+			//Alert.alert("Post removed from favourites.");
 		}).catch((error) => {
 			console.log(error)
-			Alert.alert("REQUEST FAILED");
 			this.hideMenu();
+			//Alert.alert("REQUEST FAILED");
 		})
 	}
 
@@ -86,7 +89,6 @@ class PostMenu extends Component {
 			],
 			{ cancelable: true },
 		);
-		this.hideMenu();
 	}
 
 	unfavouriteAlert() {
@@ -103,7 +105,7 @@ class PostMenu extends Component {
 			],
 			{ cancelable: true },
 		);
-		this.hideMenu();
+		
 	}
 
 	render() {
