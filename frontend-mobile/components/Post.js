@@ -160,7 +160,7 @@ export default class Post extends Component {
 			10: 'November',
 			11: 'December'
 		}
-		if (this.props.post.location.name) {
+		if (this.props.post.location && this.props.post.location.name) {
 			this.locationHeader = (
 				<Text style={styles.locationText}>@{this.props.post.location.name.split(',')[0]}</Text>
 			)
