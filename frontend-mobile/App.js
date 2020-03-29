@@ -18,7 +18,7 @@ Amplify.configure({
 		endpoints: [
 			{
 				name: 'getPosts',
-				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev/getPosts',
+				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/getPosts',
 				service: 'api-gateway',
 				region: 'us-east-1',
 				custom_header: async () => {
@@ -42,6 +42,28 @@ Amplify.configure({
 			{
 				name: 'newPost',
 				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/newPost',
+				service: 'api-gateway',
+				region: 'us-east-1',
+				custom_header: async () => {
+					//return { Authorization : 'token' } 
+					// Alternatively, with Cognito User Pools use this:
+					return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+				}
+			},
+			{
+				name: 'favouritePost',
+				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/favouritePost',
+				service: 'api-gateway',
+				region: 'us-east-1',
+				custom_header: async () => {
+					//return { Authorization : 'token' } 
+					// Alternatively, with Cognito User Pools use this:
+					return { Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}` }
+				}
+			},
+			{
+				name: 'unfavouritePost',
+				endpoint: 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod/unfavouritePost',
 				service: 'api-gateway',
 				region: 'us-east-1',
 				custom_header: async () => {
@@ -99,10 +121,8 @@ class Authentication extends Component {
 	}
 
 	componentDidMount() {
-		console.log('on component mount');
 		// check the current user when the App component is loaded
 		Auth.currentAuthenticatedUser().then(user => {
-			console.log(user);
 			this.setState({ authState: 'signedIn' });
 		}).catch(e => {
 			console.log(e);
@@ -116,7 +136,6 @@ class Authentication extends Component {
 		try {
 
 			const user = await Auth.signIn(username, password);
-			console.log(user)
 			if (user.challengeName === 'SMS_MFA' ||
 				user.challengeName === 'SOFTWARE_TOKEN_MFA') {
 				// You need to get the code from the UI inputs
@@ -134,7 +153,6 @@ class Authentication extends Component {
 				// and then trigger the following function with a button click
 				// For example, the email and phone_number are required attributes
 				// const {username, email, phone_number} = getInfoFromUserInput();
-				console.log('in new pass req');
 				// password = "bing0Bang@@"
 				const loggedUser = await Auth.completeNewPassword(
 					user,              // the Cognito User Object
@@ -153,13 +171,11 @@ class Authentication extends Component {
 				Auth.setupTOTP(user);
 			} else {
 				// The user directly signs in
-				console.log(user);
 				console.log('success');
 				this.setState({ authState: 'signedIn' });
 			}
 		} catch (err) {
 			console.log(err);
-			console.log('that was error');
 			this.setState({ alertText: err.message })
 			if (err.code === 'UserNotConfirmedException') {
 				// The error happens if the user didn't finish the confirmation step when signing up

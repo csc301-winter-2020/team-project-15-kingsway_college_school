@@ -64,7 +64,6 @@ class NewPostBody extends Component {
     }
 
     submitPost() {
-	console.log(this.state.text)
 	console.log("Submitting Post");
 	const reqParams = { body: { content: this.state.text } };
 
