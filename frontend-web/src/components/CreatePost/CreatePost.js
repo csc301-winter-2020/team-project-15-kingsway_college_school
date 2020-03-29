@@ -62,8 +62,6 @@ class CreatePost extends React.Component {
       Authorization: this.props.store.session.idToken.jwtToken
     };
 
-    console.log(reqParams)
-
     Amplify.API.post("newPost", "", reqParams)
       .then(response => {
         this.props.store.updateFeeds();
