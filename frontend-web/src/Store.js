@@ -36,6 +36,13 @@ class Store extends React.Component {
 		this.updateFeedCallback.forEach((f) => { f() });
 	}
 
+	getNextPageCallback = []
+
+	getNextPage = () => {
+		console.log('getting next page')
+		this.getNextPageCallback.forEach((f) => { f() });
+	}
+
 	SignIn = async (email, password) => {
 		try {
 			const user = await Auth.signIn(email, password);
@@ -87,12 +94,14 @@ class Store extends React.Component {
 
 decorate(Store, {
 	currentView: observable,
+	getNextPageCallback: observable,
+  updateFeedCallback: observable,
 	permalinkPostID: observable,
-	updateFeedCallback: observable,
 	user: observable,
 	session: observable,
 	userID: observable,
 	admin: observable,
+	getNextPage: action,
 	updateFeeds: action,
 	setCurrentView: action,
 	changeTab: action,
