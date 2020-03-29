@@ -2,6 +2,7 @@ import React from 'react';
 import { uid } from "react-uid";
 import './CreatePost.css';
 import Amplify from 'aws-amplify';
+import mapboxgl from 'mapbox-gl';
 
 class CreatePost extends React.Component {
 	state = {
@@ -75,6 +76,22 @@ class CreatePost extends React.Component {
 	}
 
 	componentDidMount() {
+		mapboxgl.accessToken = 'pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ';
+		var map = new mapboxgl.Map({
+		container: 'map',
+		style: 'mapbox://styles/mapbox/streets-v11',
+		center: [-79.4512, 43.6568],
+		zoom: 13
+		});
+		 
+		// var geocoder = new mapboxgl.MapboxGeocoder({
+		// accessToken: mapboxgl.accessToken,
+		// mapboxgl: mapboxgl
+		// });
+		 
+		//document.getElementById('geocoder').appendChild(geocoder.onAdd(map)); 
+
+
 		navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
 	}
 
@@ -91,6 +108,8 @@ class CreatePost extends React.Component {
 				<input type="submit" className="ShareButton shadow light-grey dark-grey-text" value="Share" />
 			</div>
 		</div>
+		<div id="geocoder"></div>
+		<div id="map"></div>
 		</form>
 	)}
 };

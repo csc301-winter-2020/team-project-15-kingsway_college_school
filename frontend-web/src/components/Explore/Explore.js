@@ -3,6 +3,7 @@ import './Explore.css';
 import Amplify from 'aws-amplify';
 import marker from '../../images/location.png';
 import PostFeed from "../PostFeed/PostFeed";
+import mapboxgl from 'mapbox-gl';
 
 class Explore extends React.Component {
 	state = {
@@ -106,7 +107,6 @@ class Explore extends React.Component {
 	}
 
 	componentDidMount() {
-		let mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
 		mapboxgl.accessToken = 'pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ';
 		let map = new mapboxgl.Map({
 			container: 'map', // container id
