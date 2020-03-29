@@ -80,8 +80,7 @@
 .Pin {
 	vertical-align: middle;
 	float: left;
-	font-size: 2rem;
-	max-width: 10%;
+	font-size: 2vw;
 	margin-right: 0.5vw;
 }
 
