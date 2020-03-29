@@ -86,8 +86,10 @@ const PostFeed = observer(class PostFeed extends React.Component {
 							imageBase64 = objectData;
 							this.setState({ hasPosts: false });
 							try {
-								this.state.posts[outerIndex].images[innerIndex] = imageBase64
-							} catch {}
+								post.images[innerIndex] = imageBase64
+							} catch(err){
+								console.error(err)
+							}
 
 							this.setState({ hasPosts: true });
 							this.forceUpdate()
