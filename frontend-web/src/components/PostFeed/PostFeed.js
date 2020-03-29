@@ -169,7 +169,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			{ this.state.hasPosts ? '' : <Loader short={ this.state.posts.length != 0 } /> }
 			{
 				this.state.posts.map((post) => (
-					<Post store={ this.props.store } key={ uid(post.postID) } post={ post } enableLoader={ () => { this.setState({ hasPosts: false }); } } />
+					<Post store={ this.props.store } key={ uid(post, post.postID) } post={ post } enableLoader={ () => { this.setState({ hasPosts: false }); } } />
 				))
 			}
 			{ !this.state.gettingNextPosts ? '' : <Loader short={ this.state.posts.length != 0 } /> }
