@@ -54,6 +54,14 @@
 	cursor: pointer;
 }
 
+.Pin {
+	vertical-align: middle;
+	display: inline-block;
+	font-size: 50rem;
+	cursor: pointer;
+	margin-right: 4vw;
+}
+
 .PickLocation {
 	vertical-align: middle;
 	display: inline-block;
@@ -62,7 +70,27 @@
 }
 
 input {
-	background: orange;
-	font-size: 1.5rem;
+	background: white;
+	font-size: 1rem;
 	height: 2vw;
+	border-radius: 30px;
+	border-style: none;
+	padding-left: 1vw;
+}
+
+input:focus {
+	background: orange;
+	outline: none;
+}
+
+.react-geocoder {
+
+}
+
+.react-geocoder-results {
+	
+}
+
+.react-geocoder-item {
+	
 }

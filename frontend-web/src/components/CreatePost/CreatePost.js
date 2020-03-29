@@ -76,32 +76,24 @@ class CreatePost extends React.Component {
 		xhr.responseType = 'text';
 		xhr.send();
 
+		console.log("lat: ", latitude, "long: ", longitude)
 		this.setState({ lat: latitude, long: longitude });
 	}
 
 	componentDidMount() {
-		// mapboxgl.accessToken = 'pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ';
-		// var map = new mapboxgl.Map({
-		// container: 'map',
-		// style: 'mapbox://styles/mapbox/streets-v11',
-		// center: [-79.4512, 43.6568],
-		// zoom: 13
-		// });
-		 
-		// var geocoder = new mapboxgl.MapboxGeocoder({
-		// accessToken: mapboxgl.accessToken,
-		// mapboxgl: mapboxgl
-		// });
-		 
-		//document.getElementById('geocoder').appendChild(geocoder.onAdd(map)); 
 
-
+		// NOT USING AUTOMATIC LOCATION 
 		navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
 	}
 
 
 	onSelected = (viewport, item) => {
-        console.log('Selected: ', item)
+		console.log('Selected: ', item)
+		console.log("lat: ", item.center[1], "long: ", item.center[0])
+		this.setState({ lat: item.center[1], long: item.center[0]})
+		console.log("place: ", item.place_name)
+		this.setState({ locName: item.place_name})
+
 	}
 	
 	render() {
@@ -116,8 +108,10 @@ class CreatePost extends React.Component {
 				<textarea id="new-post-textarea" onChange={ this.postDataChanged } placeholder="Share an experience"/>
 			</div>
 			<div className="CreatePostButtons">
-			<div className="PickLocation"><Geocoder
-						mapboxApiAccessToken={this.mapAccess} onSelected={this.onSelected} hideOnSelect={true}
+				
+			<div className="PickLocation">
+				<Geocoder
+						mapboxApiAccessToken={this.mapAccess} onSelected={this.onSelected} hideOnSelect={true} initialInputValue="Tag Your Location" updateInputOnSelect={true}
 					/>
 					</div>
 				<input id="fileUpload" type="file" name="file" className="hidden" onChange={ this.fileUploaded }/>
