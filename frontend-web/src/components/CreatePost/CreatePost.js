@@ -2,7 +2,10 @@ import React from 'react';
 import { uid } from "react-uid";
 import './CreatePost.css';
 import Amplify from 'aws-amplify';
+import mapboxgl from 'mapbox-gl';
 
+import Geocoder from 'react-mapbox-gl-geocoder'
+ 
 class CreatePost extends React.Component {
 	state = {
 		postData: '',
@@ -11,6 +14,8 @@ class CreatePost extends React.Component {
 		long: undefined,
 		locName: undefined
 	}
+
+	mapAccess = "pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ"
 
 	postDataChanged = (e) => {
 		this.setState({ postData: e.target.value });
@@ -71,14 +76,31 @@ class CreatePost extends React.Component {
 		xhr.responseType = 'text';
 		xhr.send();
 
+		console.log("lat: ", latitude, "long: ", longitude)
 		this.setState({ lat: latitude, long: longitude });
 	}
 
 	componentDidMount() {
+
+		// NOT USING AUTOMATIC LOCATION 
 		navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
 	}
 
+
+	onSelected = (viewport, item) => {
+		console.log('Selected: ', item)
+		console.log("lat: ", item.center[1], "long: ", item.center[0])
+		this.setState({ lat: item.center[1], long: item.center[0]})
+		console.log("place: ", item.place_name)
+		this.setState({ locName: item.place_name})
+
+	}
+	
 	render() {
+		// const queryParams = {
+		// 	country: 'us'
+		// }
+
 		return (
 		<form onSubmit={ this.handleSubmit }>
 		<div className="CreatePost light-grey-text">
@@ -86,6 +108,12 @@ class CreatePost extends React.Component {
 				<textarea id="new-post-textarea" onChange={ this.postDataChanged } placeholder="Share an experience"/>
 			</div>
 			<div className="CreatePostButtons">
+				
+			<div className="PickLocation">
+				<Geocoder
+						mapboxApiAccessToken={this.mapAccess} onSelected={this.onSelected} hideOnSelect={true} initialInputValue="Tag Your Location" updateInputOnSelect={true}
+					/>
+					</div>
 				<input id="fileUpload" type="file" name="file" className="hidden" onChange={ this.fileUploaded }/>
 				<label htmlFor="fileUpload" className="AttachPicture fa fa-paperclip"></label>
 				<input type="submit" className="ShareButton shadow light-grey dark-grey-text" value="Share" />
