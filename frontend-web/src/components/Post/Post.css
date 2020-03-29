@@ -37,20 +37,46 @@
 
 .delete-button {
 	position: absolute;
+	display: block;
 	top: 25px;
 	right: 25px;
 	padding: 5px;
 	font-size: 1.5rem;
 	cursor: pointer;
+	border-radius: 5px 5px 5px 5px;
+	opacity: 0;
+	transition: opacity 0.5s;
 }
 
 .favourite-button {
 	position: absolute;
+	display: block;
 	bottom: 25px;
 	right: 25px;
 	padding: 5px;
 	font-size: 1.5rem;
 	cursor: pointer;
+	border-radius: 5px 5px 5px 5px;
+	opacity: 0;
+	transition: opacity 0.5s;
+}
+
+.Post:hover .favourite-button{
+	opacity: 100;
+}
+
+.Post:hover .delete-button{
+	opacity: 100;
+}
+
+
+
+.favourite-button:hover{
+	background: #36325E;
+}
+
+.delete-button:hover {
+	background: #36325E;
 }
 
 .content-hashtag {
