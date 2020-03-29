@@ -103,7 +103,7 @@
 }
 
 .PickLocation * input:focus {
-	background: orange;
+	background: #f39038;
 	outline: none;
 }
 
@@ -113,9 +113,13 @@
 }
 
 .react-geocoder-results {
-
+	cursor: pointer;
 }
 
 .react-geocoder-item {
 
+}
+
+.react-geocoder-item:hover {
+	color: #f39038;
 }
