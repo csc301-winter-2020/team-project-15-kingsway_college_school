@@ -18,7 +18,10 @@ class MiddleView extends React.Component {
 				return;
 			case 'Search User':
 				this.setState({ tab: <SearchUser store={ this.props.store } /> });
-        return;
+				return;
+			case 'Permalink':
+				this.setState({ tab: <PostFeed store={ this.props.store } /> });
+				return;
 			case 'Favourites':
 				this.setState({ tab: <PostFeed store={ this.props.store } /> });
 				return;

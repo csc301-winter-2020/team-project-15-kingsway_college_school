@@ -103,6 +103,7 @@ class App extends React.Component {
 				<BrowserRouter>
 					<Switch>
 						<Route exact path='/' render={() => (this.state.store.session ? <HomePage store={ this.state.store } /> : <Login store={ this.state.store } />)}/>
+						<Route exact path='/permalink' render={() => (this.state.store.session ? <HomePage store={ this.state.store } currentView="Permalink"/> : <Login store={ this.state.store } />)}/>
 					</Switch>
 				</BrowserRouter>
 			</div>
