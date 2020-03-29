@@ -5,12 +5,13 @@ import { Auth } from 'aws-amplify';
 class Store extends React.Component {
 	apiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/prod'
 	devApiEndpoint = 'https://720phsp0e7.execute-api.us-east-1.amazonaws.com/dev'
-
 	currentView = 'Home'
+	permalinkPostID = 'none'
 
 	user = null
 	session = null 
 	userID = null
+	admin = false
 	
 	search = (searchTerm) => {
 		console.error('[SEARCH NOT DEFINED]')
@@ -21,6 +22,7 @@ class Store extends React.Component {
 	}
 
 	setCurrentView = (tab) => {
+		console.log("set current view to " + tab)
 		this.currentView = tab
 		this.refreshCurrentView(tab)
 	}
@@ -35,9 +37,9 @@ class Store extends React.Component {
 		this.updateFeedCallback.forEach((f) => { f() });
 	}
 
-	SignIn = async (username, password) => {
+	SignIn = async (email, password) => {
 		try {
-			const user = await Auth.signIn(username, password);
+			const user = await Auth.signIn(email, password);
 			if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
 				const {requiredAttributes} = user.challengeParam; // the array of required attributes, e.g ['email', 'phone_number']
 				const loggedUser = await Auth.completeNewPassword(
@@ -48,10 +50,14 @@ class Store extends React.Component {
 			} else {
 				// The user directly signs in
 				this.user = user
-				Auth.userAttributes(user).then( (attributes) => {
-					// If we ever add more attributes this indice may need to be changed
-					console.log(attributes)
-					this.userID = attributes[3].Value
+				await Auth.userAttributes(user).then( (attributes) => {
+					for (let i = 0; i < attributes.length; i++) {
+						if (attributes[i].Name === 'custom:admin') {
+							this.admin = attributes[i].Value.toLowerCase() === 'true'
+						} else if (attributes[i].Name === 'custom:userID') {
+							this.userID = attributes[i].Value
+						}
+					}
 				})
 				this.session = user.signInUserSession
 			}
@@ -82,10 +88,12 @@ class Store extends React.Component {
 
 decorate(Store, {
 	currentView: observable,
+	permalinkPostID: observable,
 	updateFeedCallback: observable,
 	user: observable,
 	session: observable,
 	userID: observable,
+	admin: observable,
 	updateFeeds: action,
 	setCurrentView: action,
 	changeTab: action,
