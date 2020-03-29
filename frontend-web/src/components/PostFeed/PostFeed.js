@@ -21,8 +21,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		let getParams = { queryStringParameters: {} };
 
 		const userID = this.props.store.userID;
-		console.log(feedType);
-		console.log(searchTerm);
+		
 		if (feedType === 'Home') {
 			if (searchTerm) {
 				getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
@@ -50,8 +49,8 @@ const PostFeed = observer(class PostFeed extends React.Component {
 					currCreds = response
 
 		}).catch((err) => {
-			console.log('error on current credentials call')
-			console.log(err)
+			console.error('error on current credentials call')
+			console.error(err)
 		})
 		await Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = this.state.posts;
@@ -79,7 +78,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 						await s3.getObject(getParams, (err, data) => {
 							// Handle any error and exit
 							if (err){
-								console.log(err)
+								console.error(err)
 								return err;
 							}
 							// No error happened
@@ -122,7 +121,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			this.setState({ posts: posts, hasPosts: true, gettingNextPosts: false });
 			this.forceUpdate()
 		}).catch((error) => {
-			console.log(error);
+			console.error(error);
 		});
 	}
 
@@ -149,7 +148,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		const feedType = this.props.store.currentView;
 
 		if (feedType === 'Search User') {
-			this.props.parent.searchUser = (email) => { console.log(email); this.getPosts(feedType, email) }
+			this.props.parent.searchUser = (email) => { this.getPosts(feedType, email) }
 		}
 
 		if (!this.props.preventDefaultLoad) {

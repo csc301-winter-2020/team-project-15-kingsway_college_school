@@ -25,7 +25,7 @@ class Post extends React.Component {
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
 			this.props.store.updateFeeds();
 		}).catch((error) => {
-			console.log(error);
+			console.error(error);
 		});
 
 		this.setState({ modalVisible: false })
@@ -43,7 +43,7 @@ class Post extends React.Component {
 			Amplify.API.put('unfavouritePost', '', reqParams).then((response) => {
 				
 			}).catch((error) => {
-				console.log(error);
+				console.error(error);
 				this.props.post.favourited = true
 				this.forceUpdate()
 			});
@@ -58,7 +58,7 @@ class Post extends React.Component {
 			Amplify.API.put('favouritePost', '', reqParams).then((response) => {
 				
 			}).catch((error) => {
-				console.log(error);
+				console.error(error);
 				this.props.post.favourited = false
 				this.forceUpdate()
 			});

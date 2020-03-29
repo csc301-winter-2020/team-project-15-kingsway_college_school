@@ -21,7 +21,7 @@ class Explore extends React.Component {
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
-			console.log(JSON.stringify(response));
+
 			response.forEach((location) => {
 				features.push({
 					'type': 'Feature',
@@ -36,12 +36,11 @@ class Explore extends React.Component {
 				});
 			});
 			this.setState({ features: features });
-			console.log(JSON.stringify(this.state.features));
 
 			// Plot features on map
 			this.addFeatures(mapboxgl, map, features);
 		}).catch((error) => {
-			console.log(error);
+			console.error(error);
 		});
 	};
 
@@ -89,7 +88,6 @@ class Explore extends React.Component {
 			// location of the feature, with description HTML from its properties.
 			map.on('click', 'places', (e) => {
 				let location = e.features[0].properties.location;
-				console.log(location);
 				this.props.store.search(location)
 			});
 

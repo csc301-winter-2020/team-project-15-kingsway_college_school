@@ -46,7 +46,6 @@ class Store extends React.Component {
 	getNextPageCallback = []
 
 	getNextPage = () => {
-		console.log('getting next page')
 		this.getNextPageCallback.forEach((f) => { f() });
 	}
 
@@ -77,7 +76,7 @@ class Store extends React.Component {
 
 			return true
 		} catch (err) { 
-			console.log(err);
+			console.error(err);
 			if (err.code === 'UserNotConfirmedException') {
 				// The error happens if the user didn't finish the confirmation step when signing up
 				// In this case you need to resend the code and confirm the user
@@ -91,7 +90,7 @@ class Store extends React.Component {
 			} else if (err.code === 'UserNotFoundException') {
 				// The error happens when the supplied username/email does not exist in the Cognito user pool
 			} else {
-				console.log(err);
+				console.error(err);
 			}
 
 			return false
