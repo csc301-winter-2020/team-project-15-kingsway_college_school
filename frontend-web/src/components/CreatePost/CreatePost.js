@@ -4,6 +4,8 @@ import './CreatePost.css';
 import Amplify from 'aws-amplify';
 import mapboxgl from 'mapbox-gl';
 
+import Geocoder from 'react-mapbox-gl-geocoder'
+ 
 class CreatePost extends React.Component {
 	state = {
 		postData: '',
@@ -12,6 +14,8 @@ class CreatePost extends React.Component {
 		long: undefined,
 		locName: undefined
 	}
+
+	mapAccess = "pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ"
 
 	postDataChanged = (e) => {
 		this.setState({ postData: e.target.value });
@@ -76,13 +80,13 @@ class CreatePost extends React.Component {
 	}
 
 	componentDidMount() {
-		mapboxgl.accessToken = 'pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ';
-		var map = new mapboxgl.Map({
-		container: 'map',
-		style: 'mapbox://styles/mapbox/streets-v11',
-		center: [-79.4512, 43.6568],
-		zoom: 13
-		});
+		// mapboxgl.accessToken = 'pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ';
+		// var map = new mapboxgl.Map({
+		// container: 'map',
+		// style: 'mapbox://styles/mapbox/streets-v11',
+		// center: [-79.4512, 43.6568],
+		// zoom: 13
+		// });
 		 
 		// var geocoder = new mapboxgl.MapboxGeocoder({
 		// accessToken: mapboxgl.accessToken,
@@ -95,7 +99,16 @@ class CreatePost extends React.Component {
 		navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
 	}
 
+
+	onSelected = (viewport, item) => {
+        console.log('Selected: ', item)
+	}
+	
 	render() {
+		const queryParams = {
+			country: 'us'
+		}
+
 		return (
 		<form onSubmit={ this.handleSubmit }>
 		<div className="CreatePost light-grey-text">
@@ -103,13 +116,16 @@ class CreatePost extends React.Component {
 				<textarea id="new-post-textarea" onChange={ this.postDataChanged } placeholder="Share an experience"/>
 			</div>
 			<div className="CreatePostButtons">
+			<div className="PickLocation"><Geocoder
+						mapboxApiAccessToken={this.mapAccess} onSelected={this.onSelected} hideOnSelect={true}
+						queryParams={queryParams}
+					/>
+					</div>
 				<input id="fileUpload" type="file" name="file" className="hidden" onChange={ this.fileUploaded }/>
 				<label htmlFor="fileUpload" className="AttachPicture fa fa-paperclip"></label>
 				<input type="submit" className="ShareButton shadow light-grey dark-grey-text" value="Share" />
 			</div>
 		</div>
-		<div id="geocoder"></div>
-		<div id="map"></div>
 		</form>
 	)}
 };
