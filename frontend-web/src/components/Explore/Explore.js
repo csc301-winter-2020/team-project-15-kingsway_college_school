@@ -39,7 +39,7 @@ class Explore extends React.Component {
 			console.log(JSON.stringify(this.state.features));
 
 			// Plot features on map
-			this.addFeatures(mapboxgl, map, this.state.features);
+			this.addFeatures(mapboxgl, map, features);
 		}).catch((error) => {
 			console.log(error);
 		});
