@@ -6,7 +6,6 @@ import { Auth, Storage } from 'aws-amplify';
 import Menu, { MenuItem, MenuDivider } from 'react-native-material-menu';
 import { S3Image } from 'aws-amplify-react-native';
 
-
 class MenuIcon extends Component {
 	render() {
 		return <MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} />
@@ -18,16 +17,45 @@ class PostMenu extends Component {
 		this.deletePost = this.deletePost.bind(this)
 		this.deleteAlert = this.deleteAlert.bind(this)
 	}
+
 	deletePost() {
+
 		const reqParams = { queryStringParameters: { postID: this.props.postID } };
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
-			Alert.alert("Post deleted", ":)")
+		        this.hideMenu();
 			this.props.refresh();
+			Alert.alert("Post deleted", ":)")
 		}).catch((error) => {
 			console.log(error);
 		});
+	}
 
+	favouritePost() {
+		const reqParams = { queryStringParameters: { postID: this.props.postID} };
+		Amplify.API.put('favouritePost', '', reqParams).then( (response) => {
+			this.props.refresh();
+			this.hideMenu();
+			//Alert.alert("Post saved to favourites!");
+		}).catch((error) => {
+			console.log(error)
+			this.hideMenu();
+			//Alert.alert("REQUEST FAILED");
+		})
+	}
 
+	unfavouritePost() {
+
+		const reqParams = { queryStringParameters: { postID: this.props.postID} };
+		Amplify.API.put('unfavouritePost', '', reqParams).then( (response) => {
+			console.log(response);
+			this.props.refresh();
+			this.hideMenu();
+			//Alert.alert("Post removed from favourites.");
+		}).catch((error) => {
+			console.log(error)
+			this.hideMenu();
+			//Alert.alert("REQUEST FAILED");
+		})
 	}
 
 	showMenu = () => {
@@ -41,6 +69,7 @@ class PostMenu extends Component {
 	hideMenu = () => {
 		this._menu.hide();
 	};
+
 	deleteAlert() {
 		Alert.alert(
 			'Delete post?',
@@ -56,6 +85,24 @@ class PostMenu extends Component {
 			{ cancelable: true },
 		);
 	}
+
+	unfavouriteAlert() {
+		Alert.alert(
+			'Remove from favourites?',
+			'Are you sure you want to remove this post from your favourites?',
+			[
+				{
+					text: 'Cancel',
+					onPress: () => console.log('Cancel Pressed'),
+					style: 'cancel',
+				},
+				{ text: 'OK', onPress: () => this.unfavouritePost() },
+			],
+			{ cancelable: true },
+		);
+		
+	}
+
 	render() {
 		const userID = 2;
 		const menuOptionStyle = {
@@ -71,13 +118,18 @@ class PostMenu extends Component {
 			}
 		}
 
+		// Change "Favourite" option to "Remove from favourites" when looking at Favourites screen
+		let favouriteOption = <MenuItem onPress={() => this.favouritePost()} customStyles={menuOptionStyle}>Favourite</MenuItem>;
+		if (this.props.alreadyFavourite) {
+			favouriteOption = <MenuItem onPress={() => this.unfavouriteAlert()} customStyles={menuOptionStyle}>Remove from favourites</MenuItem>;
+		}
+
 		return (
 			<View style={{ borderRadius: 10 }}>
 				<Menu
 					ref={this.setMenuRef}
 					button={<MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} onPress={this.showMenu} />}>
-
-					<MenuItem onPress={() => alert(`Save`)} customStyles={menuOptionStyle}> Favourite </MenuItem>
+					{favouriteOption}
 					<MenuDivider />
 					<MenuItem onPress={() => this.deleteAlert()} disabled={!this.props.userID == userID}> Delete</MenuItem>
 				</Menu>
@@ -158,6 +210,16 @@ export default class Post extends Component {
 			)
 		}
 		let time = new Date(this.props.post.timeUploaded * 1000);
+
+		let favIcon = <></>
+		if (this.props.post.favourited) {
+			favIcon = <Text style={styles.filledStar}>★</Text>;
+		}
+		// Note: This can be used if we want Favourite and Delete to be 2 separate UI items instead of the drawer menu.
+		// else {
+		// 	favIcon = <Text style={styles.emptyStar}>☆</Text>;
+		// }
+
 		return (
 			<View style={styles.post}>
 				<View style={styles.header}>
@@ -166,13 +228,14 @@ export default class Post extends Component {
 						<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear()}</Text>
 					</View>
 					<View styles={styles.headerRight}>
-						<PostMenu userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
+						<PostMenu alreadyFavourite={this.props.post.favourited} userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
 					</View>
 				</View>
 				<View styles={{ flex: 1 }}>
 					<Text style={styles.content}>{this.props.post.content}</Text>
 				</View>
 				{this.image}
+				{favIcon}
 			</View>
 		)
 	}
@@ -209,6 +272,16 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontStyle: 'italic',
 		paddingRight: 10
+	},
+	emptyStar: {
+		fontSize: 15,
+		color: '#fcfcff',
+		textAlign: "right"
+	},
+	filledStar: {
+		fontSize: 15,
+		color: '#FB9B38',
+		textAlign: "right"
 	},
 	date: {
 		fontSize: 15,

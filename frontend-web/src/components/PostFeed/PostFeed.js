@@ -29,7 +29,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		} else if (feedType === 'Favourites') {
 			getParams = { queryStringParameters: { searchType: 'FAV' } };
 		} else if (feedType === 'Permalink') {
-			console.log("permalink get")
 			getParams = { queryStringParameters: { searchType: 'POST', searchParameter: searchTerm } };
 		} else if (feedType === 'Search User') {
 			getParams = { queryStringParameters: { searchType: 'EMAIL', searchParameter: searchTerm } };
@@ -143,7 +142,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		if (feedType === 'Search User') {
 			this.props.parent.searchUser = (email) => { console.log(email); this.getPosts(feedType, email) }
 		} else if (feedType === 'Permalink') {
-			console.log("permalink getting with id " + this.props.store.permalinkPostID)
 			this.getPosts(feedType, this.props.store.permalinkPostID) 
 		}
 

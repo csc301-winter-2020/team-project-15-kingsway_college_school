@@ -41,7 +41,6 @@ class NewPostBody extends Component {
 	}
 
 
-
 	getPermissionAsync = async () => {
 		if (Constants.platform.ios) {
 			const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);

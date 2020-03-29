@@ -21,7 +21,7 @@ class Explore extends React.Component {
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
-			console.log(JSON.stringify(response));
+			//console.log(JSON.stringify(response));
 			response.forEach((location) => {
 				features.push({
 					'type': 'Feature',
@@ -36,7 +36,7 @@ class Explore extends React.Component {
 				});
 			});
 			this.setState({ features: features });
-			console.log(JSON.stringify(this.state.features));
+			//console.log(JSON.stringify(this.state.features));
 
 			// Plot features on map
 			this.addFeatures(mapboxgl, map, features);

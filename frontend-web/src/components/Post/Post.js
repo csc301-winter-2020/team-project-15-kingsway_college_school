@@ -63,7 +63,7 @@ class Post extends React.Component {
 			this.forceUpdate()
 
 			//console.log("permalink required " + this.props.post.postID)
-			console.log(window.location.href + "permalink?post=" + this.props.post.postID)
+			//console.log(window.location.href + "permalink?post=" + this.props.post.postID)
 			this.copyToClipboard()
 
 			const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
