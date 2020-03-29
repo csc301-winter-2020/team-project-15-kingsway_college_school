@@ -45,7 +45,6 @@ class CreatePost extends React.Component {
 
     const reqParams = {
       body: {
-        userID: parseInt(this.props.store.userID),
         content: this.state.postData,
         images: imageParam
       }
@@ -62,6 +61,8 @@ class CreatePost extends React.Component {
     reqParams["headers"] = {
       Authorization: this.props.store.session.idToken.jwtToken
     };
+
+    console.log(reqParams)
 
     Amplify.API.post("newPost", "", reqParams)
       .then(response => {
@@ -120,10 +121,10 @@ class CreatePost extends React.Component {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <div className="CreatePost rounded shadowlight-grey-text">
+        <div className="CreatePost mid-mid-grey rounded shadow light-grey-text">
           <h2>Post a new experience!</h2>
           <div className="PickLocation">
-		  <i className="accent fa fa-map-marker Pin"></i>
+		  		<i className="accent fa fa-map-marker Pin"></i>
             <Geocoder
               mapboxApiAccessToken={this.mapAccess}
               onSelected={this.onSelected}
@@ -146,7 +147,7 @@ class CreatePost extends React.Component {
               type="file"
               name="file"
               className="hidden"
-              onChange={this.fileUploaded}
+              onChange={ this.fileUploaded }
             />
             <label
               htmlFor="fileUpload"
@@ -158,6 +159,7 @@ class CreatePost extends React.Component {
               value="Share"
             />
           </div>
+         	{ this.state.attachment ? <img className="PreviewImage" src={ this.state.attachment }/> : '' }
         </div>
       </form>
     );

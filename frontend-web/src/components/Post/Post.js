@@ -159,7 +159,7 @@ class Post extends React.Component {
 
 			<Modal parent={ this } visible={ this.state.modalVisible } prompt="Are you sure you sure you want to delete this post?"
 				positiveButtonAction={ this.deletePost } negativeButtonAction={ () => { this.setState({ modalVisible: false }) } } 
-				positiveButtonText="Delete" negativeButtonText="Cancel"/>
+				positiveButtonText="Delete Post" negativeButtonText="Cancel"/>
 		</div>
 	)}
 };

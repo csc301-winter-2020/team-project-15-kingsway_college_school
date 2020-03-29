@@ -1,5 +1,4 @@
 .CreatePost {
-	background: gray;
 	margin: 1vw 4vw 0vw 4vw;
 	padding: 1vw 2vw 0vw 2vw;
 }
@@ -21,9 +20,19 @@
 }
 
 .CreatePostButtons {
+	display: inline-block;
+	vertical-align: top;
 	width: auto;
+	max-width: 65%;
 	height: 8.5vh;
 	margin-right: 4vw;
+}
+
+.PreviewImage {
+	display: inline-block;
+	padding: 10px;
+	border-radius: 20px;
+	width: 35%;
 }
 
 .ShareButton {

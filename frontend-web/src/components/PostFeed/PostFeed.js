@@ -36,8 +36,8 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			getParams = { queryStringParameters: { searchType: 'EMAIL', searchParameter: searchTerm } };
 		} else if (feedType === 'Explore') {
 			getParams = { queryStringParameters: { searchType: 'LOCATION', searchParameter: searchTerm } };
-    }
-    if (prevPostID) {
+	    }
+	    if (prevPostID) {
 			getParams.queryStringParameters['startID'] = prevPostID
 		}
 
@@ -131,7 +131,9 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	}
 
 	getPosts = async (feedType, searchTerm, getNext) => {
-		this.setState({ hasPosts: false })
+		if (!this.state.gettingNextPosts) {
+			this.setState({ hasPosts: false })
+		}
 
 		let prevPostID
 

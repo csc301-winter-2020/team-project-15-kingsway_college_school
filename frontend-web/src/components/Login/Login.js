@@ -14,8 +14,6 @@ class Login extends React.Component {
 	handleSubmit = async (e) => {
 		e.preventDefault()
 
-		
-
 		const signInSucceeded = await this.props.store.SignIn(this.state.email_input.value, this.state.password_input.value)
 
 		this.setState({ signInFailed: !signInSucceeded })
