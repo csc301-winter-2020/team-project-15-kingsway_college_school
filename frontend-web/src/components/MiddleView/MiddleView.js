@@ -55,18 +55,20 @@ class MiddleView extends React.Component {
 		}
 	}
 
-	paginationDebounce = this.debounce(() => {
+	debouncedGetNextPage = this.debounce( this.props.store.getNextPage, 600, true)
+
+	 loadPostsIfEndOfPage = () => {
 			if (window.innerHeight + window.scrollY - this.state.div.scrollHeight >= 0) {
-				this.props.store.getNextPage()
+				this.debouncedGetNextPage()
 			}
-		}, 100, true)
+		}
 
 	componentDidMount() {
-		window.addEventListener('scroll', this.paginationDebounce)
+		window.addEventListener('scroll', this.loadPostsIfEndOfPage)
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener('scroll', this.paginationDebounce)
+		window.removeEventListener('scroll', this.loadPostsIfEndOfPage)
 	}
 
 	render() {
