@@ -65,68 +65,57 @@ Notes on interpreting the schema are listed
 ##### Request Body JSON schema
 ```json
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "New Post Schema",
-  "type": "object",
-  "properties": {
-    "content": {
-      "type": "string",
-      "maxLength": 250
-    },
-    "location": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string"
-        },
-        "longitude": {
-          "type": "string",
-          "pattern": "^-?[0-9]+\\.[0-9]{4,}$"
-        },
-        "latitude": {
-          "type": "string",
-          "pattern": "^-?[0-9]+\\.[0-9]{4,}$"
-        }
+   "$schema":"http://json-schema.org/draft-04/schema#",
+   "title":"New Post Schema",
+   "type":"object",
+   "properties":{
+      "content":{
+         "type":"string",
+         "maxLength":250
       },
-      "required": [
-        "name",
-        "longitude",
-        "latitude"
-      ]
-    },
-    "userID": {
-      "type": "integer"
-    },
-    "images": {
-      "type": "array",
-      "items": {
-        "type": "string"
+      "location":{
+         "type":"object",
+         "properties":{
+            "name":{
+               "type":"string"
+            },
+            "longitude":{
+               "type":"string",
+               "pattern":"^-?[0-9]+\\.[0-9]{4,}$"
+            },
+            "latitude":{
+               "type":"string",
+               "pattern":"^-?[0-9]+\\.[0-9]{4,}$"
+            }
+         }
       },
-      "maxItems": 5
-    }
-  },
-  "required": [
-    "userID"
-  ],
-  "minProperties": 2,
-  "anyOf": [
-    {
-      "properties": {
-        "content": {
-          "type": "string",
-          "minLength": 10
-        }
+      "images":{
+         "type":"array",
+         "items":{
+            "type":"string"
+         },
+         "maxItems":5
       }
-    },
-    {
-      "properties": {
-        "images": {
-          "type": "array",
-          "minItems": 1
-        }
+   },
+   "minProperties":2,
+   "anyOf":[
+      {
+         "properties":{
+            "content":{
+               "type":"string",
+               "minLength":10
+            }
+         }
+      },
+      {
+         "properties":{
+            "images":{
+               "type":"array",
+               "minItems":1
+            }
+         }
       }
-    }
-  ]
+   ]
 }
 ```
 
