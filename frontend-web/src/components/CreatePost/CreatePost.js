@@ -123,6 +123,7 @@ class CreatePost extends React.Component {
         <div className="CreatePost rounded shadowlight-grey-text">
           <h2>Post a new experience!</h2>
           <div className="PickLocation">
+		  <i className="accent fa fa-map-marker Pin"></i>
             <Geocoder
               mapboxApiAccessToken={this.mapAccess}
               onSelected={this.onSelected}
