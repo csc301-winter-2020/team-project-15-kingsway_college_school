@@ -39,20 +39,42 @@
 
 .delete-button {
 	position: absolute;
+	display: none;
 	top: 25px;
 	right: 25px;
 	padding: 5px;
 	font-size: 1.5rem;
 	cursor: pointer;
+	border-radius: 5px 5px 5px 5px;
 }
 
 .favourite-button {
 	position: absolute;
+	display: none;
 	bottom: 25px;
 	right: 25px;
 	padding: 5px;
 	font-size: 1.5rem;
 	cursor: pointer;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.Post:hover .favourite-button{
+	display: block;
+}
+
+.Post:hover .delete-button{
+	display: block;
+}
+
+
+
+.favourite-button:hover{
+	background: #36325E;
+}
+
+.delete-button:hover {
+	background: #36325E;
 }
 
 .permalinkMessageOn {

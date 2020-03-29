@@ -5,6 +5,12 @@
 	text-align: right;
 }
 
+.CreatePost:hover .CreatePostButtons{
+	display: inline-block;
+
+}
+
+
 .TextAreaContainer {
 	height: 15vh;
 	margin: 4vh 4vw 0 4vw;
@@ -27,6 +33,7 @@
 
 .CreatePostButtons {
 	width: auto;
+	display: none;
 	height: 8.5vh;
 	margin-right: 4vw;
 }
@@ -47,9 +54,21 @@
 	font-size: 1.3rem;
 }
 
+.ShareButton:hover {
+	background-color: lightslategray;
+}
+
 .AttachPicture {
 	vertical-align: middle;
+	horiz-align: center;
 	display: inline-block;
 	font-size: 2rem;
 	cursor: pointer;
+	border-radius: 20px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+.AttachPicture:hover {
+	background: #36325E;
 }
