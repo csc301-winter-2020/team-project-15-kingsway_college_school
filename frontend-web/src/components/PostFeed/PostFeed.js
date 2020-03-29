@@ -32,7 +32,8 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			getParams = { queryStringParameters: { searchType: 'POST', searchParameter: searchTerm } };
 		} else if (feedType === 'Search User') {
 			getParams = { queryStringParameters: { searchType: 'EMAIL', searchParameter: searchTerm } };
-
+		} else if (feedType === 'Explore') {
+			getParams = { queryStringParameters: { searchType: 'LOCATION', searchParameter: searchTerm } };
 		}
 
 		try {
