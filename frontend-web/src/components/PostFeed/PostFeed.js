@@ -12,7 +12,8 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	state = {
 		hasPosts: false,
 		posts: [],
-		lastSearched: undefined
+		lastSearched: undefined,
+		gettingNextPosts: false
 	}
 
 	callPostsApi = async (session, feedType, searchTerm, prevPostID) => {
@@ -20,7 +21,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		let getParams = { queryStringParameters: {} };
 
 		const userID = this.props.store.userID;
-
+		
 		if (feedType === 'Home') {
 			if (searchTerm) {
 				getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
@@ -45,14 +46,14 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		} catch {
 			return
 		}
-		
+
 		let currCreds
 		Auth.currentCredentials().then(response => {
 					currCreds = response
 
 		}).catch((err) => {
-			console.log('error on current credentials call')
-			console.log(err)
+			console.error('error on current credentials call')
+			console.error(err)
 		})
 		await Amplify.API.get('getPosts', '', getParams).then((response) => {
 			const posts = this.state.posts;
@@ -80,7 +81,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 						await s3.getObject(getParams, (err, data) => {
 							// Handle any error and exit
 							if (err){
-								console.log(err)
+								console.error(err)
 								return err;
 							}
 							// No error happened
@@ -125,7 +126,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			this.setState({ posts: posts, hasPosts: true, gettingNextPosts: false });
 			this.forceUpdate()
 		}).catch((error) => {
-			console.log(error);
+			console.error(error);
 		});
 	}
 
@@ -145,23 +146,26 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		this.setState({ hasPosts: false, posts: [], lastSearched: searchTerm });
 
 		const feedType = this.props.store.currentView;
-
 		this.getPosts(feedType, searchTerm);
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		const feedType = this.props.store.currentView;
 
 		if (feedType === 'Search User') {
-			this.props.parent.searchUser = (email) => { console.log(email); this.getPosts(feedType, email) }
+			this.props.parent.searchUser = (email) => { this.getPosts(feedType, email) }
 		} else if (feedType === 'Permalink') {
 			this.getPosts(feedType, this.props.store.permalinkPostID) 
 		}
 
 		if (!this.props.preventDefaultLoad) {
-			this.getPosts(feedType);
+			if (this.props.searchTerm) {
+				this.search(this.props.searchTerm);
+			} else {
+				this.getPosts(feedType);
+			}
 		} else {
-			this.setState({ hasPosts: true });
+			this.setState({ hasPosts: true});
 		}
 
 		this.props.store.search = this.search;

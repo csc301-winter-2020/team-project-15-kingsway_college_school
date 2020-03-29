@@ -34,10 +34,7 @@ class TopTags extends React.Component {
 	}
 
 	async componentDidMount() {
-		// Janky solution for waiting until authenticated
-		setTimeout( () => {
-			this.callHashtagApi(this.props.store.session)
-		}, 2000)
+		this.callHashtagApi(this.props.store.session)
 	}
 
 	render() {
@@ -51,7 +48,7 @@ class TopTags extends React.Component {
 
 			{
 				this.state.hashtags.map((hashtag) => (
-					<div key={ uid(hashtag) } onClick={ () => { this.props.store.search(hashtag); } } className="Hashtag accent">
+					<div key={ uid(hashtag) } onClick={ () => { this.props.store.trySearch(hashtag); } } className="Hashtag accent">
 						{ hashtag }
 					</div>
 				))

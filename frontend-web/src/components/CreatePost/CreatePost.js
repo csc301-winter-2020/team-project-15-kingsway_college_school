@@ -44,7 +44,7 @@ class CreatePost extends React.Component {
 		Amplify.API.post('newPost', '', reqParams).then((response) => {
 			this.props.store.updateFeeds();
 		}).catch((error) => {
-			console.log(error);
+			console.error(error);
 		});
 
 		this.setState({ postData: '', attachment: undefined })
