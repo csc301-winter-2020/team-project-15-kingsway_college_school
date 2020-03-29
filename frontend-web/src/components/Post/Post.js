@@ -6,7 +6,8 @@ import Modal from '../Modal/Modal'
 
 class Post extends React.Component {
 	state = {
-		modalVisible: false
+		modalVisible: false,
+		copySuccess: false
 	}
 
 	confirmDeletion = (e) => {
@@ -31,9 +32,19 @@ class Post extends React.Component {
 		this.setState({ modalVisible: false })
 	}
 
+	copyToClipboard = () => {
+		this.textArea.select();
+		document.execCommand('copy');
+		// This is just personal preference.
+		// I prefer to not show the the whole text area selected.
+		//e.target.focus();
+		this.setState({ copySuccess: true });
+	  };
+
 	favouritePost = () => {
 		if (this.props.post.favourited) {
 			this.props.post.favourited = false
+			this.setState({ copySuccess: false });
 			this.forceUpdate()
 
 			const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
@@ -51,8 +62,9 @@ class Post extends React.Component {
 			this.props.post.favourited = true
 			this.forceUpdate()
 
-			console.log("permalink required " + this.props.post.postID)
-			console.log("http://localhost:3000/permalink?post=" + this.props.post.postID)
+			//console.log("permalink required " + this.props.post.postID)
+			console.log(window.location.href + "permalink?post=" + this.props.post.postID)
+			this.copyToClipboard()
 
 			const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
 
@@ -127,6 +139,12 @@ class Post extends React.Component {
 				<img src={ post.images[0] }/>
 			</div>} 
 
+			<textarea
+			className="permalinkCopy"
+            ref={(textarea) => this.textArea = textarea}
+            value={window.location.href + "permalink?post=" + this.props.post.postID}
+          	/>
+
 			<div className="PostUploadTime">
 				{ '' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear() }
 			</div>
@@ -134,6 +152,8 @@ class Post extends React.Component {
 			{ post.email ? <div className="PostEmail">Uploaded by: { post.email }</div> : '' }
 
 			{ (this.props.store.currentView === 'My Posts' || this.props.store.admin) ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }
+
+			<div className={this.state.copySuccess ? "permalinkMessageOn" : "permalinkMessageOff"}>Post link copied to clipboard!</div>
 
 			<div className={ 'favourite-button fa ' + (post.favourited ? 'fa-star accent' : 'fa-star-o') } onClick={ this.favouritePost }></div>
 

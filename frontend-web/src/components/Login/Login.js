@@ -22,6 +22,7 @@ class Login extends React.Component {
 
 		if (signInSucceeded) {
 			sessionStorage.setItem('kcs_session', JSON.stringify(this.props.store.session))
+			console.log(this.props.destination)
 			this.props.history.push(this.props.destination)
 		}
 	}

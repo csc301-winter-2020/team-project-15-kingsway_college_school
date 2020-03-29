@@ -11,12 +11,6 @@ import globalStore from './Store.js'
 import Amplify from 'aws-amplify'
 import Permalink from "./components/Permalink/Permalink"
 
-// A custom hook that builds on useLocation to parse
-// the query string for you.
-function useQuery() {
-	return new URLSearchParams(useLocation().search);
-  }
-
 class App extends React.Component {
 	state = {
 		store: null
@@ -106,14 +100,12 @@ class App extends React.Component {
 	}
 	
 	render() {
-		let location = useLocation();
-		console.log(location.pathname);
 		return (
 			<div>
 				<BrowserRouter>
 					<Switch>
 						<Route exact path='/' render={() => (this.state.store.session ? <HomePage store={ this.state.store } /> : <Login store={ this.state.store } destination='/'/>)}/>
-						<Route exact path='/permalink' render={() => (this.state.store.session ? <Permalink store={ this.state.store } /> : <Login store={ this.state.store } destination={"/"+this.props.location.search}/>)}/>
+						<Route exact path='/permalink' render={() => (this.state.store.session ? <Permalink store={ this.state.store } /> : <Login store={ this.state.store } destination={window.location.pathname +  window.location.search}/>)}/>
 					</Switch>
 				</BrowserRouter>
 			</div>
