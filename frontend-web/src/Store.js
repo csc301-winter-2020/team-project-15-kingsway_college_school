@@ -21,6 +21,7 @@ class Store extends React.Component {
 	}
 
 	setCurrentView = (tab) => {
+		console.log("set current view to " + tab)
 		this.currentView = tab
 		this.refreshCurrentView(tab)
 	}
