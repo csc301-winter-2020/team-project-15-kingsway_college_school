@@ -8,11 +8,7 @@ class SearchBar extends React.Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
-		if (this.props.store.currentView !== "Home"){
-			this.props.store.changeTab(this.state.searchTerm);
-		}else{
-			this.props.store.search(this.state.searchTerm);
-		}
+		this.props.store.trySearch(this.state.searchTerm);
 	}
 
 	render() {

@@ -12,7 +12,8 @@ const PostFeed = observer(class PostFeed extends React.Component {
 	state = {
 		hasPosts: false,
 		posts: [],
-		lastSearched: undefined
+		lastSearched: undefined,
+		gettingNextPosts: false
 	}
 
 	callPostsApi = async (session, feedType, searchTerm, prevPostID) => {
@@ -150,15 +151,17 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		if (feedType === 'Search User') {
 			this.props.parent.searchUser = (email) => { console.log(email); this.getPosts(feedType, email) }
 		}
+
 		if (!this.props.preventDefaultLoad) {
-			if(this.props.searchTerm){
+			if (this.props.searchTerm) {
 				this.search(this.props.searchTerm);
-			}else{
+			} else {
 				this.getPosts(feedType);
 			}
 		} else {
 			this.setState({ hasPosts: true});
 		}
+
 		this.props.store.search = this.search;
 	}
 

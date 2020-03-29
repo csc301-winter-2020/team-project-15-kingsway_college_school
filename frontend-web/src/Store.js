@@ -12,6 +12,14 @@ class Store extends React.Component {
 	userID = null
 	admin = false
 	
+	trySearch = (term) => {
+		if (this.currentView !== "Home") {
+			this.changeTab(term)
+		} else {
+			this.search(term)
+		}
+	}
+
 	search = (searchTerm) => {
 		console.error('[SEARCH NOT DEFINED]')
 	}

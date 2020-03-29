@@ -45,7 +45,6 @@ class TabMenu extends React.Component {
 	}
 
 	componentDidMount() {
-
 		this.props.store.changeTab = this.changeToHome;
 	}
 
