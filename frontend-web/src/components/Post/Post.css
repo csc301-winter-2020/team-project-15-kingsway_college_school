@@ -39,32 +39,36 @@
 
 .delete-button {
 	position: absolute;
-	display: none;
+	display: block;
 	top: 25px;
 	right: 25px;
 	padding: 5px;
 	font-size: 1.5rem;
 	cursor: pointer;
 	border-radius: 5px 5px 5px 5px;
+	opacity: 0;
+	transition: opacity 0.5s;
 }
 
 .favourite-button {
 	position: absolute;
-	display: none;
+	display: block;
 	bottom: 25px;
 	right: 25px;
 	padding: 5px;
 	font-size: 1.5rem;
 	cursor: pointer;
 	border-radius: 5px 5px 5px 5px;
+	opacity: 0;
+	transition: opacity 0.5s;
 }
 
 .Post:hover .favourite-button{
-	display: block;
+	opacity: 100;
 }
 
 .Post:hover .delete-button{
-	display: block;
+	opacity: 100;
 }
 
 

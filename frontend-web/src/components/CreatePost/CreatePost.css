@@ -6,8 +6,7 @@
 }
 
 .CreatePost:hover .CreatePostButtons{
-	display: inline-block;
-
+	opacity: 100;
 }
 
 
@@ -33,9 +32,11 @@
 
 .CreatePostButtons {
 	width: auto;
-	display: none;
+	display: inline-block;
 	height: 8.5vh;
 	margin-right: 4vw;
+    opacity: 0;
+    transition: opacity 2s;
 }
 
 .ShareButton {
