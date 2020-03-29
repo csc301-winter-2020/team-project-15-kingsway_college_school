@@ -30,11 +30,14 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			getParams = { queryStringParameters: { searchType: 'OWN' } };
 		} else if (feedType === 'Favourites') {
 			getParams = { queryStringParameters: { searchType: 'FAV' } };
+		} else if (feedType === 'Permalink') {
+			getParams = { queryStringParameters: { searchType: 'POST', searchParameter: searchTerm } };
 		} else if (feedType === 'Search User') {
 			getParams = { queryStringParameters: { searchType: 'EMAIL', searchParameter: searchTerm } };
-		}
-
-		if (prevPostID) {
+		} else if (feedType === 'Explore') {
+			getParams = { queryStringParameters: { searchType: 'LOCATION', searchParameter: searchTerm } };
+    }
+    if (prevPostID) {
 			getParams.queryStringParameters['startID'] = prevPostID
 		}
 
@@ -87,8 +90,10 @@ const PostFeed = observer(class PostFeed extends React.Component {
 							imageBase64 = objectData;
 							this.setState({ hasPosts: false });
 							try {
-								this.state.posts[outerIndex].images[innerIndex] = imageBase64
-							} catch {}
+								post.images[innerIndex] = imageBase64
+							} catch(err){
+								console.error(err)
+							}
 
 							this.setState({ hasPosts: true });
 							this.forceUpdate()
@@ -149,6 +154,8 @@ const PostFeed = observer(class PostFeed extends React.Component {
 
 		if (feedType === 'Search User') {
 			this.props.parent.searchUser = (email) => { this.getPosts(feedType, email) }
+		} else if (feedType === 'Permalink') {
+			this.getPosts(feedType, this.props.store.permalinkPostID) 
 		}
 
 		if (!this.props.preventDefaultLoad) {
@@ -173,7 +180,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			{ this.state.hasPosts ? '' : <Loader short={ this.state.posts.length != 0 } /> }
 			{
 				this.state.posts.map((post) => (
-					<Post store={ this.props.store } key={ uid(post.postID) } post={ post } enableLoader={ () => { this.setState({ hasPosts: false }); } } />
+					<Post store={ this.props.store } key={ uid(post, post.postID) } post={ post } enableLoader={ () => { this.setState({ hasPosts: false }); } } />
 				))
 			}
 			{ !this.state.gettingNextPosts ? '' : <Loader short={ this.state.posts.length != 0 } /> }

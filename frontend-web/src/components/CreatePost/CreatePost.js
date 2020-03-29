@@ -59,6 +59,7 @@ class CreatePost extends React.Component {
 
 		xhr.onload = () => {
 			try {
+				console.log(JSON.parse(xhr.responseText).features);
 				let full_name = JSON.parse(xhr.responseText).features[0].place_name;
 
 				this.setState({ locName: full_name })
