@@ -103,7 +103,8 @@ class CreatePost extends React.Component {
 
   componentDidMount() {
     // NOT USING AUTOMATIC LOCATION
-    navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
+	// navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
+	document.getElementsByTagName("input")[0].placeholder = "Tag a Location!";
   }
 
   onSelected = (viewport, item) => {
@@ -129,7 +130,6 @@ class CreatePost extends React.Component {
               mapboxApiAccessToken={this.mapAccess}
               onSelected={this.onSelected}
               hideOnSelect={true}
-              initialInputValue="Tag Your Location"
               updateInputOnSelect={true}
             />
           </div>
