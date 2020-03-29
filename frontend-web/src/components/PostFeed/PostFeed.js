@@ -11,12 +11,13 @@ import {  observer } from "mobx-react"
 const PostFeed = observer(class PostFeed extends React.Component {
 	state = {
 		hasPosts: false,
-		posts: []
+		posts: [],
+		lastSearched: undefined
 	}
 
-	callPostsApi = async (session, feedType, searchTerm) => {
+	callPostsApi = async (session, feedType, searchTerm, prevPostID) => {
 
-		let getParams = {};
+		let getParams = { queryStringParameters: {} };
 
 		const userID = this.props.store.userID;
 
@@ -30,7 +31,10 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			getParams = { queryStringParameters: { searchType: 'FAV' } };
 		} else if (feedType === 'Search User') {
 			getParams = { queryStringParameters: { searchType: 'EMAIL', searchParameter: searchTerm } };
+		}
 
+		if (prevPostID) {
+			getParams.queryStringParameters['startID'] = prevPostID
 		}
 
 		try {
@@ -48,7 +52,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			console.log(err)
 		})
 		await Amplify.API.get('getPosts', '', getParams).then((response) => {
-			const posts = [];
+			const posts = this.state.posts;
 
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
@@ -93,7 +97,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 					const new_post = {
 						postID: post.postID,
 						userID: post.userID,
-						location: post.location,
 						content: post.content,
 						images: post.images,
             			favourited: post.favourited,
@@ -104,24 +107,37 @@ const PostFeed = observer(class PostFeed extends React.Component {
 						new_post['email'] = post.email
 					}
 
+					if (post.location) {
+						new_post['location'] = post.location
+					} else {
+						new_post['location'] = {}
+					}
+
 					posts.push(new_post);
 				});
 			}
 
-			this.setState({ posts: posts, hasPosts: true });
+			this.setState({ posts: posts, hasPosts: true, gettingNextPosts: false });
 			this.forceUpdate()
 		}).catch((error) => {
 			console.log(error);
 		});
 	}
 
-	getPosts = async (feedType, searchTerm) => {
-		this.setState({ hasPosts: false });
-		this.callPostsApi(this.props.store.session, feedType, searchTerm)
+	getPosts = async (feedType, searchTerm, getNext) => {
+		this.setState({ hasPosts: false })
+
+		let prevPostID
+
+		if (getNext && this.state.posts.length > 0) {
+			prevPostID = this.state.posts[this.state.posts.length - 1].postID
+		}
+
+		this.callPostsApi(this.props.store.session, feedType, searchTerm, prevPostID)
 	}
 
 	search = (searchTerm) => {
-		this.setState({ hasPosts: false, posts: [] });
+		this.setState({ hasPosts: false, posts: [], lastSearched: searchTerm });
 
 		const feedType = this.props.store.currentView;
 
@@ -146,6 +162,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 
 	render() {
 		this.props.store.updateFeedCallback = [ () => { this.setState({ posts: [], hasPosts: false }); this.getPosts(this.props.store.currentView) }];
+		this.props.store.getNextPageCallback = [ () => { this.setState({ gettingNextPosts: true }); this.getPosts(this.props.store.currentView, this.state.lastSearched, true) }];
 
 		return (
 		<div className="PostFeed light-grey-text">
@@ -155,6 +172,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 					<Post store={ this.props.store } key={ uid(post.postID) } post={ post } enableLoader={ () => { this.setState({ hasPosts: false }); } } />
 				))
 			}
+			{ !this.state.gettingNextPosts ? '' : <Loader short={ this.state.posts.length != 0 } /> }
 		</div>
 	)}
 })
