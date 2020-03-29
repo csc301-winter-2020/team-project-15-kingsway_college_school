@@ -80,7 +80,8 @@
 	border-radius: 15px;
 	border-style: none;
 	width: 20vw;
-	padding-left: .5vw;
+	padding: 10px;
+	padding-left: 15px;
 }
 
 .PickLocation * input:focus {
