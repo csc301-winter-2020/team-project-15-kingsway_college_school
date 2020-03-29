@@ -64,7 +64,6 @@ class CreatePost extends React.Component {
 
 		xhr.onload = () => {
 			try {
-				console.log(JSON.parse(xhr.responseText).features);
 				let full_name = JSON.parse(xhr.responseText).features[0].place_name;
 
 				this.setState({ locName: full_name })
@@ -76,7 +75,6 @@ class CreatePost extends React.Component {
 		xhr.responseType = 'text';
 		xhr.send();
 
-		console.log("lat: ", latitude, "long: ", longitude)
 		this.setState({ lat: latitude, long: longitude });
 	}
 
@@ -88,10 +86,10 @@ class CreatePost extends React.Component {
 
 
 	onSelected = (viewport, item) => {
-		console.log('Selected: ', item)
-		console.log("lat: ", item.center[1], "long: ", item.center[0])
+		//console.log('Selected: ', item)
+		//console.log("lat: ", item.center[1], "long: ", item.center[0])
 		this.setState({ lat: item.center[1], long: item.center[0]})
-		console.log("place: ", item.place_name)
+		//console.log("place: ", item.place_name)
 		this.setState({ locName: item.place_name})
 
 	}
