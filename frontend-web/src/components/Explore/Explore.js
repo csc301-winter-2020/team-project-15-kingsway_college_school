@@ -127,7 +127,7 @@ class Explore extends React.Component {
 			
 			<div className="Explore dark-grey light-grey-text">
 				<h1 className="exploreTitle"> Click a location to see posts from that area! </h1>
-				<div id="map"></div>
+				<div id="map" className="rounded"></div>
 				<PostFeed store={ this.props.store } preventDefaultLoad={true}/>
 			</div>
 		)

@@ -102,8 +102,8 @@ class CreatePost extends React.Component {
 		return (
 		<form onSubmit={ this.handleSubmit }>
 		<div className="CreatePost light-grey-text">
-			<div className="TextAreaContainer shadow">
-				<textarea id="new-post-textarea" onChange={ this.postDataChanged } placeholder="Share an experience"/>
+			<div className="TextAreaContainer rounded shadow">
+				<textarea id="new-post-textarea" className="rounded" onChange={ this.postDataChanged } placeholder="Share an experience"/>
 			</div>
 			<div className="CreatePostButtons">
 				
@@ -114,7 +114,7 @@ class CreatePost extends React.Component {
 					</div>
 				<input id="fileUpload" type="file" name="file" className="hidden" onChange={ this.fileUploaded }/>
 				<label htmlFor="fileUpload" className="AttachPicture fa fa-paperclip"></label>
-				<input type="submit" className="ShareButton shadow light-grey dark-grey-text" value="Share" />
+				<input type="submit" className="ShareButton rounded-15 shadow light-grey dark-grey-text" value="Share" />
 			</div>
 		</div>
 		</form>

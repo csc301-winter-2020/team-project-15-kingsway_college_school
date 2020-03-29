@@ -1,8 +1,7 @@
 .Post {
 	position: relative;
-	margin: 2vw 4vw 2vw 4vw;
+	margin: 1vw 4vw 1vw 4vw;
 	padding: 2vw;
-	border-radius: 30px;
 }
 
 .Post:last-child {
@@ -25,7 +24,6 @@
 
 .PostImage > img {
 	width: 100%;
-	border-radius: 20px;
 }
 
 .PostUploadTime {

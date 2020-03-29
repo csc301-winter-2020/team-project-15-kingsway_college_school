@@ -7,15 +7,17 @@
 	border: 0;
 	outline: 0;
 	height: 70%;
-	min-width: 6vw;
+	min-width: 10vw;
 	width: auto;
 	margin: 20px;
 	margin-bottom: 0;
 	padding: 20px;
-	border-radius: 20px;
-	font-family: Raleway;
 	cursor: pointer;
 	font-size: 1.3rem;
+}
+
+.positive {
+	background: #ee7a7a;
 }
 
 .overlay {
@@ -33,7 +35,6 @@
 	position: fixed;
 	text-align: center;
 	padding: 50px;
-	border-radius: 30px;
 	z-index: 100;
 	top: 50vh;
 	left: 50vw;
@@ -48,4 +49,5 @@
 
 .Modal.visible {
 	display: block;
+	text-align: center;
 }

@@ -31,7 +31,7 @@ class Login extends React.Component {
 		return (
 		<form onSubmit={ this.handleSubmit }>
 			<div className="Login dark-grey light-grey-text">
-				<div className="FormBox mid-grey shadow">
+				<div className="FormBox rounded mid-grey shadow">
 					<div className="LoginTitle">Login</div>
 					<div className={ 'LoginFailed ' + (this.state.signInFailed ? 'error' : 'hidden') }>
 						Email or password was incorrect. Please try again.
@@ -40,7 +40,7 @@ class Login extends React.Component {
 						<div className="LoginSubtitle">
 							Email
 						</div>
-						<div className="LoginField shadow">
+						<div className="LoginField rounded shadow">
 							<input ref={ (input) => this.state.email_input = input } type="text" placeholder=""/>
 						</div>
 					</div>
@@ -48,11 +48,11 @@ class Login extends React.Component {
 						<div className="LoginSubtitle">
 							Password
 						</div>
-						<div className="LoginField shadow">
+						<div className="LoginField rounded shadow">
 							<input ref={ (input) => this.state.password_input = input } type="password" placeholder=""/>
 						</div>
 					</div>
-					<input type="submit" className="LoginSubmit mid-mid-grey light-grey-text shadow"/>
+					<input type="submit" className="LoginSubmit rounded mid-mid-grey light-grey-text shadow"/>
 				</div>
 			</div>
 		</form>

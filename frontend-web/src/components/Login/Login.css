@@ -8,7 +8,6 @@
 	top: 50vh;
 	left: 50vw;
 	padding: 50px;
-	border-radius: 25px;
 	transform: translate(-50%, -70%);
 }
 
@@ -34,12 +33,10 @@
 	height: 60px;
 	margin-top: 15px;
 	background: #FCFCFF;
-	border-radius: 50px;
 }
 
 .LoginField > input {
 	outline: 0;
-	border-radius: 50px;
 	background: #FCFCFF;
 	border: 0;
 	width: calc(100% - 60px);
@@ -50,14 +47,14 @@
 
 .LoginSubmit {
 	vertical-align: middle;
+	text-align: center;
 	display: inline-block;
 	border: 0;
 	outline: 0;
 	padding: 15px;
 	margin-top: 20px;
-	border-radius: 50px;
-	font-family: Raleway;
 	cursor: pointer;
 	font-size: 1.3rem;
+	height: 50px;
 	font-weight: 700;
 }
