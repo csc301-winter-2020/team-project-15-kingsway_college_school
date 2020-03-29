@@ -92,35 +92,16 @@ Amplify.configure({
 
 		// OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
 		mandatorySignIn: true,
-
-		// OPTIONAL - Configuration for cookie storage
-		// Note: if the secure flag is set to true, then the cookie transmission requires a secure protocol
-		// cookieStorage: {
-		// // REQUIRED - Cookie domain (only required if cookieStorage is provided)
-		//     domain: 'kcsshare.auth.us-east-1.amazoncognito.com',
-		// // OPTIONAL - Cookie path
-		//     path: '/',
-		// // OPTIONAL - Cookie expiration in days
-		//     expires: 365,
-		// // OPTIONAL - Cookie secure flag
-		// // Either true or false, indicating if the cookie transmission requires a secure protocol (https).
-		//     secure: true
-		// },
-
-		// OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
 		authenticationFlowType: 'USER_PASSWORD_AUTH',
+		identityPoolId: 'us-east-1:b2f0fb38-17fc-43a6-98db-6c372e572f0e',
 
-		// OPTIONAL - Manually set key value pairs that can be passed to Cognito Lambda Triggers
-		// clientMetadata: { myCustomKey: 'myCustomValue' },
-
-		// OPTIONAL - Hosted UI configuration
-		// oauth: {
-		//     domain: 'your_cognito_domain',
-		//     scope: ['phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin'],
-		//     redirectSignIn: 'http://localhost:3000/',
-		//     redirectSignOut: 'http://localhost:3000/',
-		//     responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
-		// }
+	},
+	Storage: {
+		AWSS3: {
+			bucket: 'kcpostimages', //REQUIRED -  Amazon S3 bucket
+			region: 'us-east-1', //OPTIONAL -  Amazon service region
+			identityPoolId: 'us-east-1:b2f0fb38-17fc-43a6-98db-6c372e572f0e',
+		}
 	}
 });
 
@@ -140,10 +121,8 @@ class Authentication extends Component {
 	}
 
 	componentDidMount() {
-		console.log('on component mount');
 		// check the current user when the App component is loaded
 		Auth.currentAuthenticatedUser().then(user => {
-			console.log(user);
 			this.setState({ authState: 'signedIn' });
 		}).catch(e => {
 			console.log(e);
@@ -157,7 +136,6 @@ class Authentication extends Component {
 		try {
 
 			const user = await Auth.signIn(username, password);
-			console.log(user)
 			if (user.challengeName === 'SMS_MFA' ||
 				user.challengeName === 'SOFTWARE_TOKEN_MFA') {
 				// You need to get the code from the UI inputs
@@ -175,7 +153,6 @@ class Authentication extends Component {
 				// and then trigger the following function with a button click
 				// For example, the email and phone_number are required attributes
 				// const {username, email, phone_number} = getInfoFromUserInput();
-				console.log('in new pass req');
 				// password = "bing0Bang@@"
 				const loggedUser = await Auth.completeNewPassword(
 					user,              // the Cognito User Object
@@ -194,13 +171,11 @@ class Authentication extends Component {
 				Auth.setupTOTP(user);
 			} else {
 				// The user directly signs in
-				console.log(user);
 				console.log('success');
 				this.setState({ authState: 'signedIn' });
 			}
 		} catch (err) {
 			console.log(err);
-			console.log('that was error');
 			this.setState({ alertText: err.message })
 			if (err.code === 'UserNotConfirmedException') {
 				// The error happens if the user didn't finish the confirmation step when signing up

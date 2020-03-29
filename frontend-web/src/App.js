@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Importing react-router-dom to use the React Router
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch, BrowserRouter, useLocation } from 'react-router-dom';
 import './App.css';
 
 import HomePage from './components/HomePage/HomePage'
@@ -9,6 +9,7 @@ import Login from './components/Login/Login'
 
 import globalStore from './Store.js'
 import Amplify from 'aws-amplify'
+import Permalink from "./components/Permalink/Permalink"
 
 class App extends React.Component {
 	state = {
@@ -29,8 +30,9 @@ class App extends React.Component {
 			if (now.setHours(now.getHours() - 1) < new Date(parsedSession.idToken.payload.auth_time * 1000)) {
 				// if you have authenticated in past hour
 				this.state.store.session = parsedSession
-				this.state.store.user = parsedSession.username
+				this.state.store.user = parsedSession.idToken.payload['email']
 				this.state.store.userID = parseInt(parsedSession.idToken.payload['custom:userID'])
+				this.state.store.admin = parsedSession.idToken.payload['custom:admin'].toLowerCase() === 'true'
 			} else {
 				sessionStorage.removeItem('kcs_session')
 			}
@@ -61,6 +63,18 @@ class App extends React.Component {
 						region: 'us-east-1'
 					},
 					{
+						name: 'favouritePost',
+						endpoint: this.state.store.apiEndpoint + '/favouritePost',
+						service: 'api-gateway',
+						region: 'us-east-1'
+					},
+					{
+						name: 'unfavouritePost',
+						endpoint: this.state.store.apiEndpoint + '/unfavouritePost',
+						service: 'api-gateway',
+						region: 'us-east-1'
+					},
+					{
 						name: 'getPopularHashtags',
 						endpoint: this.state.store.apiEndpoint + '/getPopularHashtags',
 						service: 'api-gateway',
@@ -84,12 +98,14 @@ class App extends React.Component {
 			}
 		});
 	}
+	
 	render() {
 		return (
 			<div>
 				<BrowserRouter>
 					<Switch>
-						<Route exact path='/' render={() => (this.state.store.session ? <HomePage store={ this.state.store } /> : <Login store={ this.state.store } />)}/>
+						<Route exact path='/' render={() => (this.state.store.session ? <HomePage store={ this.state.store } /> : <Login store={ this.state.store } destination='/'/>)}/>
+						<Route exact path='/permalink' render={() => (this.state.store.session ? <Permalink store={ this.state.store } /> : <Login store={ this.state.store } destination={window.location.pathname +  window.location.search}/>)}/>
 					</Switch>
 				</BrowserRouter>
 			</div>

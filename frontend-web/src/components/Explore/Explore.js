@@ -1,146 +1,49 @@
 import React from 'react';
-import { uid } from "react-uid";
 import './Explore.css';
 import Amplify from 'aws-amplify';
-import Post from '../Post/Post'
-import Loader from '../Loader/Loader'
 import marker from '../../images/location.png';
+import PostFeed from "../PostFeed/PostFeed";
 
 class Explore extends React.Component {
 	state = {
-		posts: [],
 		features: [],
 		loading: false,
-		selectedPost: undefined
-	}
+		locationChosen: false
+	};
 
 	getAllLocations = (mapboxgl, map) => {
 
 		let getParams = {};
-
-		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
-
+		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken};
 		Amplify.API.get('getLocations', '', getParams).then((response) => {
 			const features = [];
 
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
-
-			response.forEach((post) => {
-
-
-				if (post.detailedLocation.latitude && post.detailedLocation.longitude) {
-					features.push({
-						'type': 'Feature',
-						'properties': {
-							'description': (post.postID).toString(),
-							'icon': 'theatre'
-						},
-						'geometry': {
-							'type': 'Point',
-							'coordinates': [parseFloat(post.detailedLocation.longitude), parseFloat(post.detailedLocation.latitude)]
-						}
-					});
-				}
-			});
-
-			this.setState({ features: features });
-
-			console.log(JSON.stringify(this.state.features));
-
-			// Plot features on map
-			this.addFeatures(mapboxgl, map, this.state.features);
-		}).catch((error) => {
-			console.log(error);
-		});
-	}
-
-	getAllPosts = (mapboxgl, map) => {
-		
-		let getParams = {};
-
-		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
-		Amplify.API.get('getPosts', '', getParams).then((response) => {
-			const posts = [];
-			const features = [];
-
-			if (Object.entries(response).length === 0 && response.constructor === Object) {
-				response = [];
-			}
-
-			response.forEach((post) => {
-				posts.push({
-					postID: post.postID,
-					userID: post.userID,
-					location: post.location,
-					content: post.content,
-					images: post.images,
-					uploadTime: post.timeUploaded,
+			//console.log(JSON.stringify(response));
+			response.forEach((location) => {
+				features.push({
+					'type': 'Feature',
+					'properties': {
+						'location': location.latitude + "," + location.longitude,
+						'icon': 'theatre'
+					},
+					'geometry': {
+						'type': 'Point',
+						'coordinates': [parseFloat(location.longitude), parseFloat(location.latitude)]
+					}
 				});
-
-				if (post.location.latitude && post.location.longitude) {
-					features.push({
-						'type': 'Feature',
-						'properties': {
-							'description': (post.postID).toString(),
-							'icon': 'theatre'
-						},
-						'geometry': {
-							'type': 'Point',
-							'coordinates': [parseFloat(post.location.longitude), parseFloat(post.location.latitude)]
-						}
-					});
-				}
 			});
-
-			this.setState({ posts: posts });
 			this.setState({ features: features });
-
-			console.log(JSON.stringify(this.state.features));
+			//console.log(JSON.stringify(this.state.features));
 
 			// Plot features on map
-			this.addFeatures(mapboxgl, map, this.state.features);
+			this.addFeatures(mapboxgl, map, features);
 		}).catch((error) => {
 			console.log(error);
 		});
-	}
-
-	getSelectedPost = (postID) => {
-		console.log(postID);
-		this.setState({ loading: true });
-
-		let getParams = {};
-		getParams = { queryStringParameters: { searchType: 'POST', searchParameter: postID } }
-		getParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
-
-		Amplify.API.get('getPosts', '', getParams).then((response) => {
-			let selectedPost = undefined;
-
-			if (Object.entries(response).length === 0 && response.constructor === Object) {
-				response = [];
-			}
-
-			console.log(response)
-
-			response.forEach((post) => {
-				selectedPost = {
-					postID: post.postID,
-					userID: post.userID,
-					location: post.location,
-					content: post.content,
-					images: post.images,
-					uploadTime: post.timeUploaded,
-				};
-			});
-
-			console.log(selectedPost)
-			this.setState({ loading: false });
-			this.setState({ selectedPost: selectedPost });
-		}).catch((error) => {
-			console.log(error);
-		});
-	}
+	};
 
 	addFeatures(mapboxgl, map, features) {
 		map.on('load', () => {
@@ -185,9 +88,9 @@ class Explore extends React.Component {
 			// When a click event occurs on a feature in the places layer, open a popup at the
 			// location of the feature, with description HTML from its properties.
 			map.on('click', 'places', (e) => {
-				let postID = e.features[0].properties.description;
-				console.log(postID)
-				this.getSelectedPost(parseInt(postID));
+				let location = e.features[0].properties.location;
+				console.log(location);
+				this.props.store.search(location)
 			});
 
 			// Change the cursor to a pointer when the mouse is over the places layer.
@@ -226,14 +129,15 @@ class Explore extends React.Component {
 	}
 
 	render() {
-
 		return (
+			
 			<div className="Explore dark-grey light-grey-text">
+				<h1 className="exploreTitle"> Click a location to see posts from that area! </h1>
 				<div id="map"></div>
-				{this.state.loading ? <Loader /> : <Post store={this.props.store} post={this.state.selectedPost} />}
+				<PostFeed store={ this.props.store } preventDefaultLoad={true}/>
 			</div>
 		)
 	}
-};
+}
 
 export default Explore;

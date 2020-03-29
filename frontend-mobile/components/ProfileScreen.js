@@ -4,7 +4,6 @@ import { Icon, ButtonGroup } from 'react-native-elements';
 import Amplify from 'aws-amplify';
 import Post from './Post.js';
 import { Auth } from 'aws-amplify';
-
 const side_margins = 16
 let screen = null;
 

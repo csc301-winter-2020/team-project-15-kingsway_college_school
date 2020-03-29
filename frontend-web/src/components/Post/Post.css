@@ -15,7 +15,7 @@
 }
 
 .PostContent {
-	padding: 2vw;
+	padding-bottom: 2vw;
 	padding-top: 1vw;
 }
 
@@ -32,6 +32,11 @@
 	font-style: italic;
 }
 
+.PostEmail {
+	font-weight: 500;
+	margin-top: 20px;
+}
+
 .delete-button {
 	position: absolute;
 	top: 25px;
@@ -39,4 +44,37 @@
 	padding: 5px;
 	font-size: 1.5rem;
 	cursor: pointer;
+}
+
+.favourite-button {
+	position: absolute;
+	bottom: 25px;
+	right: 25px;
+	padding: 5px;
+	font-size: 1.5rem;
+	cursor: pointer;
+}
+
+.permalinkMessageOn {
+	position: absolute;
+	bottom: 25px;
+	right: 55px;
+	padding: 5px;
+	font-size: 1rem;
+	cursor: pointer;
+}
+.permalinkMessageOff {
+	position: absolute;
+	bottom: 25px;
+	right: 55px;
+	padding: 5px;
+	font-size: 0rem;
+	cursor: pointer;
+}
+
+
+.permalinkCopy {
+	height: 0px;
+	width: 0px;
+	opacity: 0;
 }

@@ -6,7 +6,8 @@ import Modal from '../Modal/Modal'
 
 class Post extends React.Component {
 	state = {
-		modalVisible: false
+		modalVisible: false,
+		copySuccess: false
 	}
 
 	confirmDeletion = (e) => {
@@ -16,6 +17,7 @@ class Post extends React.Component {
 	}
 
 	deletePost = () => {
+		this.props.enableLoader()
 
 		const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
 
@@ -28,6 +30,54 @@ class Post extends React.Component {
 		});
 
 		this.setState({ modalVisible: false })
+	}
+
+	copyToClipboard = () => {
+		this.textArea.select();
+		document.execCommand('copy');
+		// This is just personal preference.
+		// I prefer to not show the the whole text area selected.
+		//e.target.focus();
+		this.setState({ copySuccess: true });
+	  };
+
+	favouritePost = () => {
+		if (this.props.post.favourited) {
+			this.props.post.favourited = false
+			this.setState({ copySuccess: false });
+			this.forceUpdate()
+
+			const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
+
+			reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
+
+			Amplify.API.put('unfavouritePost', '', reqParams).then((response) => {
+				
+			}).catch((error) => {
+				console.log(error);
+				this.props.post.favourited = true
+				this.forceUpdate()
+			});
+		} else {
+			this.props.post.favourited = true
+			this.forceUpdate()
+
+			//console.log("permalink required " + this.props.post.postID)
+			//console.log(window.location.href + "permalink?post=" + this.props.post.postID)
+			this.copyToClipboard()
+
+			const reqParams = { queryStringParameters: {postID: this.props.post.postID } };
+
+			reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
+
+			Amplify.API.put('favouritePost', '', reqParams).then((response) => {
+				
+			}).catch((error) => {
+				console.log(error);
+				this.props.post.favourited = false
+				this.forceUpdate()
+			});
+		}
 	}
 
 	parseContent = (content) => {
@@ -49,9 +99,9 @@ class Post extends React.Component {
 	render() {
 		const { post } = this.props;
 
-		if(post === undefined){
+		if (post === undefined) {
 			return(
-			<div className="Post shadow mid-grey light-grey-text">Click a post on the map to see it! </div>
+				<div className="Post shadow mid-grey light-grey-text">Click a post on the map to see it!</div>
 			)
 		}
 
@@ -89,11 +139,23 @@ class Post extends React.Component {
 				<img src={ post.images[0] }/>
 			</div>} 
 
+			<textarea
+			className="permalinkCopy"
+            ref={(textarea) => this.textArea = textarea}
+            value={window.location.href + "permalink?post=" + this.props.post.postID}
+          	/>
+
 			<div className="PostUploadTime">
 				{ '' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear() }
 			</div>
 
-			{ this.props.store.currentView === 'My Posts' ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }
+			{ post.email ? <div className="PostEmail">Uploaded by: { post.email }</div> : '' }
+
+			{ (this.props.store.currentView === 'My Posts' || this.props.store.admin) ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }
+
+			<div className={this.state.copySuccess ? "permalinkMessageOn" : "permalinkMessageOff"}>Post link copied to clipboard!</div>
+
+			<div className={ 'favourite-button fa ' + (post.favourited ? 'fa-star accent' : 'fa-star-o') } onClick={ this.favouritePost }></div>
 
 			<Modal parent={ this } visible={ this.state.modalVisible } prompt="Are you sure you sure you want to delete this post?"
 				positiveButtonAction={ this.deletePost } negativeButtonAction={ () => { this.setState({ modalVisible: false }) } } 
