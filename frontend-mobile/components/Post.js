@@ -25,9 +25,10 @@ class PostMenu extends Component {
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
 		        this.hideMenu();
 			this.props.refresh();
-			Alert.alert("Post deleted", ":)")
+			Alert.alert("Success!", "Post deleted")
 		}).catch((error) => {
 			console.log(error);
+		    console.log(error.response)
 		});
 	}
 
