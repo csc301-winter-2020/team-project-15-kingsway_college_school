@@ -35,7 +35,7 @@ class ExploreSearch extends Component {
 	console.log(this.props.searchParam, prevProps.searchParam)
 	if (this.props.searchParam != this.state.text) {
 	    if (this.props.searchParam.length == 0) {
-		this.setFlag()
+		this.props.setFlag()
 	    } else {
 		let text = this.props.searchParam;
 		this.searching({text})
