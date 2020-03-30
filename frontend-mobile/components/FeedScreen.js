@@ -22,8 +22,9 @@ class FeedHeader extends Component {
 						containerStyle={styles.searchBarContainer}
 						inputStyle={styles.searchBarInput}
 						inputContainerStyle={styles.searchBarInputContainer}
-						placeholder={"Search..."}
-						onFocus={() => this.props.navigation.push("Explore")}
+						placeholder={"Search"}
+						onFocus={() => this.props.navigation.push("Explore", {searchParam: ""})}
+						platform={"ios"}
 					/>
 				</View>
 			</View>
@@ -62,6 +63,7 @@ class Feed extends Component {
 		}
 
 	}
+
 	render() {
 		return (
 			<View style={styles.view}>
@@ -69,7 +71,7 @@ class Feed extends Component {
 				<SafeAreaView style={styles.container}>
 					<FlatList
 						data={this.state.posts}
-						renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
+						renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} navigation={this.props.navigation} />}
 						refreshControl={
 							<RefreshControl
 								refreshing={this.state.refreshing}
@@ -84,10 +86,10 @@ class Feed extends Component {
 		)
 	}
 }
+
 const Stack = createStackNavigator();
 
 export default class FeedScreen extends Component {
-
 
 	render() {
 

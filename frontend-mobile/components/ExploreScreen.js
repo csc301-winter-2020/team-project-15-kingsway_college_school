@@ -24,10 +24,24 @@ class ExploreTags extends Component {
 
     }
 }
+
 class ExploreSearch extends Component {
   state = {
     text: '',
   };
+
+    componentDidUpdate(prevProps) {
+	console.log("Updating!")
+	console.log(this.props.searchParam, prevProps.searchParam)
+	if (this.props.searchParam != this.state.text) {
+	    if (this.props.searchParam.length == 0) {
+		this.setFlag()
+	    } else {
+		let text = this.props.searchParam;
+		this.searching({text})
+	    }
+	}
+    }
   
   searching (text) {
     this.setState(text);
@@ -72,7 +86,7 @@ class ExploreSearchResults extends Component {
 	    <SafeAreaView style={styles.container}>
 		  <FlatList
 		    data={this.posts}
-		    renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
+		    renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} navigation={this.props.navigation} />}
 		    // refreshControl={
         // <RefreshControl
         // colors={["#fcfcff"]}
@@ -125,16 +139,17 @@ export default class ExploreScreen extends Component {
 		    console.log(error)
 	    });
 	  }
+      
   }
 
   render() {
     let currentView = <ExploreTags hashtags={this.state.hashtags} search={(searchTerm) => this.search(searchTerm)}/>
     if (this.state.showSearch) {
-	    currentView = <ExploreSearchResults posts={this.state.posts}/>
+	    currentView = <ExploreSearchResults posts={this.state.posts} navigation={this.props.navigation} />
     }
     return (
       <View style={styles.view}>
-	      <ExploreSearch search={this.search} setFlag={() => this.setShowSearchFalse()}/>
+	      <ExploreSearch search={this.search} setFlag={() => this.setShowSearchFalse() } searchParam={this.props.route.params ? this.props.route.params.searchParam : null} />
 	      {currentView}
         <Tag />
       </View>
