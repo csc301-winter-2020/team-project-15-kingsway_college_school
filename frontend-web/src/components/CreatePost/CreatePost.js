@@ -91,25 +91,33 @@ class CreatePost extends React.Component {
 			center: [this.state.viewport.longitude, this.state.viewport.latitude], // starting position - Toronto
 			zoom: this.state.viewport.zoom // starting zoom - Includes KCS Senior School Location
 		});
+    map.addControl(
+        new mapboxgl.GeolocateControl({
+        positionOptions: {
+        enableHighAccuracy: true
+        },
+        trackUserLocation: false
+        })
+    );
 
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-      flyto: {
-        bearing: 0,
-        speed: 0.2,
-        curve: 1,
-        easing: function (t) {
-          return t;
-        }
-      },
-      language: "en",
-      types: "poi",
-      proximity: toronto,
-      trackProximity: false, //tracking proximity causes it to lose track of where it is at some points
-      placeholder: "Tag a Location!",
-      collapsed: false,
-    });
+      const geocoder = new MapboxGeocoder({
+          accessToken: mapboxgl.accessToken,
+          mapboxgl: mapboxgl,
+          flyto: {
+              bearing: 0,
+              speed: 0.2,
+              curve: 1,
+              easing: function (t) {
+                  return t;
+              }
+          },
+          language: "en",
+          types: "poi",
+          proximity: toronto,
+          trackProximity: true, //tracking proximity causes it to not pass in proximity sometimes
+          placeholder: "Tag a Location!",
+          collapsed: false
+      });
     map.addControl(geocoder);
     geocoder.on("result", this.handleOnResult)
     //document.getElementById('geocoderContainer').appendChild(geocoder.onAdd(map));
