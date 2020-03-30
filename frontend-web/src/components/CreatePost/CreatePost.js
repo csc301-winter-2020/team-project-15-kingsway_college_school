@@ -9,12 +9,10 @@ class CreatePost extends React.Component {
   state = {
     postData: "",
     attachment: undefined,
-    lat: undefined,
-    long: undefined,
     locName: undefined,
     viewport: {
-      latitude: -79.3949,
-      longitude: 43.6529,
+      longitude: -79.3949,
+      latitude: 43.6529,
       zoom: 8
     }
   };
@@ -54,11 +52,11 @@ class CreatePost extends React.Component {
       }
     };
 
-    if (this.state.locName && this.state.lat && this.state.long) {
+    if (this.state.locName) {
       reqParams.body["location"] = {
         name: this.state.locName,
-        latitude: this.state.lat.toString(),
-        longitude: this.state.long.toString()
+        latitude: this.state.viewport.latitude,
+        longitude: this.state.viewport.longitude,
       };
     }
 
@@ -84,16 +82,16 @@ class CreatePost extends React.Component {
 	// navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
 	//document.getElementsByTagName("input")[0].placeholder = "Tag a Location!";
 	mapboxgl.accessToken = 'pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ';
+	const toronto = {};
+    toronto.longitude = -79.36656674779857;
+    toronto.latitude = 43.629389142603856;
     const map = new mapboxgl.Map({
 			container: this.mapContainer, // container id
 			style: 'mapbox://styles/ryanmarten/ck7jbiwkj34nv1io28t0c73ts',
-			center: [this.state.viewport.latitude, this.state.viewport.longitude], // starting position - Toronto
+			center: [this.state.viewport.longitude, this.state.viewport.latitude], // starting position - Toronto
 			zoom: this.state.viewport.zoom // starting zoom - Includes KCS Senior School Location
 		});
 
-    const toronto = {};
-    toronto.latitude = -79.36656674779857;
-    toronto.longitude = 43.629389142603856;
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
@@ -105,13 +103,15 @@ class CreatePost extends React.Component {
           return t;
         }
       },
-      proximity: toronto,
+      language: "en",
       types: "poi",
-      trackProximity: true,
+      proximity: toronto,
+      trackProximity: false, //tracking proximity causes it to lose track of where it is at some points
       placeholder: "Tag a Location!",
-      collapsed: true
+      collapsed: false,
     });
     map.addControl(geocoder);
+    geocoder.on("result", this.handleOnResult)
     //document.getElementById('geocoderContainer').appendChild(geocoder.onAdd(map));
   }
 
@@ -129,8 +129,12 @@ class CreatePost extends React.Component {
     })
   }
 
-  handleOnResult = event =>{
-    console.log(event.result.geometry);
+  handleOnResult = result =>{
+    console.log(result);
+    this.setState({
+      viewport: this.state.viewport,
+      locName: result.place_name_en
+    });
   }
 
   render() {
