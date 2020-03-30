@@ -3,8 +3,7 @@ import { uid } from "react-uid";
 import "./CreatePost.css";
 import Amplify from "aws-amplify";
 import mapboxgl from "mapbox-gl";
-
-import Geocoder from "react-mapbox-gl-geocoder";
+import MapboxGeocoder from "mapbox-gl-geocoder";
 
 class CreatePost extends React.Component {
   state = {
@@ -12,7 +11,12 @@ class CreatePost extends React.Component {
     attachment: undefined,
     lat: undefined,
     long: undefined,
-    locName: undefined
+    locName: undefined,
+    viewport: {
+      latitude: -79.3949,
+      longitude: 43.6529,
+      zoom: 8
+    }
   };
 
   mapAccess =
@@ -74,35 +78,40 @@ class CreatePost extends React.Component {
     e.target.reset();
   };
 
-  acquiredLocation = pos => {
-    const latitude = pos.coords.latitude;
-    const longitude = pos.coords.longitude;
-
-    var xhr = new XMLHttpRequest();
-
-    xhr.onload = () => {
-      try {
-        let full_name = JSON.parse(xhr.responseText).features[0].place_name;
-
-        this.setState({ locName: full_name });
-      } catch {}
-    };
-
-    // Only uses POI (points of interests --> remove this to get the best guess address at current location)
-    xhr.open(
-      "GET",
-      `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?types=poi&access_token=pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ`
-    );
-    xhr.responseType = "text";
-    xhr.send();
-
-    this.setState({ lat: latitude, long: longitude });
-  };
 
   componentDidMount() {
     // NOT USING AUTOMATIC LOCATION
 	// navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
-	document.getElementsByTagName("input")[0].placeholder = "Tag a Location!";
+	//document.getElementsByTagName("input")[0].placeholder = "Tag a Location!";
+	mapboxgl.accessToken = 'pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ';
+    const map = new mapboxgl.Map({
+			container: this.mapContainer, // container id
+			style: 'mapbox://styles/ryanmarten/ck7jbiwkj34nv1io28t0c73ts',
+			center: [this.state.viewport.latitude, this.state.viewport.longitude], // starting position - Toronto
+			zoom: this.state.viewport.zoom // starting zoom - Includes KCS Senior School Location
+		});
+
+    const toronto = {};
+    toronto.latitude = -79.36656674779857;
+    toronto.longitude = 43.629389142603856;
+    const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+      flyto: {
+        bearing: 0,
+        speed: 0.2,
+        curve: 1,
+        easing: function (t) {
+          return t;
+        }
+      },
+      proximity: toronto,
+      types: "poi",
+      trackProximity: true,
+      placeholder: "Tag a Location!"
+    });
+    map.addControl(geocoder);
+    geocoder.addTo('#geocoderContainer')
   }
 
   onSelected = (viewport, item) => {
@@ -113,10 +122,18 @@ class CreatePost extends React.Component {
     this.setState({ locName: item.place_name });
   };
 
+  handleViewportChange = (viewport) => {
+    this.setState({
+      viewport: { ...viewport }
+    })
+  }
+
+  handleOnResult = event =>{
+    console.log(event.result.geometry);
+  }
+
   render() {
-    // const queryParams = {
-    // 	country: 'us'
-    // }
+    const viewport = this.state.viewport;
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -124,13 +141,9 @@ class CreatePost extends React.Component {
           <h2>Post a new experience!</h2>
           <div className="PickLocation">
 		  	<i className="accent fa fa-map-marker Pin"></i>
-            <Geocoder
-              mapboxApiAccessToken={this.mapAccess}
-              onSelected={this.onSelected}
-              hideOnSelect={true}
-              updateInputOnSelect={true}
-            />
+            <div id="geocoderContainer"/>
           </div>
+            <div ref={el => this.mapContainer = el} className="mapContainer"/>
           <div className="TextAreaContainer rounded">
             <textarea
               id="new-post-textarea"
