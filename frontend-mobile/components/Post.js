@@ -169,6 +169,7 @@ export default class Post extends Component {
 	}
 
 	async componentDidMount() {
+
 	    console.log(this.props.post)
 		if (this.props.post.images.length > 0) {
 			let imageBase64;
