@@ -11,6 +11,7 @@ class MenuIcon extends Component {
 		return <MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} />
 	}
 }
+
 class PostMenu extends Component {
 	constructor() {
 		super();
@@ -137,6 +138,7 @@ class PostMenu extends Component {
 		)
 	}
 }
+
 export default class Post extends Component {
 
 	state = {
@@ -144,8 +146,31 @@ export default class Post extends Component {
 	}
 	locationHeader = null;
 	dateHeader = null;
+	image = null;
+
+	searchWithTag = (tagText) => {
+	    this.props.navigation.navigate("Explore", {searchParam: tagText})
+	}
+
+	parseContent = (content) => {
+		const notTags = content.split(/#\w+/g)
+		const tags = content.match(/#\w+/g)
+
+		let output = []
+
+		for (let i = 0; i < notTags.length - 1; i++) {
+			output.push(notTags[i])
+			output.push(<Text key={i} style={{color: "orange"}} onPress={() => this.searchWithTag(tags[i])}>{ tags[i]}</Text>)
+		}
+
+		output.push(notTags[notTags.length - 1])
+
+		return output
+	}
+
 	async componentDidMount() {
 
+	    console.log(this.props.post)
 		if (this.props.post.images.length > 0) {
 			let imageBase64;
 			// await Storage.get(imageKey, { download: true }).then(result =>  console.log(result))
@@ -173,8 +198,6 @@ export default class Post extends Component {
 
 			});
 		}
-
-
 
 	}
 	render() {
@@ -232,7 +255,7 @@ export default class Post extends Component {
 					</View>
 				</View>
 				<View styles={{ flex: 1 }}>
-					<Text style={styles.content}>{this.props.post.content}</Text>
+					<Text style={styles.content}> {this.parseContent(this.props.post.content)}</Text>
 				</View>
 				{this.image}
 				{favIcon}

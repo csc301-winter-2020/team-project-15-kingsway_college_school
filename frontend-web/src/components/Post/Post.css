@@ -1,8 +1,7 @@
 .Post {
 	position: relative;
-	margin: 2vw 4vw 2vw 4vw;
+	margin: 1vw 4vw 1vw 4vw;
 	padding: 2vw;
-	border-radius: 30px;
 }
 
 .Post:last-child {
@@ -25,7 +24,6 @@
 
 .PostImage > img {
 	width: 100%;
-	border-radius: 20px;
 }
 
 .PostUploadTime {
@@ -55,6 +53,10 @@
 	cursor: pointer;
 }
 
+.content-hashtag {
+	cursor: pointer;
+}
+
 .permalinkMessageOn {
 	position: absolute;
 	bottom: 25px;
@@ -63,6 +65,7 @@
 	font-size: 1rem;
 	cursor: pointer;
 }
+  
 .permalinkMessageOff {
 	position: absolute;
 	bottom: 25px;
@@ -71,7 +74,6 @@
 	font-size: 0rem;
 	cursor: pointer;
 }
-
 
 .permalinkCopy {
 	height: 0px;

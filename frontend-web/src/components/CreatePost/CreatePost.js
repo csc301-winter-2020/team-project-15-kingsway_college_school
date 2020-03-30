@@ -1,98 +1,167 @@
-import React from 'react';
+import React from "react";
 import { uid } from "react-uid";
-import './CreatePost.css';
-import Amplify from 'aws-amplify';
+import "./CreatePost.css";
+import Amplify from "aws-amplify";
+import mapboxgl from "mapbox-gl";
+
+import Geocoder from "react-mapbox-gl-geocoder";
 
 class CreatePost extends React.Component {
-	state = {
-		postData: '',
-		attachment: undefined,
-		lat: undefined,
-		long: undefined,
-		locName: undefined
-	}
+  state = {
+    postData: "",
+    attachment: undefined,
+    lat: undefined,
+    long: undefined,
+    locName: undefined
+  };
 
-	postDataChanged = (e) => {
-		this.setState({ postData: e.target.value });
-	}
+  mapAccess =
+    "pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ";
 
-	fileUploaded = (e) => {
-		try {
-			const reader = new FileReader();
+  postDataChanged = e => {
+    this.setState({ postData: e.target.value });
+  };
 
-			reader.addEventListener("load", () => {
-				this.setState({ attachment: reader.result });
-			}, false);
+  fileUploaded = e => {
+    try {
+      const reader = new FileReader();
 
-			reader.readAsDataURL(e.target.files[0])
-		} catch (e) {}
-	}
+      reader.addEventListener(
+        "load",
+        () => {
+          this.setState({ attachment: reader.result });
+        },
+        false
+      );
 
-	handleSubmit = (e) => {
-		e.preventDefault();
+      reader.readAsDataURL(e.target.files[0]);
+    } catch (e) {}
+  };
 
-		const imageParam = this.state.attachment ? [ this.state.attachment ] : [];
+  handleSubmit = e => {
+    e.preventDefault();
 
-		const reqParams = { body: { userID: parseInt(this.props.store.userID), content: this.state.postData, images: imageParam } };
+    const imageParam = this.state.attachment ? [this.state.attachment] : [];
 
-		if (this.state.locName && this.state.lat && this.state.long) {
-			reqParams.body['location'] = { name: this.state.locName, latitude: this.state.lat.toString(), longitude: this.state.long.toString() }
-		}
+    const reqParams = {
+      body: {
+        content: this.state.postData,
+        images: imageParam
+      }
+    };
 
-		reqParams["headers"] = {"Authorization" : this.props.store.session.idToken.jwtToken}
+    if (this.state.locName && this.state.lat && this.state.long) {
+      reqParams.body["location"] = {
+        name: this.state.locName,
+        latitude: this.state.lat.toString(),
+        longitude: this.state.long.toString()
+      };
+    }
 
-		Amplify.API.post('newPost', '', reqParams).then((response) => {
-			this.props.store.updateFeeds();
-		}).catch((error) => {
-			console.log(error);
-		});
+    reqParams["headers"] = {
+      Authorization: this.props.store.session.idToken.jwtToken
+    };
 
-		this.setState({ postData: '', attachment: undefined })
-		e.target.reset();
-	}
+    Amplify.API.post("newPost", "", reqParams)
+      .then(response => {
+        this.props.store.updateFeeds();
+      })
+      .catch(error => {
+        console.error(error);
+      });
 
-	acquiredLocation = (pos) => {
-		const latitude  = pos.coords.latitude;
-		const longitude = pos.coords.longitude;
+    this.setState({ postData: "", attachment: undefined });
+    e.target.reset();
+  };
 
-		var xhr = new XMLHttpRequest();
+  acquiredLocation = pos => {
+    const latitude = pos.coords.latitude;
+    const longitude = pos.coords.longitude;
 
-		xhr.onload = () => {
-			try {
-				console.log(JSON.parse(xhr.responseText).features);
-				let full_name = JSON.parse(xhr.responseText).features[0].place_name;
+    var xhr = new XMLHttpRequest();
 
-				this.setState({ locName: full_name })
-			} catch {}
-		}
+    xhr.onload = () => {
+      try {
+        let full_name = JSON.parse(xhr.responseText).features[0].place_name;
 
-		// Only uses POI (points of interests --> remove this to get the best guess address at current location)
-		xhr.open('GET', `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?types=poi&access_token=pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ`);
-		xhr.responseType = 'text';
-		xhr.send();
+        this.setState({ locName: full_name });
+      } catch {}
+    };
 
-		this.setState({ lat: latitude, long: longitude });
-	}
+    // Only uses POI (points of interests --> remove this to get the best guess address at current location)
+    xhr.open(
+      "GET",
+      `https://api.mapbox.com/geocoding/v5/mapbox.places/${longitude},${latitude}.json?types=poi&access_token=pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ`
+    );
+    xhr.responseType = "text";
+    xhr.send();
 
-	componentDidMount() {
-		navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
-	}
+    this.setState({ lat: latitude, long: longitude });
+  };
 
-	render() {
-		return (
-		<form onSubmit={ this.handleSubmit }>
-		<div className="CreatePost light-grey-text">
-			<div className="TextAreaContainer shadow">
-				<textarea id="new-post-textarea" onChange={ this.postDataChanged } placeholder="Share an experience"/>
-			</div>
-			<div className="CreatePostButtons">
-				<input id="fileUpload" type="file" name="file" className="hidden" onChange={ this.fileUploaded }/>
-				<label htmlFor="fileUpload" className="AttachPicture fa fa-paperclip"></label>
-				<input type="submit" className="ShareButton shadow light-grey dark-grey-text" value="Share" />
-			</div>
-		</div>
-		</form>
-	)}
-};
+  componentDidMount() {
+    // NOT USING AUTOMATIC LOCATION
+	// navigator.geolocation.getCurrentPosition(this.acquiredLocation, undefined);
+	document.getElementsByTagName("input")[0].placeholder = "Tag a Location!";
+  }
+
+  onSelected = (viewport, item) => {
+    //console.log('Selected: ', item)
+    //console.log("lat: ", item.center[1], "long: ", item.center[0])
+    this.setState({ lat: item.center[1], long: item.center[0] });
+    //console.log("place: ", item.place_name)
+    this.setState({ locName: item.place_name });
+  };
+
+  render() {
+    // const queryParams = {
+    // 	country: 'us'
+    // }
+
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <div className="CreatePost mid-mid-grey rounded shadow light-grey-text">
+          <h2>Post a new experience!</h2>
+          <div className="PickLocation">
+		  	<i className="accent fa fa-map-marker Pin"></i>
+            <Geocoder
+              mapboxApiAccessToken={this.mapAccess}
+              onSelected={this.onSelected}
+              hideOnSelect={true}
+              updateInputOnSelect={true}
+            />
+          </div>
+          <div className="TextAreaContainer rounded">
+            <textarea
+              id="new-post-textarea"
+              className="rounded"
+              onChange={this.postDataChanged}
+              placeholder="Share an experience"
+            />
+          </div>
+          <div className="CreatePostButtons">
+            <input
+              id="fileUpload"
+              type="file"
+              name="file"
+              className="hidden"
+              onChange={ this.fileUploaded }
+            />
+            <label
+              htmlFor="fileUpload"
+              className="AttachPicture fa fa-paperclip"
+            ></label>
+            <input
+              type="submit"
+              className="ShareButton rounded-15 light-grey dark-grey-text"
+              value="Share"
+            />
+          </div>
+         	{ this.state.attachment ? <img className="PreviewImage" src={ this.state.attachment }/> : '' }
+        </div>
+      </form>
+    );
+  }
+}
 
 export default CreatePost;

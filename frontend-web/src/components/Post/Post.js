@@ -26,7 +26,7 @@ class Post extends React.Component {
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
 			this.props.store.updateFeeds();
 		}).catch((error) => {
-			console.log(error);
+			console.error(error);
 		});
 
 		this.setState({ modalVisible: false })
@@ -54,7 +54,7 @@ class Post extends React.Component {
 			Amplify.API.put('unfavouritePost', '', reqParams).then((response) => {
 				
 			}).catch((error) => {
-				console.log(error);
+				console.error(error);
 				this.props.post.favourited = true
 				this.forceUpdate()
 			});
@@ -73,7 +73,7 @@ class Post extends React.Component {
 			Amplify.API.put('favouritePost', '', reqParams).then((response) => {
 				
 			}).catch((error) => {
-				console.log(error);
+				console.error(error);
 				this.props.post.favourited = false
 				this.forceUpdate()
 			});
@@ -88,7 +88,7 @@ class Post extends React.Component {
 
 		for (let i = 0; i < notTags.length - 1; i++) {
 			output.push(notTags[i])
-			output.push(<span key={i} className="accent">{ tags[i] }</span>)
+			output.push(<span key={i} className="content-hashtag accent" onClick={ () => { this.props.store.trySearch(tags[i]) } }>{ tags[i] }</span>)
 		}
 
 		output.push(notTags[notTags.length - 1])
@@ -123,12 +123,12 @@ class Post extends React.Component {
 		}
 
 		return (
-		<div className="Post shadow mid-grey light-grey-text">
+		<div className="Post rounded shadow mid-grey light-grey-text">
 			{
 				post.location.name ? <div className="PostLocation">
 					<a className="accent fa fa-map-marker"></a>
 					&nbsp;&nbsp;
-					{ post.location.name }
+					{ post.location.name.split(",")[0] }
 				</div> : ''
 			}
 
@@ -136,7 +136,7 @@ class Post extends React.Component {
 				{ this.parseContent(post.content) }
 			</div>
 			{post.images.length > 0 && <div className="PostImage">
-				<img src={ post.images[0] }/>
+				<img className="rounded" src={ post.images[0] }/>
 			</div>} 
 
 			<textarea
@@ -159,7 +159,7 @@ class Post extends React.Component {
 
 			<Modal parent={ this } visible={ this.state.modalVisible } prompt="Are you sure you sure you want to delete this post?"
 				positiveButtonAction={ this.deletePost } negativeButtonAction={ () => { this.setState({ modalVisible: false }) } } 
-				positiveButtonText="Delete" negativeButtonText="Cancel"/>
+				positiveButtonText="Delete Post" negativeButtonText="Cancel"/>
 		</div>
 	)}
 };

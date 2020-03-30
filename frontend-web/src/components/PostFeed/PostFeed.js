@@ -11,15 +11,17 @@ import {  observer } from "mobx-react"
 const PostFeed = observer(class PostFeed extends React.Component {
 	state = {
 		hasPosts: false,
-		posts: []
+		posts: [],
+		lastSearched: undefined,
+		gettingNextPosts: false
 	}
 
-	callPostsApi = async (session, feedType, searchTerm) => {
+	callPostsApi = async (session, feedType, searchTerm, prevPostID) => {
 
-		let getParams = {};
+		let getParams = { queryStringParameters: {} };
 
 		const userID = this.props.store.userID;
-
+		
 		if (feedType === 'Home') {
 			if (searchTerm) {
 				getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
@@ -32,7 +34,11 @@ const PostFeed = observer(class PostFeed extends React.Component {
 			getParams = { queryStringParameters: { searchType: 'POST', searchParameter: searchTerm } };
 		} else if (feedType === 'Search User') {
 			getParams = { queryStringParameters: { searchType: 'EMAIL', searchParameter: searchTerm } };
-
+		} else if (feedType === 'Explore') {
+			getParams = { queryStringParameters: { searchType: 'LOCATION', searchParameter: searchTerm } };
+	    }
+	    if (prevPostID) {
+			getParams.queryStringParameters['startID'] = prevPostID
 		}
 
 		try {
@@ -40,17 +46,17 @@ const PostFeed = observer(class PostFeed extends React.Component {
 		} catch {
 			return
 		}
-		
+
 		let currCreds
 		Auth.currentCredentials().then(response => {
 					currCreds = response
 
 		}).catch((err) => {
-			console.log('error on current credentials call')
-			console.log(err)
+			console.error('error on current credentials call')
+			console.error(err)
 		})
 		await Amplify.API.get('getPosts', '', getParams).then((response) => {
-			const posts = [];
+			const posts = this.state.posts;
 
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
@@ -75,7 +81,7 @@ const PostFeed = observer(class PostFeed extends React.Component {
 						await s3.getObject(getParams, (err, data) => {
 							// Handle any error and exit
 							if (err){
-								console.log(err)
+								console.error(err)
 								return err;
 							}
 							// No error happened
@@ -84,8 +90,10 @@ const PostFeed = observer(class PostFeed extends React.Component {
 							imageBase64 = objectData;
 							this.setState({ hasPosts: false });
 							try {
-								this.state.posts[outerIndex].images[innerIndex] = imageBase64
-							} catch {}
+								post.images[innerIndex] = imageBase64
+							} catch(err){
+								console.error(err)
+							}
 
 							this.setState({ hasPosts: true });
 							this.forceUpdate()
@@ -95,7 +103,6 @@ const PostFeed = observer(class PostFeed extends React.Component {
 					const new_post = {
 						postID: post.postID,
 						userID: post.userID,
-						location: post.location,
 						content: post.content,
 						images: post.images,
             			favourited: post.favourited,
@@ -116,39 +123,51 @@ const PostFeed = observer(class PostFeed extends React.Component {
 				});
 			}
 
-			this.setState({ posts: posts, hasPosts: true });
+			this.setState({ posts: posts, hasPosts: true, gettingNextPosts: false });
 			this.forceUpdate()
 		}).catch((error) => {
-			console.log(error);
+			console.error(error);
 		});
 	}
 
-	getPosts = async (feedType, searchTerm) => {
-		this.setState({ hasPosts: false });
-		this.callPostsApi(this.props.store.session, feedType, searchTerm)
+	getPosts = async (feedType, searchTerm, getNext) => {
+		if (!this.state.gettingNextPosts) {
+			this.setState({ hasPosts: false })
+		}
+
+		let prevPostID
+
+		if (getNext && this.state.posts.length > 0) {
+			prevPostID = this.state.posts[this.state.posts.length - 1].postID
+		}
+
+		this.callPostsApi(this.props.store.session, feedType, searchTerm, prevPostID)
 	}
 
 	search = (searchTerm) => {
-		this.setState({ hasPosts: false, posts: [] });
+		this.setState({ hasPosts: false, posts: [], lastSearched: searchTerm });
 
 		const feedType = this.props.store.currentView;
-
 		this.getPosts(feedType, searchTerm);
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		const feedType = this.props.store.currentView;
 
 		if (feedType === 'Search User') {
-			this.props.parent.searchUser = (email) => { console.log(email); this.getPosts(feedType, email) }
+			this.props.parent.searchUser = (email) => { this.getPosts(feedType, email) }
 		} else if (feedType === 'Permalink') {
 			this.getPosts(feedType, this.props.store.permalinkPostID) 
 		}
 
 		if (!this.props.preventDefaultLoad) {
-			this.getPosts(feedType);
+			if (this.props.searchTerm) {
+				this.search(this.props.searchTerm);
+			} else {
+				this.getPosts(feedType);
+			}
 		} else {
-			this.setState({ hasPosts: true });
+			this.setState({ hasPosts: true});
 		}
 
 		this.props.store.search = this.search;
@@ -156,15 +175,17 @@ const PostFeed = observer(class PostFeed extends React.Component {
 
 	render() {
 		this.props.store.updateFeedCallback = [ () => { this.setState({ posts: [], hasPosts: false }); this.getPosts(this.props.store.currentView) }];
+		this.props.store.getNextPageCallback = [ () => { this.setState({ gettingNextPosts: true }); this.getPosts(this.props.store.currentView, this.state.lastSearched, true) }];
 
 		return (
 		<div className="PostFeed light-grey-text">
 			{ this.state.hasPosts ? '' : <Loader short={ this.state.posts.length != 0 } /> }
 			{
 				this.state.posts.map((post) => (
-					<Post store={ this.props.store } key={ uid(post.postID) } post={ post } enableLoader={ () => { this.setState({ hasPosts: false }); } } />
+					<Post store={ this.props.store } key={ uid(post, post.postID) } post={ post } enableLoader={ () => { this.setState({ hasPosts: false }); } } />
 				))
 			}
+			{ !this.state.gettingNextPosts ? '' : <Loader short={ this.state.posts.length != 0 } /> }
 		</div>
 	)}
 })

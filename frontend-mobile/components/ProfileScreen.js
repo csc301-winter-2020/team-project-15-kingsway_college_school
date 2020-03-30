@@ -154,7 +154,7 @@ export default class ProfileScreen extends Component {
 			<SafeAreaView style={styles.container}>
 				<FlatList
 					data={index ? this.state.favourites : this.state.posts}
-					renderItem={({ item }) => <Post post={item} refresh={() => {
+					renderItem={({ item }) => <Post navigation={this.props.navigation} post={item} refresh={() => {
 							this.refreshFavourites();
 							this.refreshMyPosts(); }
 						} />

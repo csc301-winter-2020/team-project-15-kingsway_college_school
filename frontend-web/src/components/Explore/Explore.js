@@ -3,6 +3,7 @@ import './Explore.css';
 import Amplify from 'aws-amplify';
 import marker from '../../images/location.png';
 import PostFeed from "../PostFeed/PostFeed";
+import mapboxgl from 'mapbox-gl';
 
 class Explore extends React.Component {
 	state = {
@@ -21,12 +22,13 @@ class Explore extends React.Component {
 			if (Object.entries(response).length === 0 && response.constructor === Object) {
 				response = [];
 			}
-			//console.log(JSON.stringify(response));
+      
 			response.forEach((location) => {
 				features.push({
 					'type': 'Feature',
 					'properties': {
 						'location': location.latitude + "," + location.longitude,
+						'name': location.name.split(",")[0],
 						'icon': 'theatre'
 					},
 					'geometry': {
@@ -36,77 +38,69 @@ class Explore extends React.Component {
 				});
 			});
 			this.setState({ features: features });
-			//console.log(JSON.stringify(this.state.features));
 
 			// Plot features on map
 			this.addFeatures(mapboxgl, map, features);
 		}).catch((error) => {
-			console.log(error);
+			console.error(error);
 		});
 	};
 
 	addFeatures(mapboxgl, map, features) {
-		map.on('load', () => {
-			// map.loadImage(
-			// 	'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Cat_silhouette.svg/400px-Cat_silhouette.svg.png',
-			// 	function (error, image) {
-			// 		if (error) throw error;
-			// 		map.addImage('cat', image);
-			// 	}
-			// );
 
-			map.loadImage(marker, (error, image) => {
-				if (error) throw error;
-				map.addImage('post-icon', image);
-			});
+		map.loadImage(marker, (error, image) => {
+			if (error) throw error;
+			map.addImage('post-icon', image);
+		});
+    
+		map.addSource('places', {
+			'type': 'geojson',
+			'data': {
+				'type': 'FeatureCollection',
+				'features': features
+			}
+		});
+		// Add a layer showing the places.
+		map.addLayer({
+			'id': 'places-labels',
+			'type': 'symbol',
+			'source': 'places',
+			'layout': {
+				'text-field': ['get', 'name'],
+				'text-variable-anchor': ['top'],
+				'text-radial-offset': 1.0,
+				'text-justify': 'auto',
+				'icon-image': 'post-icon',
+				'icon-allow-overlap': true,
+				'icon-size': 0.3
+			},
+			"paint": {
+				"icon-color": "#539038",
+				// "text-color":"#9fcb3b",
+				// "text-size":12
+			}
+		});
 
-			map.addSource('places', {
-				'type': 'geojson',
-				'data': {
-					'type': 'FeatureCollection',
-					'features': features
-				}
-			});
-			// Add a layer showing the places.
-			map.addLayer({
-				'id': 'places',
-				'type': 'symbol',
-				'source': 'places',
-				'layout': {
-					// 'icon-image': '{icon}-15',
-					'icon-image': 'post-icon',
-					'icon-allow-overlap': true,
-					'icon-size': 0.3
-				},
-				"paint": {
-					"icon-color": "#539038",
-					// "text-color":"#9fcb3b",
-					// "text-size":12
-				}
-			});
+		// When a click event occurs on a feature in the places layer, open a popup at the
+		// location of the feature, with description HTML from its properties.
+		map.on('click', 'places-labels', (e) => {
+			let location = e.features[0].properties.location;
+			console.log(location);
+			this.props.store.search(location)
+		});
 
-			// When a click event occurs on a feature in the places layer, open a popup at the
-			// location of the feature, with description HTML from its properties.
-			map.on('click', 'places', (e) => {
-				let location = e.features[0].properties.location;
-				console.log(location);
-				this.props.store.search(location)
-			});
+		// Change the cursor to a pointer when the mouse is over the places layer.
+		map.on('mouseenter', 'places-labels', function () {
+			map.getCanvas().style.cursor = 'pointer';
+		});
 
-			// Change the cursor to a pointer when the mouse is over the places layer.
-			map.on('mouseenter', 'places', function () {
-				map.getCanvas().style.cursor = 'pointer';
-			});
-
-			// Change it back to a pointer when it leaves.
-			map.on('mouseleave', 'places', function () {
-				map.getCanvas().style.cursor = '';
-			});
+		// Change it back to a pointer when it leaves.
+		map.on('mouseleave', 'places-labels', function () {
+			map.getCanvas().style.cursor = '';
 		});
 	}
 
 	componentDidMount() {
-		let mapboxgl = require('mapbox-gl/dist/mapbox-gl.js');
 		mapboxgl.accessToken = 'pk.eyJ1Ijoicnlhbm1hcnRlbiIsImEiOiJjazc5aDZ6Zmgwcno0M29zN28zZHQzOXdkIn0.aXAWfSB_yY8MzA2DajzgBQ';
 		let map = new mapboxgl.Map({
 			container: 'map', // container id
@@ -124,8 +118,8 @@ class Explore extends React.Component {
 		// Get all the posts and plot on the map 
 		// this.getAllPosts(mapboxgl, map);
 
-		// Get all the locations and plot on the map 
-		this.getAllLocations(mapboxgl, map);
+		// Get all the locations and plot on the map
+		map.on('load', () => {this.getAllLocations(mapboxgl, map)})
 	}
 
 	render() {
@@ -133,7 +127,7 @@ class Explore extends React.Component {
 			
 			<div className="Explore dark-grey light-grey-text">
 				<h1 className="exploreTitle"> Click a location to see posts from that area! </h1>
-				<div id="map"></div>
+				<div id="map" className="rounded"></div>
 				<PostFeed store={ this.props.store } preventDefaultLoad={true}/>
 			</div>
 		)

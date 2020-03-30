@@ -13,6 +13,14 @@ class Store extends React.Component {
 	userID = null
 	admin = false
 	
+	trySearch = (term) => {
+		if (this.currentView !== "Home") {
+			this.changeTab(term)
+		} else {
+			this.search(term)
+		}
+	}
+
 	search = (searchTerm) => {
 		console.error('[SEARCH NOT DEFINED]')
 	}
@@ -21,9 +29,9 @@ class Store extends React.Component {
 		console.error('[CHANGE TAB NOT DEFINED]')
 	}
 
-	setCurrentView = (tab) => {
+	setCurrentView = (tab, loadPosts) => {
 		this.currentView = tab
-		this.refreshCurrentView(tab)
+		this.refreshCurrentView(tab, loadPosts)
 	}
 
 	refreshCurrentView = () => {
@@ -34,6 +42,12 @@ class Store extends React.Component {
 
 	updateFeeds = () => {
 		this.updateFeedCallback.forEach((f) => { f() });
+	}
+
+	getNextPageCallback = []
+
+	getNextPage = () => {
+		this.getNextPageCallback.forEach((f) => { f() });
 	}
 
 	SignIn = async (email, password) => {
@@ -63,7 +77,7 @@ class Store extends React.Component {
 
 			return true
 		} catch (err) { 
-			console.log(err);
+			console.error(err);
 			if (err.code === 'UserNotConfirmedException') {
 				// The error happens if the user didn't finish the confirmation step when signing up
 				// In this case you need to resend the code and confirm the user
@@ -77,7 +91,7 @@ class Store extends React.Component {
 			} else if (err.code === 'UserNotFoundException') {
 				// The error happens when the supplied username/email does not exist in the Cognito user pool
 			} else {
-				console.log(err);
+				console.error(err);
 			}
 
 			return false
@@ -87,12 +101,14 @@ class Store extends React.Component {
 
 decorate(Store, {
 	currentView: observable,
+	getNextPageCallback: observable,
+  updateFeedCallback: observable,
 	permalinkPostID: observable,
-	updateFeedCallback: observable,
 	user: observable,
 	session: observable,
 	userID: observable,
 	admin: observable,
+	getNextPage: action,
 	updateFeeds: action,
 	setCurrentView: action,
 	changeTab: action,

@@ -11,19 +11,21 @@
 
 .Tab {
 	cursor: pointer;
-	padding: 8%;
-	padding-left: 12%;
+	margin: 2%;
+	padding: 6%;
+	padding-left: 6%;
+	margin-left: 6%;
 	font-weight: 900;
 	font-size: 1.5rem;
 }
 
-.Tab.dark-grey {
+/* .Tab.dark-grey {
 	position: relative;
 	-webkit-box-shadow: 0px 0px 10px 0px rgba(17,17,17,0.5);
 	-moz-box-shadow: 0px 0px 10px 0px rgba(17,17,17,0.5);
 	box-shadow: 0px 0px 10px 0px rgba(17,17,17,0.5);
 	z-index: 2;
-}
+} */
 
 .Tab.mid-grey {
 	position: relative;
@@ -41,7 +43,11 @@
 }
 
 .rounded {
-	border-radius: 30px;
+	border-radius: 20px;
+}
+
+.rounded-15 {
+	border-radius: 15px;
 }
 
 .Tab:hover:not(.selected) {
