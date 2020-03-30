@@ -281,13 +281,14 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingBottom: 5,
 		flexDirection: "row",
-		justifyContent: "space-between"
 	},
 	headerLeft: {
+	    flex: 1,
+	    flexWrap: "wrap",
 		flexDirection: "row",
 	},
 	headerRight: {
-
+	    alignItems: 'flex-end'
 	},
 	locationText: {
 		fontSize: 15,
