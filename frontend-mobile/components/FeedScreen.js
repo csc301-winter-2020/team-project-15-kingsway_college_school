@@ -39,7 +39,8 @@ class Feed extends Component {
 	}
 	state = {
 		posts: [],
-		refreshing: true
+	    refreshing: true,
+	    userID: null
 	}
 
 	refresh() {
@@ -61,17 +62,21 @@ class Feed extends Component {
 		if (this.state.posts.length === 0) {
 			this.refresh()
 		}
+	    Auth.currentAuthenticatedUser().then(user => {
+		this.setState({userID: user.attributes["custom:userID"]})
+	    })
 
 	}
 
 	render() {
+	    console.log(this.state.userID)
 		return (
 			<View style={styles.view}>
 				<FeedHeader navigation={this.props.navigation} />
 				<SafeAreaView style={styles.container}>
 					<FlatList
 						data={this.state.posts}
-						renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} navigation={this.props.navigation} />}
+						renderItem={({ item }) => <Post post={item} deletable={this.state.userID == item.userID} refresh={() => this.refresh()} navigation={this.props.navigation} />}
 						refreshControl={
 							<RefreshControl
 								refreshing={this.state.refreshing}
