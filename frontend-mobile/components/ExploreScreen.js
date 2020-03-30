@@ -29,12 +29,13 @@ class ExploreSearch extends Component {
   state = {
     text: '',
   };
+    searchBarRef = null;
 
-    componentDidUpdate(prevProps) {
-	console.log("Updating!")
-	console.log(this.props.searchParam, prevProps.searchParam)
-	if (this.props.searchParam != prevProps.searchParam && this.props.searchParam != this.state.text) {
+    componentDidMount() {
+	
+	if (this.props.searchParam != this.state.text) {
 	    if (this.props.searchParam.length == 0) {
+		this.setState({text})
 		this.props.setFlag()
 		
 	    } else {
@@ -43,6 +44,7 @@ class ExploreSearch extends Component {
 	    }
 	}
     }
+    
   
   searching (text) {
     this.setState(text);
@@ -60,7 +62,7 @@ class ExploreSearch extends Component {
       <View style={styles.header}>
         <View style={styles.exploreBarContainer}>
           <SearchBar
-            autoFocus
+	    autoFocus
             value={this.state.text}
             containerStyle={styles.exploreBarContainer}
             inputStyle={styles.exploreBarInput}
