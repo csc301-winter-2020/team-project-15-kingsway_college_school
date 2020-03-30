@@ -11,6 +11,7 @@ class MenuIcon extends Component {
 		return <MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} />
 	}
 }
+
 class PostMenu extends Component {
 	constructor() {
 		super();
@@ -196,8 +197,6 @@ export default class Post extends Component {
 
 			});
 		}
-
-
 
 	}
 	render() {

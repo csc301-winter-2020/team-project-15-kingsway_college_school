@@ -14,6 +14,8 @@ import Amplify from 'aws-amplify';
 import { Auth } from 'aws-amplify';
 import { TextInput } from 'react-native-paper';
 
+console.disableYellowBox = true;
+
 Amplify.configure({
 	API: {
 		endpoints: [
