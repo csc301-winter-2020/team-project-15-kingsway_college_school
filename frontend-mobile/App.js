@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button, Image, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator, BottomTabBar } from '@react-navigation/bottom-tabs';
 import { MenuProvider } from 'react-native-popup-menu';
 import { Icon } from 'react-native-elements';
 import { MaterialCommunityIcons } from 'react-native-vector-icons';
 import FeedScreen from './components/FeedScreen.js'
+import ExploreScreen from './components/ExploreScreen.js'
 import NewPostScreen from './components/NewPostScreen.js'
 import ProfileScreen from './components/ProfileScreen.js'
 import Amplify from 'aws-amplify';
@@ -246,6 +247,7 @@ function MyTabs(props) {
 				style: styles.bar,
 				keyboardHidesTabBar: true
 			}}
+		    tabBar={props => <BottomTabBar {...props} state={{...props.state, routes: props.state.routes.slice(0,3)}}></BottomTabBar>}
 		>
 			<Tab.Screen
 				name="Feed"
@@ -289,6 +291,11 @@ function MyTabs(props) {
 					),
 				}}
 			/>
+			<Tab.Screen
+			    name="Explore"
+			    component={ExploreScreen}
+			/>
+			    
 		</Tab.Navigator>
 	);
 }

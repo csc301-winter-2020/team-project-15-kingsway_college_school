@@ -71,7 +71,7 @@ class Feed extends Component {
 				<SafeAreaView style={styles.container}>
 					<FlatList
 						data={this.state.posts}
-						renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} />}
+						renderItem={({ item }) => <Post post={item} refresh={() => this.refresh()} navigation={this.props.navigation} />}
 						refreshControl={
 							<RefreshControl
 								refreshing={this.state.refreshing}

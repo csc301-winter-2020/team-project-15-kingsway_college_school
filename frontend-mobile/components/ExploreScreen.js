@@ -29,6 +29,13 @@ class ExploreSearch extends Component {
   state = {
     text: '',
   };
+
+    componentDidMount() {
+	if (this.props.searchParam) {
+	    let text = this.props.searchParam;
+	    this.searching({text})
+	}
+    }
   
   searching (text) {
     this.setState(text);
@@ -126,6 +133,7 @@ export default class ExploreScreen extends Component {
 		    console.log(error)
 	    });
 	  }
+      
   }
 
   render() {
@@ -135,7 +143,7 @@ export default class ExploreScreen extends Component {
     }
     return (
       <View style={styles.view}>
-	      <ExploreSearch search={this.search} setFlag={() => this.setShowSearchFalse()}/>
+	      <ExploreSearch search={this.search} setFlag={() => this.setShowSearchFalse() } searchParam={this.props.route.params.searchParam} />
 	      {currentView}
         <Tag />
       </View>
