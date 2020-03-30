@@ -119,7 +119,7 @@ class NewPostBody extends Component {
 
 		Amplify.API.post('newPost', '', reqParams).then((response) => {
 			console.log("Post submitted")
-			Alert.alert("Post submitted", ":)")
+			Alert.alert("Success", "Post submitted")
 			this.setState({ image: null })
 		}).catch((error) => {
 			console.log(error);

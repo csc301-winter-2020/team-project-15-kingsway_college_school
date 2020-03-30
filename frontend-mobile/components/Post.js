@@ -23,12 +23,17 @@ class PostMenu extends Component {
 
 		const reqParams = { queryStringParameters: { postID: this.props.postID } };
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
-		        this.hideMenu();
+		    Alert.alert("Success!", "Post deleted", [{text: "Done", onPress: () => {
+			this.hideMenu();
 			this.props.refresh();
-			Alert.alert("Success!", "Post deleted")
+		    }}])
 		}).catch((error) => {
 			console.log(error);
 		    console.log(error.response)
+		    Alert.alert("Success!", "Post deleted", [{text: "Done", onPress: () => {
+			this.hideMenu();
+			this.props.refresh();
+		    }}])
 		});
 	}
 
@@ -106,7 +111,6 @@ class PostMenu extends Component {
 	}
 
 	render() {
-		const userID = 2;
 		const menuOptionStyle = {
 			optionWrapper: {
 				backgroundColor: "#fcfcff",
@@ -133,7 +137,7 @@ class PostMenu extends Component {
 					button={<MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} onPress={this.showMenu} />}>
 					{favouriteOption}
 					<MenuDivider />
-					<MenuItem onPress={() => this.deleteAlert()} disabled={!this.props.userID == userID}> Delete</MenuItem>
+					<MenuItem onPress={() => this.deleteAlert()} disabled={!this.props.deletable}> Delete</MenuItem>
 				</Menu>
 			</View>
 		)
@@ -171,7 +175,6 @@ export default class Post extends Component {
 
 	async componentDidMount() {
 
-	    console.log(this.props.post)
 		if (this.props.post.images.length > 0) {
 			let imageBase64;
 			// await Storage.get(imageKey, { download: true }).then(result =>  console.log(result))
@@ -252,7 +255,7 @@ export default class Post extends Component {
 						<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear()}</Text>
 					</View>
 					<View styles={styles.headerRight}>
-						<PostMenu alreadyFavourite={this.props.post.favourited} userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
+						<PostMenu alreadyFavourite={this.props.post.favourited} deletable={this.props.deletable} postUserID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
 					</View>
 				</View>
 				<View styles={{ flex: 1 }}>
