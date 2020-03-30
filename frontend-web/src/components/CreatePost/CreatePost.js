@@ -3,7 +3,7 @@ import { uid } from "react-uid";
 import "./CreatePost.css";
 import Amplify from "aws-amplify";
 import mapboxgl from "mapbox-gl";
-import MapboxGeocoder from "mapbox-gl-geocoder";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 
 class CreatePost extends React.Component {
   state = {
@@ -108,10 +108,11 @@ class CreatePost extends React.Component {
       proximity: toronto,
       types: "poi",
       trackProximity: true,
-      placeholder: "Tag a Location!"
+      placeholder: "Tag a Location!",
+      collapsed: true
     });
     map.addControl(geocoder);
-    geocoder.addTo('#geocoderContainer')
+    //document.getElementById('geocoderContainer').appendChild(geocoder.onAdd(map));
   }
 
   onSelected = (viewport, item) => {
@@ -139,11 +140,7 @@ class CreatePost extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <div className="CreatePost mid-mid-grey rounded shadow light-grey-text">
           <h2>Post a new experience!</h2>
-          <div className="PickLocation">
-		  	<i className="accent fa fa-map-marker Pin"></i>
-            <div id="geocoderContainer"/>
-          </div>
-            <div ref={el => this.mapContainer = el} className="mapContainer"/>
+          <div className="PickLocation"></div>
           <div className="TextAreaContainer rounded">
             <textarea
               id="new-post-textarea"
@@ -164,12 +161,14 @@ class CreatePost extends React.Component {
               htmlFor="fileUpload"
               className="AttachPicture fa fa-paperclip"
             ></label>
+            <i className="accent fa fa-map-marker Pin"></i>
             <input
               type="submit"
               className="ShareButton rounded-15 light-grey dark-grey-text"
               value="Share"
             />
           </div>
+            <div ref={el => this.mapContainer = el} className="mapContainer"/>
          	{ this.state.attachment ? <img className="PreviewImage" src={ this.state.attachment }/> : '' }
         </div>
       </form>
