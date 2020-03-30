@@ -23,7 +23,7 @@ class FeedHeader extends Component {
 						inputStyle={styles.searchBarInput}
 						inputContainerStyle={styles.searchBarInputContainer}
 						placeholder={"Search"}
-						onFocus={() => this.props.navigation.push("Explore")}
+						onFocus={() => this.props.navigation.push("Explore", {searchParam: ""})}
 						platform={"ios"}
 					/>
 				</View>
