@@ -5,6 +5,25 @@ import { SearchBar } from 'react-native-elements';
 import Tag from './Tag.js';
 import Post from './Post.js';
 
+class SearchStatus extends Component {
+  state = {status: 'Searching'}
+
+  componentDidMount() {
+    setInterval(() => {
+      if (this.state.status.length > 17) {
+        this.state.status = 'Searching';
+      } else {
+        this.setState({status: this.state.status + ' .'});
+      }
+    }, 50);
+  }
+
+  render() {
+    return (
+      <Text style={styles.searchingText}>{this.state.status}</Text>
+    )
+  }
+}
 
 class ExploreTags extends Component {
   render() {
@@ -15,42 +34,55 @@ class ExploreTags extends Component {
         </View>
 	      <SafeAreaView style={styles.hashtagsContainer}>
 	      <FlatList
-              data={this.props.hashtags}
-              renderItem={({ item }) => <Tag tag={item} search={(searchTerm) => this.props.search(searchTerm) } />}
+          data={this.props.hashtags}
+          renderItem={({ item }) => <Tag tag={item} search={(searchTerm) => this.props.search(searchTerm) } />}
 		    />
 		    </SafeAreaView>
 	    </View>
-	)
-
-    }
+  	)
+  }
 }
 
 class ExploreSearch extends Component {
   state = {
     text: '',
   };
-    searchBarRef = null;
 
-    componentDidMount() {
-	
-	if (this.props.searchParam != this.state.text) {
-	    if (this.props.searchParam.length == 0) {
-		this.setState({text})
-		this.props.setFlag()
-		
-	    } else {
-		let text = this.props.searchParam;
-		this.searching({text})
-	    }
-	}
+  constructor() {
+    super();
+    this.searchTimer;
+  }
+
+  searchBarRef = null;
+
+  componentDidMount() {
+    if (this.props.searchParam != this.state.text) {
+      if (this.props.searchParam.length == 0) {
+        this.setState({text})
+        this.props.setFlag()
+      } 
+      else {
+      let text = this.props.searchParam;
+      this.searching({text})
+      }
     }
-    
+  }
   
+  startSearchTimeout() {
+    this.searchTimer = setTimeout(() => {
+      this.props.search(this.state.text.replace(/\s/g, ""))
+    }, 700); // Modify search timer/timeout to taste
+  }
+  
+  stopSearchTimeout() {
+    clearTimeout( this.searchTimer );
+  }
+
   searching (text) {
     this.setState(text);
+    this.stopSearchTimeout();
     if (text.text) {
-      // doSomeDelay();
-      this.props.search(text.text);
+      this.startSearchTimeout();
     }
     else {
       this.props.setFlag();
@@ -62,12 +94,13 @@ class ExploreSearch extends Component {
       <View style={styles.header}>
         <View style={styles.exploreBarContainer}>
           <SearchBar
-	    autoFocus
+	          autoFocus
             value={this.state.text}
             containerStyle={styles.exploreBarContainer}
             inputStyle={styles.exploreBarInput}
             inputContainerStyle={styles.exploreBarInputContainer}
             onChangeText={(text) => this.searching({text})}
+            // maxLength={25}
           />
         </View>
 
@@ -109,7 +142,10 @@ export default class ExploreScreen extends Component {
   state = {
     hashtags: [],
     showSearch: false,
-    posts: []
+    posts: [],
+    searchLoading: false,
+    searchString: '',
+    noResults: false
   };
 
   constructor() {
@@ -123,11 +159,19 @@ export default class ExploreScreen extends Component {
   }
   
   search(searchTerm) {
-    this.setState({showSearch: true});
+    this.setState({searchLoading: true, showSearch: true, searchString: ''});
     let getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
 
     Amplify.API.get('getPosts', "", getParams).then( (response) => {
-        this.setState({posts: response});
+      console.log("Search term: " + searchTerm);
+      console.log(response);
+      this.setState({posts: response, searchLoading: false});
+      if (response.length === 0) {
+        this.setState({searchString: searchTerm, noResults: true});
+      }
+      else {
+        this.setState({noResults: false});
+      }
     }).catch((error) => {
         console.log(error)
     })
@@ -146,10 +190,23 @@ export default class ExploreScreen extends Component {
   }
 
   render() {
-    let currentView = <ExploreTags hashtags={this.state.hashtags} search={(searchTerm) => this.search(searchTerm)}/>
+    let currentView = <ExploreTags hashtags={this.state.hashtags} search={(searchTerm) => this.search(searchTerm)} />
+
+    // Handling search results or lack thereof.
     if (this.state.showSearch) {
-	    currentView = <ExploreSearchResults posts={this.state.posts} navigation={this.props.navigation} />
+      if (this.state.searchLoading) {
+        currentView = <View><SearchStatus/></View> // Using animated view. Non-animated: <Text style={styles.searchingText}>Searching...</Text></View>
+      }
+      else if (this.state.noResults && !this.state.searchLoading) {
+        currentView = <View>
+          <Text style={styles.noResultsText}>No results for <Text style={styles.searchTermText}>#{this.state.searchString.toLowerCase()}</Text>{'\n'}</Text>
+        </View>
+      }
+      else {
+        currentView = <ExploreSearchResults posts={this.state.posts} navigation={this.props.navigation} />
+      }
     }
+
     return (
       <View style={styles.view}>
 	      <ExploreSearch search={this.search} setFlag={() => this.setShowSearchFalse() } searchParam={this.props.route.params ? this.props.route.params.searchParam : null} />
@@ -197,6 +254,24 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: "#fcfcff"
+  },
+  searchingText: {
+    marginLeft: 10,
+    fontSize: 18,
+    fontWeight: "normal",
+    color: "lightgrey"
+  },
+  noResultsText: {
+    marginLeft: 10,
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#fcfcff"
+  },
+  searchTermText: {
+    marginLeft: 10,
+    fontSize: 18,
+    fontWeight: "normal",
+    color: "#FB9B38"
   },
   hashtagsContainer: {
     flexDirection: "column"
