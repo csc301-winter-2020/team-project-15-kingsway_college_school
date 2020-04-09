@@ -7,7 +7,6 @@
 	opacity: 100;
 }
 
-
 .TextAreaContainer {
 	height: 15vh;
 	background: #FCFCFF;
@@ -66,7 +65,7 @@
 	vertical-align: middle;
 	horiz-align: center;
 	display: inline-block;
-	font-size: 2rem;
+	font-size: 8rem;
 	cursor: pointer;
 	border-radius: 20px;
 	padding-right: 10px;
@@ -77,11 +76,15 @@
 	background: #36325E;
 }
 
-.Pin {
+.AttachPicture {
 	vertical-align: middle;
-	float: left;
-	font-size: 2vw;
-	margin-right: 0.5vw;
+	horiz-align: center;
+	display: inline-block;
+	font-size: 2rem;
+	cursor: pointer;
+	border-radius: 20px;
+	padding-right: 10px;
+	padding-left: 10px;
 }
 
 .PickLocation {
@@ -91,60 +94,49 @@
 	padding-bottom: 1vw;
 }
 
-.PickLocation * input {
-	background: white;
-	font-size: 1rem;
-	height: 1.5vw;
-	border-radius: 15px;
-	border-style: none;
-	width: 20vw;
-	padding: 10px;
-	padding-left: 15px;
-}
 
-.PickLocation * input:focus {
-	background: #f39038;
-	outline: none;
-}
-
-.react-geocoder {
-	position: absolute;
+.LocationButton {
+	vertical-align: middle;
+	horiz-align: center;
 	display: inline-block;
-	max-width: 90%;
-}
-
-.react-geocoder-results {
+	font-size: 2rem;
 	cursor: pointer;
-}
-
-.react-geocoder-item {
-
+	border-radius: 20px;
+	padding-right: 10px;
+	padding-left: 10px;
 }
 
 .mapContainer {
 	display: block;
 	left: 0;
 	right: 0;
-	height: 0px;
-	transition: height 2s;
-	margin-bottom: 10px;
-	border-bottom-width: 10px;
+	height:100%;
 	border-radius: 15px;
 }
+.mapSizeController {
+	display: block;
+	left: 0;
+	right: 0;
+	height: 0px;
+	transition: height 2s;
+	border-bottom-width: 10px;
+	border-radius: 15px;
+	margin-bottom: 0px;
+}
 
-.CreatePost:hover .mapContainer{
-	height: 300px;
+.mapSizeController.collapsed {
+}
+
+.mapSizeController.expanded {
+	height: 200px;
+	margin-bottom: 10px;
 }
 
 .mapboxgl-canvas {
     position: absolute;
+	height: 300px;
     top: 0;
     bottom: 0;
-    right: 0;
-    left: 0;
-	margin-bottom: 10px;
-}
-
-.react-geocoder-item:hover {
-	color: #f39038;
+	right: 0;
+	left: 0;
 }
