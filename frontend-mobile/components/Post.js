@@ -11,6 +11,7 @@ class MenuIcon extends Component {
 		return <MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} />
 	}
 }
+
 class PostMenu extends Component {
 	constructor() {
 		super();
@@ -22,11 +23,17 @@ class PostMenu extends Component {
 
 		const reqParams = { queryStringParameters: { postID: this.props.postID } };
 		Amplify.API.del('deletePost', '', reqParams).then((response) => {
-		        this.hideMenu();
+		    Alert.alert("Success!", "Post deleted", [{text: "Done", onPress: () => {
+			this.hideMenu();
 			this.props.refresh();
-			Alert.alert("Post deleted", ":)")
+		    }}])
 		}).catch((error) => {
 			console.log(error);
+		    console.log(error.response)
+		    Alert.alert("Success!", "Post deleted", [{text: "Done", onPress: () => {
+			this.hideMenu();
+			this.props.refresh();
+		    }}])
 		});
 	}
 
@@ -104,7 +111,6 @@ class PostMenu extends Component {
 	}
 
 	render() {
-		const userID = 2;
 		const menuOptionStyle = {
 			optionWrapper: {
 				backgroundColor: "#fcfcff",
@@ -131,12 +137,13 @@ class PostMenu extends Component {
 					button={<MaterialCommunityIcons name="dots-horizontal" color={'#fcfcff'} size={20} onPress={this.showMenu} />}>
 					{favouriteOption}
 					<MenuDivider />
-					<MenuItem onPress={() => this.deleteAlert()} disabled={!this.props.userID == userID}> Delete</MenuItem>
+					<MenuItem onPress={() => this.deleteAlert()} disabled={!this.props.deletable}> Delete</MenuItem>
 				</Menu>
 			</View>
 		)
 	}
 }
+
 export default class Post extends Component {
 
 	state = {
@@ -144,7 +151,30 @@ export default class Post extends Component {
 	}
 	locationHeader = null;
 	dateHeader = null;
+	image = null;
+
+	searchWithTag = (tagText) => {
+	    this.props.navigation.navigate("Explore", {searchParam: tagText})
+	}
+
+	parseContent = (content) => {
+		const notTags = content.split(/#\w+/g)
+		const tags = content.match(/#\w+/g)
+
+		let output = []
+
+		for (let i = 0; i < notTags.length - 1; i++) {
+			output.push(notTags[i])
+			output.push(<Text key={i} style={{color: "orange"}} onPress={() => this.searchWithTag(tags[i])}>{ tags[i]}</Text>)
+		}
+
+		output.push(notTags[notTags.length - 1])
+
+		return output
+	}
+
 	async componentDidMount() {
+
 		if (this.props.post.images.length > 0) {
 			let imageBase64;
 			// await Storage.get(imageKey, { download: true }).then(result =>  console.log(result))
@@ -172,8 +202,6 @@ export default class Post extends Component {
 
 			});
 		}
-
-
 
 	}
 	render() {
@@ -227,11 +255,11 @@ export default class Post extends Component {
 						<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear()}</Text>
 					</View>
 					<View styles={styles.headerRight}>
-						<PostMenu alreadyFavourite={this.props.post.favourited} userID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
+						<PostMenu alreadyFavourite={this.props.post.favourited} deletable={this.props.deletable} postUserID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
 					</View>
 				</View>
 				<View styles={{ flex: 1 }}>
-					<Text style={styles.content}>{this.props.post.content}</Text>
+					<Text style={styles.content}> {this.parseContent(this.props.post.content)}</Text>
 				</View>
 				{this.image}
 				{favIcon}
@@ -257,13 +285,14 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingBottom: 5,
 		flexDirection: "row",
-		justifyContent: "space-between"
 	},
 	headerLeft: {
+	    flex: 1,
+	    flexWrap: "wrap",
 		flexDirection: "row",
 	},
 	headerRight: {
-
+	    alignItems: 'flex-end'
 	},
 	locationText: {
 		fontSize: 15,

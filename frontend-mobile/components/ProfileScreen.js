@@ -84,7 +84,7 @@ export default class ProfileScreen extends Component {
 		favourites: [],
 		selectedIndex: 0,
 		refreshing: true,
-		userId: null
+		userID: null
 	}
 	constructor() {
 		super()
@@ -132,7 +132,7 @@ export default class ProfileScreen extends Component {
 
 	    Auth.currentAuthenticatedUser().then(user => {
 		console.log(user.attributes["custom:userID"])
-		this.setState({userId: user.attributes["custom:userID"]})
+		this.setState({userID: user.attributes["custom:userID"]})
 	    })
 
 		if (this.state.posts.length === 0) {
@@ -145,7 +145,6 @@ export default class ProfileScreen extends Component {
 
 	updateIndex(selectedIndex) {
 		this.setState({ selectedIndex })
-		// console.log(this.state)
 	}
 
 	selectedScreen() {
@@ -154,7 +153,7 @@ export default class ProfileScreen extends Component {
 			<SafeAreaView style={styles.container}>
 				<FlatList
 					data={index ? this.state.favourites : this.state.posts}
-					renderItem={({ item }) => <Post post={item} refresh={() => {
+					renderItem={({ item }) => <Post navigation={this.props.navigation} deletable={this.state.userID == item.userID} post={item} refresh={() => {
 							this.refreshFavourites();
 							this.refreshMyPosts(); }
 						} />
