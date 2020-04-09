@@ -163,8 +163,6 @@ export default class ExploreScreen extends Component {
     let getParams = { queryStringParameters: { searchType: 'TAG', searchParameter: searchTerm } };
 
     Amplify.API.get('getPosts', "", getParams).then( (response) => {
-      console.log("Search term: " + searchTerm);
-      console.log(response);
       this.setState({posts: response, searchLoading: false});
       if (response.length === 0) {
         this.setState({searchString: searchTerm, noResults: true});
