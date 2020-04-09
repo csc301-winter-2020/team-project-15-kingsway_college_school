@@ -32,6 +32,7 @@
     opacity: 0;
     transition: opacity 2s;
 	background: red;
+	margin-bottom: 10px;
 }
 
 .PreviewImage {
@@ -52,7 +53,7 @@
 	cursor: pointer;
 	height: 36px;
 	font-size: 1rem;
-	border-radius: 2.5px !important;
+	border-radius: 5px !important;
 	perspective: 1px;
 }
 
@@ -76,7 +77,6 @@
 	padding-right: 10px;
 	padding-left: 10px;
 	background: lightslategray;
-	border-radius: 2.5px;
 }
 
 
