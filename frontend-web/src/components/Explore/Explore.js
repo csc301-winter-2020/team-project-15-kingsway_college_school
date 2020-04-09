@@ -120,6 +120,15 @@ class Explore extends React.Component {
 
 		// Get all the locations and plot on the map
 		map.on('load', () => {this.getAllLocations(mapboxgl, map)})
+
+		 map.addControl(
+            new mapboxgl.GeolocateControl({
+                positionOptions: {
+                    enableHighAccuracy: true
+                },
+                trackUserLocation: false
+            })
+        );
 	}
 
 	render() {
