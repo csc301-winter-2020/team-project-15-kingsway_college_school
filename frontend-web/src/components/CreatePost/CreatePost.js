@@ -14,11 +14,7 @@ class CreatePost extends React.Component {
             latitude: 43.6529,
             zoom: 8
         },
-        location : {
-            locName: undefined,
-            longitude: -79.3949,
-            latitude: 43.6529,
-        },
+        location : undefined,
         mapState : "default"
     };
 
@@ -57,8 +53,7 @@ class CreatePost extends React.Component {
                 images: imageParam
             }
         };
-
-        if (this.state.locName) {
+        if (this.state.mapState === "expanded") {
             reqParams.body["location"] = {
                 name: this.state.location.locName,
                 latitude: this.state.location.latitude,
@@ -69,7 +64,7 @@ class CreatePost extends React.Component {
         reqParams["headers"] = {
             Authorization: this.props.store.session.idToken.jwtToken
         };
-
+        console.log(reqParams);
         Amplify.API.post("newPost", "", reqParams)
             .then(response => {
                 this.props.store.updateFeeds();
@@ -124,18 +119,18 @@ class CreatePost extends React.Component {
             placeholder: "Tag a Location!",
             collapsed: false
         });
-        geocoder.addTo('#geocoder-container');
-        geocoder.on("result", this.handleOnResult)
-        //document.getElementById('geocoderContainer').appendChild(geocoder.onAdd(map));
+        document.getElementById('geocoder-container').appendChild(geocoder.onAdd(map));
+        geocoder.on("result", this.handleOnResult);
+        geocoder.on("clear", this.handleClear);
     }
 
-    onSelected = (viewport, item) => {
+    //onSelected = (viewport, item) => {
         //console.log('Selected: ', item)
         //console.log("lat: ", item.center[1], "long: ", item.center[0])
-        this.setState({lat: item.center[1], long: item.center[0]});
+        //this.setState({lat: item.center[1], long: item.center[0]});
         //console.log("place: ", item.place_name)
-        this.setState({locName: item.place_name});
-    };
+        //this.setState({locName: item.place_name});
+    //};
 
     handleViewportChange = (viewport) => {
         this.setState({
@@ -144,35 +139,32 @@ class CreatePost extends React.Component {
     };
 
     MapButtonEvent = (event) => {
-
         //Check wether to show or hide the map
         if(this.state.mapState === "default"){
-            this.setState({mapState : "expanded"})
-            //If hiding the map
-            //check if the user has saved a location to the box
-            //if they have leave the location search bar expanded
-            // if they haven't close it too
+            this.setState({mapState : "collapsed"})
         }else{
-            if(this.state.locName){
-                this.setState({mapState : "collapsed"})
-            }else{
-                 this.setState({mapState : "default"})
-            }
+            this.setState({mapState : "default"})
         }
-        console.log(this.state.mapState)
     };
 
-    handleOnResult = result => {
-        console.log(result);
+    handleOnResult = event => {
+        //console.log(event);
         this.setState({
-            location : { locName : result.place_name_en}
+            location : { latitude: event.result.center[1],
+                        longitude: event.result.center[0],
+                        locName : event.result.place_name_en
+            },
+            mapState : "expanded"
         });
-    }
+    };
+
+    handleClear = () => {
+        this.setState({mapState: "collapsed"});
+    };
 
     render() {
         const viewport = this.state.viewport;
         const mapState = this.state.mapState;
-        console.log(`mapContainer ${mapState}`);
         return (
             <form onSubmit={this.handleSubmit}>
                 <div className="CreatePost mid-mid-grey rounded shadow light-grey-text">
@@ -202,9 +194,7 @@ class CreatePost extends React.Component {
                                 className="ShareButton rounded-15 light-grey dark-grey-text"
                                 value="Share"
                             />
-                            <div className={"geocoderSizeController"}>
-                                <div id={"geocoder-container"} className={`geocoderContainer ${mapState}`} />
-                            </div>
+                            <div id={"geocoder-container"} className={`geocoderContainer ${mapState}`} />
                     </div>
                     <div className={`mapSizeController ${mapState}`}>
                     <div ref={el => this.mapContainer = el} class={"mapContainer"}/>

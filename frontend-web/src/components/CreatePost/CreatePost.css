@@ -30,8 +30,7 @@
 	width: 100%;
 	height: auto;
     opacity: 0;
-    transition: opacity 2s;
-	background: red;
+    transition: opacity .25s;
 	margin-bottom: 10px;
 }
 
@@ -58,12 +57,12 @@
 }
 
 .ShareButton:hover {
-	background-color: lightslategray;
+	background: lightslategrey;
 }
 
 
-.AttachPicture:hover {
-	background: lightslategray;
+.AttachPicture:hover, .LocationButton:hover {
+  background: #110d41;
 }
 
 .AttachPicture, .LocationButton {
@@ -76,7 +75,6 @@
 	margin-right: 10px;
 	padding-right: 10px;
 	padding-left: 10px;
-	background: lightslategray;
 }
 
 
@@ -89,26 +87,35 @@
 }
 
 .mapboxgl-ctrl-geocoder {
-	position: absolute;
-	width : 100%;
 	vertical-align: top;
+	font-family: inherit;
+	font-size: 1rem;
+	min-width: 0!important;
+	width: 100%!important;
 }
+
 
 .geocoderContainer{
-	position: absolute;
+	display: inline-block;
 	padding: 0;
 	margin: 0;
+	horiz-align: left;
+	vertical-align: top;
+	max-width: available;
+	transition: width .25s;
 }
 
-.geocoderSizeController {
-	display: inline-block;
-	vertical-align: top;
-	horiz-align: center;
-	background: lightslategray;
-	width: auto;
-	padding: 0;
-	margin: 0;
+.geocoderContainer.default{
+	visibility: hidden;
+	width: 0;
 }
+
+.geocoderContainer.expanded, .geocoderContainer.collapsed{
+	display: inline-block;
+	width: 50%;
+	max-width: available;
+}
+
 
 .mapSizeController.collapsed {
 
@@ -119,7 +126,7 @@
 	left: 0;
 	right: 0;
 	height: 0px;
-	transition: height 2s;
+	transition: height .25s;
 	border-bottom-width: 10px;
 	border-radius: 15px;
 	margin-bottom: 0px;
