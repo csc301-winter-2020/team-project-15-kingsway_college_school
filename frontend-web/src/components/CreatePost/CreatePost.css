@@ -25,13 +25,13 @@
 
 .CreatePostButtons {
 	display: inline-block;
+	margin-top: 10px;
 	vertical-align: top;
-	width: auto;
-	max-width: 65%;
-	height: 8.5vh;
-	margin-right: 4vw;
+	width: 100%;
+	height: auto;
     opacity: 0;
     transition: opacity 2s;
+	background: red;
 }
 
 .PreviewImage {
@@ -42,69 +42,43 @@
 }
 
 .ShareButton {
-	vertical-align: middle;
 	text-align: center;
 	display: inline-block;
 	border: 0;
 	outline: 0;
-	height: 50%;
 	padding: 0;
-	min-width: 6vw;
-	width: auto;
-	margin-top: 10px;
-	margin-left: 20px;
+	width: 6vw;
+	margin-right : 10px;
 	cursor: pointer;
+	height: 36px;
 	font-size: 1rem;
+	border-radius: 2.5px !important;
+	perspective: 1px;
 }
 
 .ShareButton:hover {
 	background-color: lightslategray;
 }
 
-.AttachPicture {
-	vertical-align: middle;
-	horiz-align: center;
-	display: inline-block;
-	font-size: 8rem;
-	cursor: pointer;
-	border-radius: 20px;
-	padding-right: 10px;
-	padding-left: 10px;
-}
 
 .AttachPicture:hover {
-	background: #36325E;
+	background: lightslategray;
 }
 
-.AttachPicture {
-	vertical-align: middle;
+.AttachPicture, .LocationButton {
+	vertical-align: top;
 	horiz-align: center;
 	display: inline-block;
-	font-size: 2rem;
+	font-size: 2.25rem;
 	cursor: pointer;
-	border-radius: 20px;
+	border-radius: 5px;
+	margin-right: 10px;
 	padding-right: 10px;
 	padding-left: 10px;
+	background: lightslategray;
+	border-radius: 2.5px;
 }
 
-.PickLocation {
-	vertical-align: middle;
-	display: inline-block;
-	font-weight: 500;
-	padding-bottom: 1vw;
-}
-
-
-.LocationButton {
-	vertical-align: middle;
-	horiz-align: center;
-	display: inline-block;
-	font-size: 2rem;
-	cursor: pointer;
-	border-radius: 20px;
-	padding-right: 10px;
-	padding-left: 10px;
-}
 
 .mapContainer {
 	display: block;
@@ -113,6 +87,32 @@
 	height:100%;
 	border-radius: 15px;
 }
+
+.mapboxgl-ctrl-geocoder {
+	position: absolute;
+	width: 100%;
+	vertical-align: top;
+}
+
+.geocoderContainer{
+	position: absolute;
+	padding: 0;
+	margin: 0;
+}
+
+.geocoderSizeController {
+	display: inline-block;
+	vertical-align: top;
+	horiz-align: center;
+	background: lightslategray;
+	padding: 0;
+	margin: 0;
+}
+
+.mapSizeController.collapsed {
+
+}
+
 .mapSizeController {
 	display: block;
 	left: 0;
@@ -122,9 +122,6 @@
 	border-bottom-width: 10px;
 	border-radius: 15px;
 	margin-bottom: 0px;
-}
-
-.mapSizeController.collapsed {
 }
 
 .mapSizeController.expanded {

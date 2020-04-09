@@ -124,7 +124,7 @@ class CreatePost extends React.Component {
             placeholder: "Tag a Location!",
             collapsed: false
         });
-        map.addControl(geocoder);
+        geocoder.addTo('#geocoder-container');
         geocoder.on("result", this.handleOnResult)
         //document.getElementById('geocoderContainer').appendChild(geocoder.onAdd(map));
     }
@@ -202,6 +202,9 @@ class CreatePost extends React.Component {
                                 className="ShareButton rounded-15 light-grey dark-grey-text"
                                 value="Share"
                             />
+                            <div className={"geocoderSizeController"}>
+                                <div id={"geocoder-container"} className={`geocoderContainer ${mapState}`} />
+                            </div>
                     </div>
                     <div className={`mapSizeController ${mapState}`}>
                     <div ref={el => this.mapContainer = el} class={"mapContainer"}/>
