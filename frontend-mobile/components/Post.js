@@ -12,6 +12,7 @@ class MenuIcon extends Component {
 	}
 }
 
+// Deprecated.
 class PostMenu extends Component {
 	constructor() {
 		super();
@@ -123,7 +124,6 @@ class PostMenu extends Component {
 				borderRadius: 10,
 			}
 		}
-
 		// Change "Favourite" option to "Remove from favourites" when looking at Favourites screen
 		let favouriteOption = <MenuItem onPress={() => this.favouritePost()} customStyles={menuOptionStyle}>Favourite</MenuItem>;
 		if (this.props.alreadyFavourite) {
@@ -140,6 +140,129 @@ class PostMenu extends Component {
 					<MenuItem onPress={() => this.deleteAlert()} disabled={!this.props.deletable}> Delete</MenuItem>
 				</Menu>
 			</View>
+		)
+	}
+}
+
+
+class DeleteButton extends Component {
+	constructor() {
+		super();
+		this.deletePost = this.deletePost.bind(this)
+		this.deleteAlert = this.deleteAlert.bind(this)
+	}
+
+	deletePost() {
+		const reqParams = { queryStringParameters: { postID: this.props.postID } };
+		Amplify.API.del('deletePost', '', reqParams).then((response) => {
+		    Alert.alert("Success!", "Post deleted", [{text: "Done", onPress: () => {
+			this.props.refresh();
+		    }}])
+		}).catch((error) => {
+			console.log(error);
+		    console.log(error.response)
+		    Alert.alert("Success!", "Post deleted", [{text: "Done", onPress: () => {
+			this.props.refresh();
+		    }}])
+		});
+	}
+
+	deleteAlert() {
+		Alert.alert(
+			'Delete post?',
+			'Are you sure you want to delete this post?',
+			[
+				{
+					text: 'Cancel',
+					onPress: () => console.log('Cancel Pressed'),
+					style: 'cancel',
+				},
+				{ text: 'OK', onPress: () => this.deletePost() },
+			],
+			{ cancelable: true },
+		);
+	}
+
+	render() {
+		return (
+			//<View style={{ borderRadius: 10 }}>
+			<MaterialCommunityIcons
+				style={styles.delIcon}
+				name="trash-can-outline"
+				color={'#FCFCFF'}
+				size={25}
+				onPress={() => this.deleteAlert() }
+			/>
+			//</View>
+		)
+	}
+}
+
+class FavouriteButton extends Component {
+	favouritePost() {
+		const reqParams = { queryStringParameters: { postID: this.props.postID} };
+		Amplify.API.put('favouritePost', '', reqParams).then( (response) => {
+			this.props.refresh();
+			Alert.alert("Post favourited!");
+		}).catch((error) => {
+			console.log(error)
+		})
+	}
+
+	unfavouritePost() {
+		const reqParams = { queryStringParameters: { postID: this.props.postID} };
+		Amplify.API.put('unfavouritePost', '', reqParams).then( (response) => {
+			this.props.refresh();
+			if (this.props.onFavScreen) {
+				Alert.alert("Post removed.");
+			}
+		}).catch((error) => {
+			console.log(error)
+		})
+	}
+
+
+	unfavouriteAlert() {
+		Alert.alert(
+			'Remove from favourites?',
+			'Are you sure you want to remove this post from your favourites?',
+			[
+				{
+					text: 'Cancel',
+					onPress: () => console.log('Cancel Pressed'),
+					style: 'cancel',
+				},
+				{ text: 'OK', onPress: () => this.unfavouritePost() },
+			],
+			{ cancelable: true },
+		);
+		
+	}
+
+	render() {
+		let favIcon = <></>
+		if (this.props.favourited) {
+			favIcon = <MaterialCommunityIcons
+				style={styles.favIcon}
+				name="star"
+				color={'#FB9B38'}
+				size={25}
+				onPress={this.props.onFavScreen ? () => this.unfavouriteAlert() : () => this.unfavouritePost() } // Only ask for confirmation if you're on Favourites screen
+			/>
+		} else {
+			favIcon = <MaterialCommunityIcons
+				style={styles.favIcon}
+				name="star-outline"
+				color={'#FCFCFF'}
+				size={25}
+				onPress={this.props.onFavScreen ? () => {} : () => this.favouritePost() }
+			/>
+		}
+
+		return (
+			//<View style={{ borderRadius: 10 }}>
+				<>{favIcon}</>
+			//</View>
 		)
 	}
 }
@@ -238,14 +361,13 @@ export default class Post extends Component {
 		}
 		let time = new Date(this.props.post.timeUploaded * 1000);
 
-		let favIcon = <></>
-		if (this.props.post.favourited) {
-			favIcon = <Text style={styles.filledStar}>★</Text>;
+		let deleteButton = <></>
+		if (this.props.deletable) {
+			deleteButton = <DeleteButton
+				postID={this.props.post.postID}
+				refresh={() => this.props.refresh()}
+			/>
 		}
-		// Note: This can be used if we want Favourite and Delete to be 2 separate UI items instead of the drawer menu.
-		// else {
-		// 	favIcon = <Text style={styles.emptyStar}>☆</Text>;
-		// }
 
 		return (
 			<View style={styles.post}>
@@ -253,16 +375,23 @@ export default class Post extends Component {
 					<View style={styles.headerLeft}>
 						{this.locationHeader}
 						<Text style={styles.date}>{'' + month[time.getMonth()] + ' ' + time.getDate() + ', ' + time.getFullYear()}</Text>
+
 					</View>
 					<View styles={styles.headerRight}>
-						<PostMenu alreadyFavourite={this.props.post.favourited} deletable={this.props.deletable} postUserID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} />
+						{deleteButton}						
+						{/* <PostMenu alreadyFavourite={this.props.post.favourited} deletable={this.props.deletable} postUserID={this.props.post.userID} postID={this.props.post.postID} refresh={() => this.props.refresh()} /> */}
 					</View>
 				</View>
 				<View styles={{ flex: 1 }}>
 					<Text style={styles.content}> {this.parseContent(this.props.post.content)}</Text>
 				</View>
 				{this.image}
-				{favIcon}
+				<FavouriteButton
+					onFavScreen={this.props.onFavScreen}
+					favourited={this.props.post.favourited}
+					postID={this.props.post.postID}
+					refresh={() => this.props.refresh()}
+				/>
 			</View>
 		)
 	}
@@ -301,14 +430,10 @@ const styles = StyleSheet.create({
 		fontStyle: 'italic',
 		paddingRight: 10
 	},
-	emptyStar: {
-		fontSize: 15,
-		color: '#fcfcff',
+	favIcon: {
 		textAlign: "right"
 	},
-	filledStar: {
-		fontSize: 15,
-		color: '#FB9B38',
+	delIcon: {
 		textAlign: "right"
 	},
 	date: {
