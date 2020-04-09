@@ -12,7 +12,7 @@ class MenuIcon extends Component {
 	}
 }
 
-// Deprecated.
+// Unused - functionality replaced by DeleteButton and FavouriteButton.
 class PostMenu extends Component {
 	constructor() {
 		super();
@@ -185,7 +185,6 @@ class DeleteButton extends Component {
 
 	render() {
 		return (
-			//<View style={{ borderRadius: 10 }}>
 			<MaterialCommunityIcons
 				style={styles.delIcon}
 				name="trash-can-outline"
@@ -193,7 +192,6 @@ class DeleteButton extends Component {
 				size={25}
 				onPress={() => this.deleteAlert() }
 			/>
-			//</View>
 		)
 	}
 }
@@ -203,7 +201,7 @@ class FavouriteButton extends Component {
 		const reqParams = { queryStringParameters: { postID: this.props.postID} };
 		Amplify.API.put('favouritePost', '', reqParams).then( (response) => {
 			this.props.refresh();
-			Alert.alert("Post favourited!");
+			Alert.alert("Post saved to favourites!");
 		}).catch((error) => {
 			console.log(error)
 		})
@@ -260,9 +258,7 @@ class FavouriteButton extends Component {
 		}
 
 		return (
-			//<View style={{ borderRadius: 10 }}>
-				<>{favIcon}</>
-			//</View>
+			<>{favIcon}</>
 		)
 	}
 }
