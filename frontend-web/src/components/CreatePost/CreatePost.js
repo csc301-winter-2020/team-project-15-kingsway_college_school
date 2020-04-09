@@ -56,8 +56,8 @@ class CreatePost extends React.Component {
         if (this.state.mapState === "expanded") {
             reqParams.body["location"] = {
                 name: this.state.location.locName,
-                latitude: this.state.location.latitude,
-                longitude: this.state.location.longitude,
+                latitude: this.state.location.latitude.toString(),
+                longitude: this.state.location.longitude.toString(),
             };
         }
 
