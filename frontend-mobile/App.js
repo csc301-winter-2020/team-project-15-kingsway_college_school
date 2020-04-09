@@ -251,8 +251,8 @@ function MyTabs(props) {
 			initialRouteName="Feed"
 			tabBarOptions={{
 				showLabel: false,
-				style: styles.bar,
-				keyboardHidesTabBar: true
+				keyboardHidesTabBar: true,
+				style: styles.bar				
 			}}
 		    tabBar={props => <BottomTabBar {...props} state={{...props.state, routes: props.state.routes.slice(0,3)}}></BottomTabBar>}
 		>
