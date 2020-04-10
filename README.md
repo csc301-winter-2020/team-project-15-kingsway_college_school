@@ -11,8 +11,15 @@ We have built both a mobile application and a web application to facilitate this
 
 ![student storyboard](deliverables/deliverable-1/workflow.jpg)
 
-# Check out the Mobile and Web READMEs
-Go to the Frontend Web and Frontend Mobile folders to check out their extensive READMEs
+# Web Appplication
+Screenshots here!
+Little summary, 
+link to folder and direction to read readme
+
+# Mobile Application
+Screenshots here!
+Little summary, 
+link to folder and direction to read readme
 
 # Team
 > Read more about how we organized our team in our initial [planning document](deliverables/deliverable-1/planning.md)
