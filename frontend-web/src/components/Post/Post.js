@@ -151,11 +151,11 @@ class Post extends React.Component {
 
 			{ post.email ? <div className="PostEmail">Uploaded by: { post.email }</div> : '' }
 
-			{ (this.props.store.currentView === 'My Posts' || this.props.store.admin) ? <div className="delete-button fa fa-trash" onClick={ this.confirmDeletion }></div> : '' }
+			{ (this.props.store.currentView === 'My Posts' || this.props.store.admin) ? <div className="delete-button fa fa-trash fa-fw" onClick={ this.confirmDeletion }></div> : '' }
 
 			<div className={this.state.copySuccess ? "permalinkMessageOn" : "permalinkMessageOff"}>Post link copied to clipboard!</div>
 
-			<div className={ 'favourite-button fa ' + (post.favourited ? 'fa-star accent' : 'fa-star-o') } onClick={ this.favouritePost }></div>
+			<div className={ 'favourite-button fa ' + (post.favourited ? 'fa-star fa-fw accent' : 'fa-star-o fa-fw') } onClick={ this.favouritePost }></div>
 
 			<Modal parent={ this } visible={ this.state.modalVisible } prompt="Are you sure you sure you want to delete this post?"
 				positiveButtonAction={ this.deletePost } negativeButtonAction={ () => { this.setState({ modalVisible: false }) } } 
