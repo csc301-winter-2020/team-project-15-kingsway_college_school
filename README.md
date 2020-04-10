@@ -5,6 +5,8 @@ KCShare
 Go to the Frontend Web and Frontend Mobile folders to check out their extensive READMEs
 
 # Team
+> Read more about how we organized our team in our initial [planning document](deliverables/deliverable-1/planning.md)
+
 ### Ryan Marten
 _Project Manager + Web Feature Lead_
 
@@ -26,4 +28,4 @@ _Backend Feature Lead_
 ### Shardul Bansal
 _Mobile Feature Lead_
 
-Read more about how we structured and organized our team in our initial [planning document](deliverables/deliverable-1/planning.md).
+
