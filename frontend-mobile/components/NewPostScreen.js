@@ -150,7 +150,7 @@ class NewPostBody extends Component {
 		}
 		return (
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-				<KeyboardAvoidingView style={{ flex: 7 }} resetScrollToCoords={{ x: 0, y: 0 }}>
+				<KeyboardAvoidingView style={{ flex: 5 }} resetScrollToCoords={{ x: 0, y: 0}}>
 					{location}
 					<View style={{ flex: this.state.image == null ? 1 : 2, backgroundColor: "#292654", borderRadius: 20, marginHorizontal: side_margins, padding: 20, }}>
 						<View style={{ flex: 1 }}>
@@ -160,7 +160,7 @@ class NewPostBody extends Component {
 								placeholder={"Share what you've learnt!"}
 								placeholderTextColor="#9E9E9E"
 								borderBottomColor='#000000'
-								numberOfLines={10}
+								numberOfLines={5}
 								multiline={true}
 								onChangeText={(text) => this.newInputText(text)}
 							/>
