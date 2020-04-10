@@ -7,11 +7,11 @@ class TabMenu extends React.Component {
 	state = {
 		selected: 'Home',
 		tabs: this.props.store.admin ? [
-			{name: 'Home', icon:''},
-			{name: 'Favourites', icon:''},
-			{name: 'My Posts', icon:''},
-			{name: 'Search User', icon:''},
-			{name: 'Explore', icon:''},
+			{name: 'Home', icon:'fa fa-home'},
+			{name: 'Favourites', icon:'fa fa-heart'},
+			{name: 'My Posts', icon:'fa fa-user'},
+			{name: 'Search User', icon:'fa fa-search'},
+			{name: 'Explore', icon:'fa fa-map-marker'},
 			{name:'Sign Out', icon:''}
 		] : [
 			{name: 'Home', icon:'fa fa-home'},
