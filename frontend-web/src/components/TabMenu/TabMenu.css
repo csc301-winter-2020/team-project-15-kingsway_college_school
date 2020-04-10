@@ -8,6 +8,9 @@
 	overflow-y: auto;
 	overflow-x: hidden;
 }
+.TabIcon{
+	margin-right: 10px;
+}
 
 .Tab {
 	cursor: pointer;
