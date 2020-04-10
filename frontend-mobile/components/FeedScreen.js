@@ -23,7 +23,7 @@ class FeedHeader extends Component {
 						inputStyle={styles.searchBarInput}
 						inputContainerStyle={styles.searchBarInputContainer}
 						placeholder={"Search"}
-						onFocus={() => this.props.navigation.push("Explore", {searchParam: ""})}
+						onFocus={() => this.props.navigation.push("Explore", { searchParam: "" })}
 						platform={"ios"}
 					/>
 				</View>
@@ -36,11 +36,12 @@ class Feed extends Component {
 	constructor() {
 		super();
 		this.refresh = this.refresh.bind(this)
+		this.extendPosts = this.extendPosts.bind(this)
 	}
 	state = {
 		posts: [],
-	    refreshing: true,
-	    userID: null
+		refreshing: true,
+		userID: null
 	}
 
 	refresh() {
@@ -62,14 +63,28 @@ class Feed extends Component {
 		if (this.state.posts.length === 0) {
 			this.refresh()
 		}
-	    Auth.currentAuthenticatedUser().then(user => {
-		this.setState({userID: user.attributes["custom:userID"]})
-	    })
+		Auth.currentAuthenticatedUser().then(user => {
+			this.setState({ userID: user.attributes["custom:userID"] })
+		})
+
+	}
+
+	extendPosts(info) {
+		console.log("Extending Posts")
+		Amplify.API.get('getPosts', "", { queryStringParameters: { startID: this.state.posts[this.state.posts.length - 1].postID } }).then((response) => {
+			console.log("Successful call to getPosts in extend")
+			this.setState({
+				posts: [...this.state.posts, ...response],
+				refreshing: false
+			});
+		}).catch((error) => {
+			console.log(error)
+			console.log(error.response)
+		})
 
 	}
 
 	render() {
-	    console.log(this.state.userID)
 		return (
 			<View style={styles.view}>
 				<FeedHeader navigation={this.props.navigation} />
@@ -85,6 +100,7 @@ class Feed extends Component {
 							/>
 						}
 						keyExtractor={post => post.postID}
+						onEndReached={info => this.extendPosts(info)}
 					/>
 				</SafeAreaView>
 			</View>
