@@ -21,11 +21,13 @@
 
 .CreatePostButtons {
 	display: inline-block;
+	margin-top: 10px;
 	vertical-align: top;
-	width: auto;
-	max-width: 65%;
-	height: 8.5vh;
-	margin-right: 4vw;
+	width: 100%;
+	height: auto;
+    opacity: 100;
+    transition: opacity .25s;
+	margin-bottom: 10px;
 }
 
 .PreviewImage {
@@ -36,71 +38,105 @@
 }
 
 .ShareButton {
-	vertical-align: middle;
 	text-align: center;
 	display: inline-block;
 	border: 0;
 	outline: 0;
-	height: 50%;
 	padding: 0;
-	min-width: 6vw;
-	width: auto;
-	margin-top: 10px;
-	margin-left: 20px;
+	width: 6vw;
+	margin-right : 10px;
 	cursor: pointer;
+	height: 36px;
 	font-size: 1rem;
+	border-radius: 5px !important;
+	perspective: 1px;
 }
 
-.AttachPicture {
-	vertical-align: middle;
+.ShareButton:hover {
+	background: lightslategrey;
+}
+
+
+.AttachPicture:hover, .LocationButton:hover {
+  background: #110d41;
+}
+
+.AttachPicture, .LocationButton {
+	vertical-align: top;
+	horiz-align: center;
 	display: inline-block;
-	font-size: 2rem;
+	font-size: 2.25rem;
 	cursor: pointer;
+	border-radius: 5px;
+	margin-right: 10px;
+	padding-right: 10px;
+	padding-left: 10px;
 }
 
-.Pin {
-	vertical-align: middle;
-	float: left;
-	font-size: 2vw;
-	margin-right: 0.5vw;
-}
 
-.PickLocation {
-	vertical-align: middle;
-	display: inline-block;
-	font-weight: 500;
-	padding-bottom: 1vw;
-}
-
-.PickLocation * input {
-	background: white;
-	font-size: 1rem;
-	height: 1.5vw;
+.mapContainer {
+	display: block;
+	left: 0;
+	right: 0;
+	height:100%;
 	border-radius: 15px;
-	border-style: none;
-	width: 20vw;
-	padding: 10px;
-	padding-left: 15px;
 }
 
-.PickLocation * input:focus {
-	background: #f39038;
-	outline: none;
+.mapboxgl-ctrl-geocoder {
+	vertical-align: top;
+	font-family: inherit;
+	font-size: 1rem;
+	min-width: 0!important;
+	width: 100%!important;
 }
 
-.react-geocoder {
+
+.geocoderContainer{
 	display: inline-block;
-	max-width: 90%;
+	padding: 0;
+	margin: 0;
+	horiz-align: left;
+	vertical-align: top;
+	max-width: available;
+	transition: width .25s;
 }
 
-.react-geocoder-results {
-	cursor: pointer;
+.geocoderContainer.default{
+	visibility: hidden;
+	width: 0;
 }
 
-.react-geocoder-item {
-	
+.geocoderContainer.expanded, .geocoderContainer.collapsed{
+	width: 50%;
+	max-width: available;
 }
 
-.react-geocoder-item:hover {
-	color: #f39038;
+
+.mapSizeController.collapsed {
+
+}
+
+.mapSizeController {
+	display: block;
+	left: 0;
+	right: 0;
+	height: 0px;
+	transition: height .25s;
+	border-bottom-width: 10px;
+	border-radius: 15px;
+	padding-bottom: 0px;
+}
+
+.mapSizeController.expanded {
+	height: 300px;
+	padding-bottom: 10px;
+}
+
+.mapboxgl-canvas {
+    position: absolute;
+	height: 300px;
+    top: 0;
+    bottom: 0;
+	right: 0;
+	left: 0;
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Post.css';
 import Amplify from 'aws-amplify';
-
+import 'mapbox-gl/dist/mapbox-gl.css'
 import Modal from '../Modal/Modal'
 
 class Post extends React.Component {
