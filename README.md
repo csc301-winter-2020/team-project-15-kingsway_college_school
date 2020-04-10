@@ -5,18 +5,25 @@ KCShare
 Go to the Frontend Web and Frontend Mobile folders to check out their extensive READMEs
 
 # Team
-**Ryan Marten**: Project Manager + Web Feature Lead
+### Ryan Marten
+_Project Manager + Web Feature Lead_
 
-**Nick Perrin**: Team Lead + Mobile Feature Lead
+### Nick Perrin
+_Team Lead + Mobile Feature Lead_
 
-**Marco Angeli**: Mobile Application Lead
+### Marco Angeli 
+_Mobile Application Lead_
 
-**Joshua Bragg**: Web Application Lead
+### Joshua Bragg
+_Web Application Lead_
 
-**Devin Castaban**: Backend AWS Lead
+### Devin Castaban
+_Backend AWS Lead_
 
-**Alex Cann**: Backend Feature Lead
+### Alex Cann
+_Backend Feature Lead_
 
-**Shardul Bansal**: Mobile Feature Lead
+### Shardul Bansal
+_Mobile Feature Lead_
 
 Read more about how we structured and organized our team in our initial [planning document](deliverables/deliverable-1/planning.md).
