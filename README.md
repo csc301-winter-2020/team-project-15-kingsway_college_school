@@ -17,9 +17,10 @@ Little summary,
 link to folder and direction to read readme
 
 # Mobile Application
-Screenshots here!
-Little summary, 
-link to folder and direction to read readme
+The Mobile application is going to be the key platform where students will be able to share and view others' experiential learning. Check it out in the frontend-mobile folder of this repository!
+
+![KCShare Mobile Demo](demo/demo.gif)
+
 
 # Team
 > Read more about how we organized our team in our initial [planning document](deliverables/deliverable-1/planning.md)
