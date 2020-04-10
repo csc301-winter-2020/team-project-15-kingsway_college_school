@@ -3,10 +3,6 @@
 	padding: 1vw 2vw 0vw 2vw;
 }
 
-.CreatePost:hover .CreatePostButtons{
-	opacity: 100;
-}
-
 .TextAreaContainer {
 	height: 15vh;
 	background: #FCFCFF;
@@ -29,7 +25,7 @@
 	vertical-align: top;
 	width: 100%;
 	height: auto;
-    opacity: 0;
+    opacity: 100;
     transition: opacity .25s;
 	margin-bottom: 10px;
 }
@@ -111,7 +107,6 @@
 }
 
 .geocoderContainer.expanded, .geocoderContainer.collapsed{
-	display: inline-block;
 	width: 50%;
 	max-width: available;
 }
@@ -129,12 +124,12 @@
 	transition: height .25s;
 	border-bottom-width: 10px;
 	border-radius: 15px;
-	margin-bottom: 0px;
+	padding-bottom: 0px;
 }
 
 .mapSizeController.expanded {
 	height: 300px;
-	margin-bottom: 10px;
+	padding-bottom: 10px;
 }
 
 .mapboxgl-canvas {
