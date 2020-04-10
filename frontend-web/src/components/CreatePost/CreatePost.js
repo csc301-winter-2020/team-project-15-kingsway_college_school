@@ -197,7 +197,7 @@ class CreatePost extends React.Component {
                             <div id={"geocoder-container"} className={`geocoderContainer ${mapState}`} />
                     </div>
                     <div className={`mapSizeController ${mapState}`}>
-                    <div ref={el => this.mapContainer = el} class={"mapContainer"}/>
+                    <div ref={el => this.mapContainer = el} className={"mapContainer"}/>
                     </div>
                     {this.state.attachment ? <img className="PreviewImage" src={this.state.attachment}/> : ''}
                 </div>
