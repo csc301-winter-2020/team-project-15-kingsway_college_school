@@ -19,7 +19,7 @@ link to folder and direction to read readme
 # Mobile Application
 The Mobile application is going to be the key platform where students will be able to share and view others' experiential learning. Check it out in the frontend-mobile folder of this repository!
 
-![KCShare Mobile Demo](demo/demo.gif)
+![KCShare Mobile Demo](demo.gif)
 
 
 # Team
