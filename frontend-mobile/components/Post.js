@@ -201,7 +201,8 @@ class FavouriteButton extends Component {
 		const reqParams = { queryStringParameters: { postID: this.props.postID} };
 		Amplify.API.put('favouritePost', '', reqParams).then( (response) => {
 			this.props.refresh();
-			Alert.alert("Post saved to favourites!");
+			// Alert after posting favourites, not neccessary
+			// Alert.alert("Post saved to favourites!");
 		}).catch((error) => {
 			console.log(error)
 		})
@@ -212,7 +213,7 @@ class FavouriteButton extends Component {
 		Amplify.API.put('unfavouritePost', '', reqParams).then( (response) => {
 			this.props.refresh();
 			if (this.props.onFavScreen) {
-				Alert.alert("Post removed.");
+				Alert.alert("Post removed from Favourites.");
 			}
 		}).catch((error) => {
 			console.log(error)
