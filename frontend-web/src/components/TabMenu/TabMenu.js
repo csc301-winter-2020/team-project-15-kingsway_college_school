@@ -7,18 +7,18 @@ class TabMenu extends React.Component {
 	state = {
 		selected: 'Home',
 		tabs: this.props.store.admin ? [
-			'Home',
-      'Favourites',
-			'My Posts',
-			'Search User',
-			'Explore',
-			'Sign Out'
+			{name: 'Home', icon:'fa fa-home'},
+			{name: 'Favourites', icon:'fa fa-star'},
+			{name: 'My Posts', icon:'fa fa-user'},
+			{name: 'Search User', icon:'fa fa-search'},
+			{name: 'Explore', icon:'fa fa-map-marker'},
+			{name:'Sign Out', icon:''}
 		] : [
-			'Home',
-			'Favourites',
-			'My Posts',
-			'Explore',
-			'Sign Out'
+			{name: 'Home', icon:'fa fa-home'},
+			{name: 'Favourites', icon:'fa fa-star'},
+			{name: 'My Posts', icon:'fa fa-user'},
+			{name: 'Explore', icon: 'fa fa-map-marker'},
+			{name:'Sign Out', icon:''}
 		]
 	}
 
@@ -29,8 +29,7 @@ class TabMenu extends React.Component {
 	}
 
 	tabClicked = (tab) => {
-		tab = tab.target.innerText
-
+		tab = tab.target.innerText.trim()
 		if (tab === 'Sign Out') {
 			sessionStorage.removeItem('kcs_session')
 			this.props.store.session = null
@@ -58,8 +57,8 @@ class TabMenu extends React.Component {
 			
 			{
 				this.state.tabs.map((tab) => (
-					<div key={ uid(tab) } onClick={ this.tabClicked } className={'Tab rounded ' + (this.state.selected === tab ? 'mid-grey selected' : 'dark-grey')}>
-						{ tab }
+					<div key={ uid(tab) } onClick={ this.tabClicked } className={'Tab rounded ' + (this.state.selected === tab.name ? 'mid-grey selected' : 'dark-grey')}>
+						<i className={"TabIcon fa-fw " + tab.icon}></i>{tab.name}
 					</div>
 				))
 			}
