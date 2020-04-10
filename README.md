@@ -12,12 +12,12 @@ We have built both a mobile application and a web application to facilitate this
 ![student storyboard](deliverables/deliverable-1/workflow.jpg)
 
 # Web Appplication
-The Web application shares all the same features as Mobile, with the addition of the Teacher admin view for moderation. Check out the frontend-web folder for more details!
+The Web application shares all the same features as Mobile, with the addition of the Teacher admin view for moderation. Check out the `frontend-web` folder for more details!
 
 ![KCShare Mobile Demo](webscroll.gif)
 
 # Mobile Application
-The Mobile application is going to be the key platform where students will be able to share and view others' experiential learning. Check it out in the frontend-mobile folder of this repository!
+The Mobile application is going to be the key platform where students will be able to share and view others' experiential learning. Check it out in the `frontend-mobile` folder!
 
 ![KCShare Mobile Demo](demo.gif)
 
